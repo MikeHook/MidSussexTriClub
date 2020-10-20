@@ -1,12 +1,61 @@
 ﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
 @using Umbraco.Web;
-@{ 
+@using umbraco.NodeFactory
+
+@{
     var site = Model.Content.Site();
     var selection = site.Children.Where(x => x.IsVisible());
+
+    var homepage = Model.Content.AncestorOrSelf(1);
+    var currentUser = User.Identity.IsAuthenticated ? Membership.GetUser() : null;
+
+    /*var isSubmitLogout = (IsPost && Request["submit"] == "Log out");
+    if (isSubmitLogout)
+    {
+        FormsAuthentication.SignOut();
+        Response.Redirect(Request.RawUrl);
+    }
+    */
+    
 }
-<!-- uncomment this line if you don't want it to appear in the top navigation -->
-<a class="nav-link @Html.Raw(Model.Content.Id == site.Id ? "navi-link--active" : "")" href="@site.Url">@site.Name</a>
-@foreach (var item in selection)
+
+@helper RenderUsersName()
 {
-    <a class="nav-link @(item.IsAncestorOrSelf(Model.Content) ? "nav-link--active" : null)" href="@item.Url">@item.Name</a>
+    var currentUser = User.Identity.IsAuthenticated ? Membership.GetUser() : null;
+    @Html.Raw(currentUser?.UserName)
 }
+
+@helper ChangePasswordLink(dynamic homepage)
+{
+    if (homepage.changePasswordPage is int)
+    {
+        <a href="@Html.Raw(new Node(homepage.changePasswordPage).Url)">Change password</a>
+    }
+}
+
+@helper LogoutForm()
+{
+    <form method="post">
+        <input class="btn-yellow" type="submit" id="submit" name="submit" value="Log out" />
+    </form>
+}
+
+<div class="mainmenu-header">
+    <div class="container">
+        <div class="menuextras">
+            <div class="extras">
+                <div class="login-status">
+                    @if (currentUser != null)
+                    {
+                        <p><em>Welcome back @RenderUsersName().</em> @ChangePasswordLink(homepage) @LogoutForm()</p>
+                    }
+                </div>
+
+                <ul>
+                    <li class="active"><a href="@homepage.Url">Club Site</a> | </li>
+                    <li><a href="https://midsussextriathlon.com/" target="_blank">The Mid Sussex Triathlon</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
