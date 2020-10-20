@@ -3,3 +3,38 @@ Member migration
 - Use the 'Member' import not MemberService
 - Tick the 'Store password as clear text' option on the password field
 - Add the extra MemberType fields into the new CMS first
+
+Templates
+---------
+MSTC Home / Master
+MSTC Generic Content
+MSTC Person Listing
+MSTC Person
+MSTC Member Registration
+MSTC Member Registration Complete
+Blog
+Blog Post
+MSTC Articles Home
+MSTC Article
+MSTC Coach Listing
+MSTC Person
+MSTC OWS Taster Registration
+MSTC OWS Taster Registration Complete
+MSTC Athletes
+MSTC Member Services
+MSTC Member Edit
+MSTC Member Renewal
+MSTC Member Admin
+MSTC Swim Admin (Not needed?)
+MSTC Guest Renewal (Not needed?)
+MSTC Member ICE Details
+MSTC Login
+MSTC Payment Complete
+MSTC Mandate Request (Not needed?)
+MSTC Unlink bank
+
+Macros
+------
+cFont Contact From
+ChangePassword
+ForgotPassword

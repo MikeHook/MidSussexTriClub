@@ -4,78 +4,69 @@
 
     // Get basic design settings from the homepage
     var home = (Home)Model.Content.Site();
-    var colorTheme = Umbraco.GetPreValueAsString(home.ColorTheme);
-    var font = Umbraco.GetPreValueAsString(home.Font);
+    //var colorTheme = Umbraco.GetPreValueAsString(home.ColorTheme);   
 }
 
 <!doctype html>
-<html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+<!--<![endif]-->
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
     <title>@Model.Content.Name - @home.Sitename</title>
-    <meta name="description" content="">
-    <meta name="author" content="">
 
-    <link rel="stylesheet" href="@Url.Content("~/css/umbraco-starterkit-style.css")" />
+
+    <link rel="stylesheet" href="/css/mstc/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/mstc/icomoon-social.css">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700,600,800' rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" href="/css/mstc/leaflet.css" />
+    <!--[if lte IE 8]>
+    <link rel="stylesheet" href="/css/mstc/leaflet.ie.css" />
+    <![endif]-->
+    <link rel="stylesheet" href="/css/mstc/main-yellow.css?v=1.0">
+
+    <script src="/scripts/mstc/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+
+    <!-- Google Analytics script -->
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-16134591-11']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
     @RenderSection("Header", required: false)
 </head>
 
-<body class="frontpage theme-font-@font theme-color-@colorTheme">
-    <div class="mobile-nav">
-        <nav class="nav-bar">
-            @Html.Partial("~/views/partials/navigation/topNavigation.cshtml")
-        </nav>
-    </div>
+<body>
+    <!--[if lt IE 7]>
+        <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+    <![endif]-->
 
-    <header class="header">
+    @Html.Partial("~/Views/Partials/Navigation/TopNavigation.cshtml")
 
-        <div class="logo">
-            @if (home.SiteLogo != null && !string.IsNullOrEmpty(home.SiteLogo.Url))
-            {
-                <div class="nav-link--home">
-                    <img class="logo-image" src="@home.SiteLogo.Url" alt="@home.Sitename">
-                </div>
-            }
-            else
-            {
-                <a class="nav-link nav-link--home nav-link--home__text logo-text" href="/">@home.Sitename</a>
-            }
-        </div>
+    @RenderBody()
 
-        <nav class="nav-bar top-nav">
-            @Html.Partial("~/Views/Partials/Navigation/TopNavigation.cshtml")
-        </nav>
 
-        <div class="mobile-nav-handler">
-            <div class="hamburger lines" id="toggle-nav">
-                <span></span>
-            </div>
-        </div>
+    @*@Html.Partial("~/Views/Partials/Footer.cshtml")*@
 
-    </header>
-
-    <main>
-        @RenderBody()
-    </main>
-
-    <footer class="section--themed">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12 ta-center">
-                    @home.FooterAddress
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous"></script>
-    <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/jquery.validate.min.js"></script>
-    <script src="https://ajax.aspnetcdn.com/ajax/mvc/5.2.3/jquery.validate.unobtrusive.min.js"></script>
-    <script src="@Url.Content("~/scripts/umbraco-starterkit-app.js")"></script>
+    <!-- Javascripts -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/scripts/mstc/jquery-1.9.1.min.js"><\/script>')</script>
+    <script src="/scripts/mstc/bootstrap.min.js"></script>
+    <script src="/scripts/mstc/main-menu.js"></script>
+    <script src="/scripts/mstc/shared.js"></script>
 
 </body>
-
 </html>
