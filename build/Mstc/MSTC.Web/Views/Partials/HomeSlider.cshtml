@@ -1,0 +1,11 @@
+﻿@model MSTC.Web.Model.Partials.SliderModel
+
+@if (Model.LinkUrl != "")
+{
+    <li class="@Model.CssClass">
+        <div class="transbox">
+            <h2 class="title"><a href="@Model.LinkUrl">@Model.LinkText</a></h2>
+            <h3 class="subtitle">@Model.SubText</h3>
+        </div>
+    </li>
+}
