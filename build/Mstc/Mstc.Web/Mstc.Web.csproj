@@ -325,7 +325,35 @@
     <Content Include="css\mstc\main-yellow.css" />
     <Content Include="css\umbraco-starterkit-style.css" />
     <Content Include="default.aspx" />
+    <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="Images\mstc\headshot-placeholder.jpg" />
+    <Content Include="Images\mstc\homepage-slider\bg-531Swim.jpg" />
+    <Content Include="Images\mstc\homepage-slider\bg-biketraining.jpg" />
+    <Content Include="Images\mstc\homepage-slider\bg-pool1.jpg" />
+    <Content Include="Images\mstc\homepage-slider\bg-swim1.jpg" />
+    <Content Include="Images\mstc\homepage-slider\bg-trihub2.jpg" />
+    <Content Include="Images\mstc\homepage-slider\triathlon-biketransition.jpg" />
+    <Content Include="Images\mstc\homepage-slider\triathlon-end.jpg" />
+    <Content Include="Images\mstc\MSTC_logo_nowhite_small.png" />
+    <Content Include="Images\mstc\page-background.png" />
+    <Content Include="Images\mstc\service-icon\facebook-200.png" />
+    <Content Include="Images\mstc\service-icon\flickr-200.png" />
+    <Content Include="Images\mstc\service-icon\twitter-200.png" />
+    <Content Include="Images\mstc\sponsors\BHRunners.jpg" />
+    <Content Include="Images\mstc\sponsors\btrs.jpg" />
+    <Content Include="Images\mstc\sponsors\CrawleyWheelers.jpg" />
+    <Content Include="Images\mstc\sponsors\djpt-logo.jpg" />
+    <Content Include="Images\mstc\sponsors\djpt-logo.png" />
+    <Content Include="Images\mstc\sponsors\massage-kneadme-200.png" />
+    <Content Include="Images\mstc\sponsors\sponsors-nuffield-health.png" />
+    <Content Include="Images\mstc\sponsors\sponsors-sheactive.png" />
+    <Content Include="Images\mstc\sponsors\Stride.jpg" />
+    <Content Include="Images\mstc\sponsors\The-Tri-Store-Yellow-Logo.png" />
+    <Content Include="Images\mstc\sponsors\thetristore.jpg" />
+    <Content Include="Images\mstc\trimark\te-affliated-club-white.jpg" />
+    <Content Include="Images\mstc\trimark\te-affliated-club.jpg" />
+    <Content Include="Images\mstc\trimark\trimark_club_bronze.png" />
     <Content Include="scripts\mstc\bootstrap.js" />
     <Content Include="scripts\mstc\bootstrap.min.js" />
     <Content Include="scripts\mstc\datatables.js" />
@@ -1636,6 +1664,7 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\Partials\SliderModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -1867,6 +1896,7 @@
     <Content Include="Views\Person.cshtml" />
     <Content Include="Views\Product.cshtml" />
     <Content Include="Views\Products.cshtml" />
+    <Content Include="Views\Partials\HomeSlider.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1893,7 +1923,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>57945</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:49962/</IISUrl>
+          <IISUrl>http://localhost:49963/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

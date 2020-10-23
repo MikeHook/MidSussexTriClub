@@ -4,6 +4,49 @@
     Layout = "Master.cshtml";
 }
 
+<!-- Homepage Slider -->
+<div class="homepage-slider">
+    <div id="sequence">
+        <ul class="sequence-canvas">
+            <!-- Sliders -->
+            @if (Model.Content.EventEntryEnabled)
+            {
+                <li class="bg-pool">
+                    <div class="transbox">
+                        <h2 class="title"><a href="https://midsussextriathlon.com/" target="_blank">Enter the Mid Sussex Triathlon</a></h2>
+                        <h3 class="subtitle">Entries for the Mid Sussex Triathlon are now open!</h3>
+                    </div>
+                </li>
+            }
+
+            @Html.Partial("~/Views/Partials/HomeSlider.cshtml", new MSTC.Web.Model.Partials.SliderModel
+             {
+                 LinkUrl = Model.Content.SliderLinks.FirstOrDefault()?.Url ?? "",
+                 CssClass = "bg-ardingly",
+                 LinkText = "Sign up to the club",
+                 SubText = "If you want to get more involved with trialthon why not become a member of the club?"
+             })
+
+            @Html.Partial("~/Views/Partials/HomeSlider.cshtml", new MSTC.Web.Model.Partials.SliderModel
+             {
+                 LinkUrl = Model.Content.SliderLinks.LastOrDefault()?.Url ?? "",
+                 CssClass = "bg-bikes",
+                 LinkText = "Try our training sessions",
+                 SubText = "Come down to our weekly group training session on Thursday and have a go!"
+             })
+            <!-- End Sliders -->
+        </ul>
+        <div class="sequence-pagination-wrapper">
+            <ul class="sequence-pagination">
+                <li>1</li>
+                <li>2</li>
+                <li>3</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- End Homepage Slider -->
+
 <div class="section">
     <div class="container">
         <h2>Our Club</h2>
@@ -14,3 +57,9 @@
         </div>
     </div>
 </div>
+
+@section FooterScripts {
+    <script type="text/javascript" src="/scripts/mstc/jquery.sequence-min.js"></script>
+    <script type="text/javascript" src="/scripts/mstc/jquery.bxslider.js"></script>
+    <script type="text/javascript" src="/scripts/mstc/home-slider.js"></script>
+}
