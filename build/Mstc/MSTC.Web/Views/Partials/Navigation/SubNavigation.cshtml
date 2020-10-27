@@ -1,11 +1,48 @@
 ﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
 @using Umbraco.Web;
 @{
-    var siteSection = Model.Content.AncestorOrSelf(2);
-    var selection = siteSection.Children.Where(x => x.IsVisible());
+    var startLevel = 1;
+    var finishLevel = 2;
+    var parent = Model.Content.AncestorOrSelf(startLevel);
 }
 
-@foreach (var item in selection)
+<div class="mainmenu-wrapper">
+    <div class="container">
+        <nav id="mainmenu" class="mainmenu">
+            @if (parent != null)
+            {@traverse(parent, startLevel, finishLevel);
+        }
+        </nav>
+    </div>
+</div>
+
+@helper traverse(IPublishedContent parent, int startLevel, int finishLevel)
 {
-    <a class="nav-link nav-link--black nav-link--air-bottom @(item.IsAncestorOrSelf(Model.Content) ? "nav-link--active" : null)" href="@item.Url">@item.Name</a>
+    <ul>
+        @if (parent.Level == 1)
+        {
+            <li class="logo-wrapper"><a href="/"><img src="/images/mstc/mstc_logo_nowhite_small.png" alt="Mid Sussex Tri Club"></a></li>
+            <li class="@(Model.Content.Url == "/" ? "active" : "")"><a href="/">Home</a></li>
+        }
+        @foreach (var node in parent.Children.Where(x => x.IsVisible()))
+        {
+            var active = Array.IndexOf(Model.Content.Path.Split(','), node.Id.ToString()) >= 0 ? "active" : "";
+            var hasSubMenu = node.Level < 3 && node.Children.Where(x => x.IsVisible()).Any();
+            <li class="@(hasSubMenu ? "has-submenu" : "") @active">
+                <a href="@(hasSubMenu ? "#" : node.Url)">@node.Name @(hasSubMenu ? " +" : "")</a>
+                @if (hasSubMenu)
+                {
+                    @:<div class="mainmenu-submenu"><div class="mainmenu-submenu-inner">
+                }
+                @if (@node.Level <= finishLevel)
+                {
+                    @traverse(node, startLevel, finishLevel);
+                }
+                @if (hasSubMenu)
+                {
+                @:</div></div>
+                }
+            </li>
+        }
+    </ul>
 }
