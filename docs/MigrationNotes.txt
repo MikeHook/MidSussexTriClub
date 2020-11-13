@@ -7,15 +7,19 @@ Member migration
 Templates
 ---------
 
+Blog functionality to do
+- Show last 5 posts on home (with paging?)
+- Filter posts by tag
+- Sort out styling
+
 Done
 ----
 MSTC Home / Master
 MSTC Generic Content
-Testimonials
+Testimonials (macro)
 
 To Do
 -----
-
 MSTC Person Listing
 MSTC Person
 MSTC Member Registration
@@ -40,9 +44,6 @@ MSTC Login
 MSTC Payment Complete
 MSTC Mandate Request (Not needed?)
 MSTC Unlink bank
-
-Macros
-------
-cFont Contact From
-ChangePassword
-ForgotPassword
+cFont Contact From (macro)
+ChangePassword (macro)
+ForgotPassword (macro)

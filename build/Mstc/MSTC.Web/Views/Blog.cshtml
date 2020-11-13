@@ -2,20 +2,33 @@
 @using ContentModels = Umbraco.Web.PublishedContentModels;
 @{
     Layout = "Master.cshtml";
+    var blogArchive = Model.Content.Descendant<Blogarchive>();
 }
 @Html.Partial("~/Views/Partials/SectionHeader.cshtml")
 
-<section class="section">
-
+<div class="section">
     <div class="container">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-sm-4 blog-sidebar">
+                @Html.Partial("~/Views/Partials/Blog/BlogCategories.cshtml")
 
-        @Umbraco.RenderMacro("latestBlogposts",
-                     new
-                     {
-                         numberOfPosts = Model.Content.HowManyPostsShouldBeShown,
-                         startNodeId = Model.Content.Id
-                     })
-       
+                @if (blogArchive != null)
+                {
+                <span class="archive"><a href="@blogArchive.Url">Blog Archive</a></span>
+                }
+            </div>
+            <!-- End Sidebar -->
+            <!-- Blog Posts -->
+            <div class="col-sm-8">
+                @Umbraco.RenderMacro("latestBlogposts",
+                             new
+                             {
+                                 numberOfPosts = Model.Content.HowManyPostsShouldBeShown,
+                                 startNodeId = Model.Content.Id
+                             })    
+            </div>
+            <!-- End Blog Posts -->
+        </div>
     </div>
-
-</section>
+</div>

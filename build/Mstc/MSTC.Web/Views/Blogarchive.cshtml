@@ -1,0 +1,34 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage<ContentModels.Blogarchive>
+@using ContentModels = Umbraco.Web.PublishedContentModels;
+@{
+Layout = "Master.cshtml";
+	var blogHome = Model.Content.AncestorsOrSelf("blog").LastOrDefault();	
+    var postYears = blogHome.Descendants<Blogpost>().Select(p => p.PostDate.Year).Distinct().OrderByDescending(y => y);
+}
+@Html.Partial("~/Views/Partials/SectionHeader.cshtml")
+
+<div class="section">
+	<div class="container">
+		<div class="row">
+
+			<!-- Blog Posts -->
+			<div class="col-sm-12">
+				<ul class="blog-archive">
+					@foreach (var year in postYears)
+					{
+						<li>
+							@year
+							<ul class="blog-archive-months">
+								@foreach (var blogPost in blogHome.Descendants<Blogpost>().Where(p => p.PostDate.Year == year).OrderByDescending(p => p.PostDate))
+								{
+								<li><a href="@blogPost.Url">@blogPost.Name</a> <i class="glyphicon glyphicon-time"></i>@blogPost.PostDate.ToString("dd MMM yyyy")</li>
+								}
+							</ul>
+						</li>
+					}
+				</ul>
+			</div>
+			<!-- End Blog Posts -->
+		</div>
+	</div>
+</div>

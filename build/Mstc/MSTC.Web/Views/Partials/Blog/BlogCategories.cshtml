@@ -1,0 +1,13 @@
+﻿@inherits UmbracoViewPage
+@{
+    dynamic blogHome = Model.AncestorsOrSelf("blog").LastOrDefault();
+    var tags = Umbraco.TagQuery.GetAllTags("default").OrderByDescending(t => t.NodeCount);
+}
+
+<h4>Categories</h4>
+<ul class="blog-categories">
+    @foreach (var blogTag in tags)
+    {
+        <li><a href="@string.Format("{0}?filterby={1}", blogHome?.Url, blogTag.Text)">@blogTag.Text</a> (@blogTag.NodeCount)</li>
+    }
+</ul>

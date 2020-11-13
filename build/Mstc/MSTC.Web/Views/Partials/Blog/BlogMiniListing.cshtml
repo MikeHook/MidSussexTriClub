@@ -2,7 +2,7 @@
 @if(Model.StartNodeId > 0)
 {
     var startNode = Umbraco.TypedContent(Model.StartNodeId);
-    var blogposts = startNode.Children.OrderByDescending(x => x.CreateDate).Take(Model.NumberOfPosts).ToList();
+    var blogposts = startNode.Descendants<Blogpost>().OrderByDescending(x => x.CreateDate).Take(Model.NumberOfPosts).ToList();
 
     if (blogposts.Count > 0)
     {
