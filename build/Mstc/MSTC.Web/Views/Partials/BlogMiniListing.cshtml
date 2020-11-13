@@ -1,0 +1,26 @@
+﻿@inherits UmbracoViewPage<MSTC.Web.Model.Partials.BlogMiniModel>
+@if(Model.StartNodeId > 0)
+{
+    var startNode = Umbraco.TypedContent(Model.StartNodeId);
+    var blogposts = startNode.Children.OrderByDescending(x => x.CreateDate).Take(Model.NumberOfPosts).ToList();
+
+    if (blogposts.Count > 0)
+    {
+        <div class="col-sm-12 featured-news">
+            <h2>@Model.Title</h2>
+            @foreach (Umbraco.Web.PublishedContentModels.Blogpost item in blogposts)
+            {
+                <div class="row">
+                    <div class="col-xs-2">
+                    @if (item.MainImage != null) {<a href="@item.Url"><img src="@item.MainImage.Url" alt="@item.MainImage.Name"></a>}
+                    </div>
+                    <div class="col-xs-10">
+                        <div class="caption"><a href="@item.Url">@item.Name</a></div>
+                        <div class="date">@(item.CreateDate.ToString("dd MMM yyyy")) </div>
+                        <div class="intro">@item.Excerpt <a href="@item.Url">Read more...</a></div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+}

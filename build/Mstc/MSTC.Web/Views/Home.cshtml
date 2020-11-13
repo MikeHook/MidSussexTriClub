@@ -58,6 +58,21 @@
     </div>
 </div>
 
+<div class="section">
+    <div class="container">
+        <div class="row">
+        @if (Model.Content.RaceReportsPage != null) {
+            @Html.Partial("~/Views/Partials/BlogMiniListing.cshtml", new MSTC.Web.Model.Partials.BlogMiniModel
+            {
+                Title = "Latest race reports",
+                StartNodeId = Model.Content.RaceReportsPage.Id,
+                NumberOfPosts = 3
+            })
+         }
+        </div>
+</div>
+</div>
+
 @section FooterScripts {
     <script type="text/javascript" src="/scripts/mstc/jquery.sequence-min.js"></script>
     <script type="text/javascript" src="/scripts/mstc/jquery.bxslider.js"></script>
