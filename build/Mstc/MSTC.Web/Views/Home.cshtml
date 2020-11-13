@@ -61,16 +61,72 @@
 <div class="section">
     <div class="container">
         <div class="row">
-        @if (Model.Content.RaceReportsPage != null) {
-            @Html.Partial("~/Views/Partials/BlogMiniListing.cshtml", new MSTC.Web.Model.Partials.BlogMiniModel
+            @if (Model.Content.RaceReportsPage != null)
             {
-                Title = "Latest race reports",
-                StartNodeId = Model.Content.RaceReportsPage.Id,
-                NumberOfPosts = 3
-            })
-         }
+                @Html.Partial("~/Views/Partials/BlogMiniListing.cshtml", new MSTC.Web.Model.Partials.BlogMiniModel
+                {
+                    Title = "Latest race reports",
+                    StartNodeId = Model.Content.RaceReportsPage.Id,
+                    NumberOfPosts = 3
+                })
+            }
         </div>
+    </div>
 </div>
+
+<div class="section home-social">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-sm-6">
+                <div class="service-wrapper">
+                    <a href="https://www.facebook.com/groups/2363043378/">
+                        <img src="/images/mstc/service-icon/facebook-200.png" alt="Facebook">
+                    </a>
+                    <p>Members keep in touch and organise informal training through our facebook group</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-6">
+                <div class="service-wrapper">
+                    <a href="https://twitter.com/midsussextri">
+                        <img src="/images/mstc/service-icon/twitter-200.png" alt="Twitter">
+                    </a>
+                    <p>Follow us on twitter to keep up to date with all the latest news from our club</p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-sm-6">
+                <div class="service-wrapper strava">
+                    <iframe height='160' width='300' frameborder='0' allowtransparency='true' scrolling='no'
+                            src='https://www.strava.com/clubs/4400/latest-rides/c31b39d89697b004849504f93dc76a7ed63a69aa?show_rides=false'></iframe>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-6">
+                <div class="service-wrapper">
+                    <a href="https://www.flickr.com/groups/midsussextriclub/">
+                        <img src="/images/mstc/service-icon/flickr-200.png" alt="Flickr">
+                    </a>
+                    <p>Check out photos from our previous events on flickr.</p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-sm-6">
+                <div class="service-wrapper">
+                    <a href="https://www.britishtriathlon.org/clubs/mid-sussex-triathlon-club_1202">
+                        <img class="affiliation-logo" src="/images/mstc/trimark/te-affliated-club-white.jpg" alt="Triathlon England Affiliated Club" />
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-6">
+                <div class="service-wrapper">
+                    <a href="https://midsussextriclub.com/media/73341/trimark-club-bronze.pdf" target="_blank">
+                        <img class="affiliation-logo" src="/images/mstc/trimark/trimark_club_bronze.png" alt="TriMark" />
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 @section FooterScripts {

@@ -1,26 +1,29 @@
-﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage<ContentModels.ContentPage>
-@using ContentModels = Umbraco.Web.PublishedContentModels;
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage<ContentPage>
 @{
     Layout = "Master.cshtml";
 }
-
 @Html.Partial("~/Views/Partials/SectionHeader.cshtml")
 
-<section class="section">
-
-    <div class="container">
-
-        <div class="col-md-3">
-            <nav class="nav-bar nav-bar--list">
-                @Html.Partial("~/Views/Partials/Navigation/SubNavigation.cshtml")
-            </nav>
+@if (Model.Content.BodyText != null)
+{
+    <section class="section">
+        <div class="container">
+            <div class="blog-post blog-single-post">
+                <div class="row">
+                    <div class="col-sm-12">
+                        @Model.Content.BodyText
+                    </div>
+                </div>
+            </div>
         </div>
+    </section>
+}
 
-        <div class="col-md-9">
-            <article>
-                @Html.GetGridHtml(Model.Content, "bodyText", "bootstrap3-fluid")
-            </article>
+@if (Model.Content.SecondaryContent != null)
+{
+    <section class="section">
+        <div class="container">          
+            @Model.Content.SecondaryContent
         </div>
-    </div>
-
-</section>
+    </section>
+}
