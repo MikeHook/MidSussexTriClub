@@ -1898,7 +1898,11 @@
     <Content Include="Views\Product.cshtml" />
     <Content Include="Views\Products.cshtml" />
     <Content Include="Views\Partials\HomeSlider.cshtml" />
-    <Content Include="Views\Partials\BlogMiniListing.cshtml" />
+    <Content Include="Views\Partials\Blog\BlogMiniListing.cshtml" />
+    <Content Include="Views\Partials\Footer.cshtml" />
+    <Content Include="Views\MacroPartials\Testimonials.cshtml" />
+    <Content Include="Views\Partials\Blog\BlogCategories.cshtml" />
+    <Content Include="Views\Blogarchive.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

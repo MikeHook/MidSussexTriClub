@@ -18,16 +18,17 @@
 
 @helper traverse(IPublishedContent parent, int startLevel, int finishLevel)
 {
+        var excludedDocTypes = new List<string>() { "blogpost", "blogarchive" };
     <ul>
         @if (parent.Level == 1)
         {
             <li class="logo-wrapper"><a href="/"><img src="/images/mstc/mstc_logo_nowhite_small.png" alt="Mid Sussex Tri Club"></a></li>
             <li class="@(Model.Content.Url == "/" ? "active" : "")"><a href="/">Home</a></li>
         }
-        @foreach (var node in parent.Children.Where(x => x.IsVisible()))
+        @foreach (var node in parent.Children.Where(x => x.IsVisible() && !excludedDocTypes.Contains(x.DocumentTypeAlias)))
         {
             var active = Array.IndexOf(Model.Content.Path.Split(','), node.Id.ToString()) >= 0 ? "active" : "";
-            var hasSubMenu = node.Level < 3 && node.Children.Where(x => x.IsVisible()).Any();
+            var hasSubMenu = node.Level < 3 && node.Children.Where(x => x.IsVisible() && !excludedDocTypes.Contains(x.DocumentTypeAlias)).Any();
             <li class="@(hasSubMenu ? "has-submenu" : "") @active">
                 <a href="@(hasSubMenu ? "#" : node.Url)">@node.Name @(hasSubMenu ? " +" : "")</a>
                 @if (hasSubMenu)

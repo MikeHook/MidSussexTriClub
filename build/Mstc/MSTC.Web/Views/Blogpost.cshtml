@@ -2,22 +2,48 @@
 @using ContentModels = Umbraco.Web.PublishedContentModels;
 @{
     Layout = "Master.cshtml";
+    var blogHome = Model.Content.AncestorsOrSelf("blog").LastOrDefault();
+    var blogArchive = Model.Content.Siblings<Blogarchive>().FirstOrDefault();
 }
 @Html.Partial("~/Views/Partials/SectionHeader.cshtml")
 
-<section class="section">
+<div class="section">
     <div class="container">
-        <article>
-            <div class="blogpost-meta">
-                <small class="blogpost-date">@Model.Content.CreateDate.ToShortDateString()</small>
-                <span class="blogpost-cat">
-                    @Html.Partial("~/Views/Partials/CategoryLinks.cshtml", Model.Content.Categories)
-                </span>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="blog-post blog-single-post">
+                    <div class="single-post-title">
+                        <h3>@Model.Content.Name</h3>
+                    </div>
+                    <div class="single-post-info">
+                        <i class="glyphicon glyphicon-time"></i>@Model.Content.PostDate.ToString("dd MMM yyyy"), @Model.Content.PostAuthor
+                    </div>
+                    @if (@Model.Content.MainImage != null)
+                    {
+                        <div class="single-post-image"><img src="@Model.Content.MainImage.Url" alt="@Model.Content.MainImage.Name" /></div>
+                    }
+                    <div class="single-post-content">
+                        <div class="entry-content">
+                            @Model.Content.BodyText
+                        </div>
+                    </div>
+                    <div class="entry-meta">
+                        <span class="tag-links">
+                            Tags:
+                            @foreach (var tag in Model.Content.Categories)
+                            {
+                                <a href="@string.Format("{0}?filterby={1}", blogHome.Url, tag)">@tag</a><span> |</span>
+                            }
+                        </span>
+                        <br />
+                        @if (blogArchive != null)
+                        {
+                            <span class="archive"><a href="@blogArchive.Url">Blog Archive</a></span>
+                        }              
+                    </div>
+                </div>
             </div>
-            <h3>@Model.Content.Excerpt</h3>
-
-            @Model.Content.BodyText
-
-        </article>
+   
+        </div>
     </div>
-</section>
+</div>
