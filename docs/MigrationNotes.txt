@@ -6,8 +6,16 @@ Member migration
 
 Templates
 ---------
+
+Done
+----
 MSTC Home / Master
 MSTC Generic Content
+Testimonials
+
+To Do
+-----
+
 MSTC Person Listing
 MSTC Person
 MSTC Member Registration

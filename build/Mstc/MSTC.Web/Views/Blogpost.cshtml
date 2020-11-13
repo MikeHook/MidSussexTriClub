@@ -15,8 +15,9 @@
                 </span>
             </div>
             <h3>@Model.Content.Excerpt</h3>
-            @Html.GetGridHtml(Model.Content, "bodyText", "bootstrap3-fluid")
-            <!-- todo: implement discus comments -->
+
+            @Model.Content.BodyText
+
         </article>
     </div>
 </section>

@@ -1,0 +1,57 @@
+﻿@using ContentModels = Umbraco.Web.PublishedContentModels;
+@using Umbraco.Web;
+@inherits Umbraco.Web.Macros.PartialViewMacroPage
+@{
+    string memberQuote1 = Model.MacroParameters["MemberQuote1"].ToString();
+    string memberAuthor1 = Model.MacroParameters["MemberAuthor1"].ToString();
+    var memberImage1 = Model.MacroParameters["MemberImage1"];
+    string memberQuote2 = Model.MacroParameters["MemberQuote2"].ToString();
+    string memberAuthor2 = Model.MacroParameters["MemberAuthor2"].ToString();
+    var memberImage2 = Model.MacroParameters["MemberImage2"];
+}
+<h2>What do our members think?</h2>
+<div class="row">
+    @if (string.IsNullOrWhiteSpace(memberQuote1) == false)
+    {
+        <div class="testimonial col-md-6 col-sm-6">
+            <div class="author-photo">
+                @if (memberImage1 != null)
+                {<img src="@Umbraco.TypedMedia(memberImage1).Url" alt="@memberAuthor1">}
+            </div>
+            <div class="testimonial-bubble">
+                <blockquote>
+                    <p class="quote">
+                        "@memberQuote1"
+                    </p>
+                    <cite class="author-info">
+                        @memberAuthor1
+                    </cite>
+                </blockquote>
+                <div class="sprite arrow-speech-bubble"></div>
+            </div>
+        </div>
+    }
+    @if (string.IsNullOrWhiteSpace(memberQuote2) == false)
+    {
+        <div class="testimonial col-md-6 col-sm-6">
+            <div class="author-photo">
+                @if (memberImage2 != null)
+                {<img src="@Umbraco.TypedMedia(memberImage2).Url" alt="@memberAuthor2">}
+            </div>
+            <div class="testimonial-bubble">
+                <blockquote>
+                    <p class="quote">
+                        "@memberQuote2"
+                    </p>
+                    <cite class="author-info">
+                        @memberAuthor2
+                    </cite>
+                </blockquote>
+                <div class="sprite arrow-speech-bubble"></div>
+            </div>
+        </div>
+    }
+</div>
+
+
+ 

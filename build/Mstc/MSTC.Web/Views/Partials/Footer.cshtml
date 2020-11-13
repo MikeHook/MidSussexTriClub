@@ -1,0 +1,27 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@using Umbraco.Web;
+@{
+    var homepage = Model.Content.AncestorOrSelf(1) as Home;
+    var termsPage = homepage.TermsPage;
+    var contactPage = homepage.ContactPage;
+}
+
+<div class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="no-list-style footer-navigate-section">
+                    @if (termsPage != null)
+                    {
+                        <li><a href="@termsPage.Url">@termsPage.Name</a></li>
+                    }
+                    @if (contactPage != null)
+                    {
+                        <li><a href="@contactPage.Url">@contactPage.Name</a></li>
+                    }
+                </ul>
+                <div class="footer-copyright">&copy; @DateTime.Now.Year Mid Sussex Triathlon Club | Developed by <a href="https://twitter.com/michael_hook">Hook Technologies</a></div>
+            </div>
+        </div>
+    </div>
+</div>

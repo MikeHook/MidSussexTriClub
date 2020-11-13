@@ -193,8 +193,8 @@ span.help-block[style*="hidden"] {
   margin-top: 0;
 }
 .home-social .service-wrapper {
-  min-height: 166px;
-  padding: 30px 10px 10px 10px;
+  /*min-height: 166px;*/
+  padding: 15px 10px 15px 10px;
 }
 .home-social .service-wrapper p {
   margin-top: 10px;
@@ -1886,7 +1886,7 @@ span.color-red {
   color: #000;
 }
 ul.footer-navigate-section {
-  width: 70%;
+  width: 50%;
   float: left;
   padding-top: 10px;
 }
@@ -1934,7 +1934,7 @@ ul.footer-navigate-section {
   border-top: 1px dotted #7C7C7C;
   padding-top: 10px;
   font-size: 1.2em;
-  width: 30%;
+  width: 50%;
   float: right;
 }
 /*--------------------------------------------------------------------------
