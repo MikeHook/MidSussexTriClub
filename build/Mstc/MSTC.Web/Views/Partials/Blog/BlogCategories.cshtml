@@ -1,7 +1,7 @@
 ﻿@inherits UmbracoViewPage
 @{
     dynamic blogHome = Model.AncestorsOrSelf("blog").LastOrDefault();
-    var tags = Umbraco.TagQuery.GetAllTags("default").OrderByDescending(t => t.NodeCount);
+    var tags = Umbraco.TagQuery.GetAllTags("blog").OrderByDescending(t => t.NodeCount);
 }
 
 <h4>Categories</h4>

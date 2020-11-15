@@ -5,6 +5,7 @@
 
     string sectionClass = topBannerImage == null ? string.Format("class=\"section section-breadcrumbs\"") : string.Format("class=\"section section-breadcrumbs section-banner-image\"");
     string sectionStyle = topBannerImage == null ? "" : string.Format("style=\"background-image: url('{0}');\"", topBannerImage.Url);
+    string heading = string.IsNullOrEmpty(Model.Content.GetPropertyValue("PageTitle") as string) ? Model.Content.Name : Model.Content.GetPropertyValue("PageTitle") as string;
 }
 
 <div @Html.Raw(sectionClass) @Html.Raw(sectionStyle)>
@@ -13,11 +14,11 @@
             <div class="col-md-12">
                 @if (topBannerImage != null)
                 {
-                    <div class="heading-transbox"><h1>@Model.Content.GetPropertyValue("PageTitle")</h1></div>
+                    <div class="heading-transbox"><h1>@heading</h1></div>
                 }
                 else
                 {
-                    <h1>@Model.Content.GetPropertyValue("PageTitle")</h1>
+                    <h1>@heading</h1>
                 }
             </div>
         </div>

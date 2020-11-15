@@ -1,0 +1,40 @@
+﻿@inherits UmbracoViewPage<MSTC.Web.Model.Partials.SingleBlogPostModel>
+@{ 
+    var blogHome = Model.Post.AncestorsOrSelf("blog").LastOrDefault();
+    var blogArchive = Model.Post.Siblings<Blogarchive>().FirstOrDefault();
+}
+<div class="blog-post blog-single-post">
+    <div class="single-post-title">
+        <h3>@Model.Post.Name</h3>
+    </div>
+    <div class="single-post-info">
+        <i class="glyphicon glyphicon-time"></i>@Model.Post.PostDate.ToString("dd MMM yyyy"), @Model.Post.PostAuthor
+    </div>
+    @if (@Model.Post.MainImage != null)
+    {
+        <div class="single-post-image"><img src="@Model.Post.MainImage.Url" alt="@Model.Post.MainImage.Name" /></div>
+    }
+    <div class="single-post-content">
+        <div class="entry-content">
+            @Model.Post.BodyText
+        </div>
+    </div>
+    <div class="entry-meta">
+        <span class="tag-links">
+            Tags:
+            @foreach (var tag in Model.Post.Categories)
+            {
+                <a href="@string.Format("{0}?filterby={1}", blogHome.Url, tag)">@tag</a><span> |</span>
+            }
+        </span>
+        @if (Model.ShowPermaLink)
+        {<br />
+            <span class="permalink">Permalink <a href="@Model.Post.Url">@Model.Post.Name</a></span>
+        }
+        @if (Model.ShowArchiveLink && blogArchive != null)
+        {<br />
+            <span class="archive"><a href="@blogArchive.Url">Blog Archive</a></span>
+        }
+
+    </div>
+</div>

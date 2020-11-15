@@ -368,3 +368,4 @@ ASALocalRun/
 /build/MidSussexTriathlon.Web/App_Data/Models/
 
 **/MSTC.Web/App_Data/Models/*
+/build/MediaImport/*
