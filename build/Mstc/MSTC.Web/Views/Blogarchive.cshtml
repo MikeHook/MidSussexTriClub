@@ -13,20 +13,23 @@ Layout = "Master.cshtml";
 
 			<!-- Blog Posts -->
 			<div class="col-sm-12">
-				<ul class="blog-archive">
+				<div class="blog-archive">
 					@foreach (var year in postYears)
 					{
-						<li>
-							@year
-							<ul class="blog-archive-months">
-								@foreach (var blogPost in blogHome.Descendants<Blogpost>().Where(p => p.PostDate.Year == year).OrderByDescending(p => p.PostDate))
-								{
-								<li><a href="@blogPost.Url">@blogPost.Name</a> <i class="glyphicon glyphicon-time"></i>@blogPost.PostDate.ToString("dd MMM yyyy")</li>
-								}
-							</ul>
-						</li>
+					<div class="featured-news">
+						<h3>@year</h3>				
+							@foreach (var blogPost in blogHome.Descendants<Blogpost>().Where(p => p.PostDate.Year == year).OrderByDescending(p => p.PostDate))
+							{							
+								<div class="caption">
+									<a href="@blogPost.Url">@blogPost.Name</a>
+								</div>
+								<div class="date">
+									<i class="glyphicon glyphicon-time"></i> @blogPost.PostDate.ToString("dd MMM yyyy"), @blogPost.PostAuthor
+								</div>							
+							}				
+					</div>
 					}
-				</ul>
+				</div>
 			</div>
 			<!-- End Blog Posts -->
 		</div>

@@ -271,6 +271,10 @@
     <Reference Include="umbraco.providers, Version=1.0.7537.31672, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\UmbracoCms.Core.7.15.6\lib\net452\umbraco.providers.dll</HintPath>
     </Reference>
+    <Reference Include="Umbraco.Web.PublishedContentModels, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Bin\Umbraco.Web.PublishedContentModels.dll</HintPath>
+    </Reference>
     <Reference Include="Umbraco.Web.UI, Version=1.0.7537.31678, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\UmbracoCms.Core.7.15.6\lib\net452\Umbraco.Web.UI.dll</HintPath>
     </Reference>
@@ -1664,6 +1668,7 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\Partials\SingleBlogPostModel.cs" />
     <Compile Include="Model\Partials\BlogMiniModel.cs" />
     <Compile Include="Model\Partials\SliderModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -1903,6 +1908,7 @@
     <Content Include="Views\MacroPartials\Testimonials.cshtml" />
     <Content Include="Views\Partials\Blog\BlogCategories.cshtml" />
     <Content Include="Views\Blogarchive.cshtml" />
+    <Content Include="Views\Partials\Blog\SingleBlogPost.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

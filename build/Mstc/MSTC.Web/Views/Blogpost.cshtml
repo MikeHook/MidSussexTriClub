@@ -11,39 +11,12 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-12">
-                <div class="blog-post blog-single-post">
-                    <div class="single-post-title">
-                        <h3>@Model.Content.Name</h3>
-                    </div>
-                    <div class="single-post-info">
-                        <i class="glyphicon glyphicon-time"></i>@Model.Content.PostDate.ToString("dd MMM yyyy"), @Model.Content.PostAuthor
-                    </div>
-                    @if (@Model.Content.MainImage != null)
-                    {
-                        <div class="single-post-image"><img src="@Model.Content.MainImage.Url" alt="@Model.Content.MainImage.Name" /></div>
-                    }
-                    <div class="single-post-content">
-                        <div class="entry-content">
-                            @Model.Content.BodyText
-                        </div>
-                    </div>
-                    <div class="entry-meta">
-                        <span class="tag-links">
-                            Tags:
-                            @foreach (var tag in Model.Content.Categories)
-                            {
-                                <a href="@string.Format("{0}?filterby={1}", blogHome.Url, tag)">@tag</a><span> |</span>
-                            }
-                        </span>
-                        <br />
-                        @if (blogArchive != null)
-                        {
-                            <span class="archive"><a href="@blogArchive.Url">Blog Archive</a></span>
-                        }              
-                    </div>
-                </div>
-            </div>
-   
+                @Html.Partial("~/Views/Partials/Blog/SingleBlogPost.cshtml", new MSTC.Web.Model.Partials.SingleBlogPostModel
+                {
+                    Post = Model.Content,
+                    ShowArchiveLink = true                 
+                } )                              
+            </div>   
         </div>
     </div>
 </div>
