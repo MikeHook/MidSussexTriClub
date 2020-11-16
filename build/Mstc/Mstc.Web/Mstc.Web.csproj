@@ -1888,7 +1888,6 @@
     <Content Include="umbraco\Plugins\cmsimport\config\cmsImport.config" />
     <Content Include="Views\MacroPartials\FeaturedProducts.cshtml" />
     <Content Include="Views\MacroPartials\LatestBlogposts.cshtml" />
-    <Content Include="Views\Partials\CategoryLinks.cshtml" />
     <Content Include="Views\Partials\Navigation\SubNavigation.cshtml" />
     <Content Include="Views\Partials\Navigation\TopNavigation.cshtml" />
     <Content Include="Views\Partials\SectionHeader.cshtml" />
