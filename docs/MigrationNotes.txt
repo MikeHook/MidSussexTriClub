@@ -1,5 +1,6 @@
 Member migration
 ----------------
+server=.\SQLEXPRESS2019;database=mstc_live;user id=mstcuser;password=Mult1M4dn355;
 - Use the 'Member' import not MemberService
 - Tick the 'Store password as clear text' option on the password field
 - Add the extra MemberType fields into the new CMS first
@@ -8,15 +9,16 @@ Templates
 ---------
 
 Blog functionality to do
-- Show last 5 posts on home (with paging?)
-- Filter posts by tag
-- Sort out styling
+- Move Awards post
+- Investigate tag counts bug eg. LEJOG count wrong
 
 Done
 ----
 MSTC Home / Master
 MSTC Generic Content
 Testimonials (macro)
+Blog
+Blog Post
 
 To Do
 -----
@@ -24,8 +26,6 @@ MSTC Person Listing
 MSTC Person
 MSTC Member Registration
 MSTC Member Registration Complete
-Blog
-Blog Post
 MSTC Articles Home
 MSTC Article
 MSTC Coach Listing
