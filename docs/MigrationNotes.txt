@@ -47,3 +47,5 @@ MSTC Unlink bank
 cFont Contact From (macro)
 ChangePassword (macro)
 ForgotPassword (macro)
+
+Add info about Club subsidised events on website
