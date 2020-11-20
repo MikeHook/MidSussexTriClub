@@ -1,0 +1,25 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage<ContentModels.Login>
+@using ContentModels = Umbraco.Web.PublishedContentModels;
+@{
+	Layout = "Master.cshtml";
+}
+@Html.Partial("~/Views/Partials/SectionHeader.cshtml")
+
+<div class="section">
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-12">
+				<p>
+					Please use the form below to log in. <br />
+					If you don't have any log in details then you can <a href="/the-club/membership-registration">register</a>
+					or <a href="/club-events/event-guest-registration">sign up as a guest to enter events</a>
+				</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-12">
+				@{ Html.RenderAction("RenderLogin", "Member"); }
+			</div>
+		</div>
+	</div>
+</div>
