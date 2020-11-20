@@ -744,6 +744,12 @@ img.member-directory-image {
 .single-post-image {
   text-align: center;
 }
+
+.listing .single-post-image img
+{
+    max-height: 150px;
+}
+
 .single-post-image img {
   -webkit-box-shadow: 0 0 5px #000;
   -moz-box-shadow: 0 0 5px #000;
@@ -846,6 +852,10 @@ img.member-directory-image {
   padding: 5px 20px 5px 0;
   border-top: 1px solid #D5D5D5;
 }
+.blog-sidebar ul.blog-archive li.active {
+    font-weight: 600;
+}
+
 .blog-sidebar ul.blog-archive li:last-child {
   border-bottom: 1px solid #D5D5D5;
 }

@@ -11,6 +11,7 @@ Templates
 Blog functionality to do
 - Move Awards post
 - Investigate tag counts bug eg. LEJOG count wrong
+- Remove redundant properties on Homepage
 
 Done
 ----
@@ -26,26 +27,27 @@ MSTC Coach Listing
 
 To Do
 -----
-MSTC Member Registration
-MSTC Member Registration Complete
 MSTC Articles Home
 MSTC Article
+MSTC Athletes
+MSTC Member ICE Details
+MSTC Login
+cFont Contact From (macro)
+ChangePassword (macro)
+ForgotPassword (macro)
+
+MSTC Member Registration
+MSTC Member Registration Complete
 MSTC OWS Taster Registration
 MSTC OWS Taster Registration Complete
-MSTC Athletes
 MSTC Member Services
 MSTC Member Edit
 MSTC Member Renewal
 MSTC Member Admin
 MSTC Swim Admin (Not needed?)
 MSTC Guest Renewal (Not needed?)
-MSTC Member ICE Details
-MSTC Login
 MSTC Payment Complete
 MSTC Mandate Request (Not needed?)
 MSTC Unlink bank
-cFont Contact From (macro)
-ChangePassword (macro)
-ForgotPassword (macro)
 
 Add info about Club subsidised events on website

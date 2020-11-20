@@ -1,0 +1,41 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage<ContentModels.ArticleListing>
+@using ContentModels = Umbraco.Web.PublishedContentModels;
+@{
+	Layout = "Master.cshtml";
+	
+}
+@Html.Partial("~/Views/Partials/SectionHeader.cshtml")
+
+	<div class="section">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-4 blog-sidebar">
+					@Html.Partial("~/Views/Partials/Navigation/SideNavigation.cshtml")
+				</div>
+				<div class="col-sm-8 listing">
+					@foreach (var article in Model.Content.Children.OfType<Article>().OrderByDescending(c => c.PostDate)) { 
+					<div class="blog-post blog-single-post">
+						<div class="single-post-title">
+							<h3><a href="@article.Url">@article.Name</a></h3>
+						</div>
+						<div class="single-post-info">
+							<i class="glyphicon glyphicon-time"></i>@article.PostDate.ToString("dd MMM yyyy"), @article.Author
+						</div>
+						@if (article.Photo != null)
+						{
+							<div class="single-post-image"><img src="@article.Photo.Url" alt="@article.Photo.Name"></div>
+						}	
+						<div class="single-post-content">
+							<div class="entry-content">
+								@article.Excerpt ...
+							</div>
+						</div>
+						<div class="entry-meta">
+							<span class="perma-link">Read full article: <a href="@article.Url">@article.Name</a></span>
+						</div>
+					</div>
+					}
+				</div>
+			</div>
+		</div>
+	</div>

@@ -1,0 +1,14 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@using Umbraco.Web;
+@{
+    var parent = Model.Content.AncestorOrSelf(3);
+}
+
+<h4>@parent.Name</h4>
+<ul class="blog-archive">
+    @foreach (var childPage in parent.Children)
+    {
+        var active = Array.IndexOf(Model.Content.Path.Split(','), childPage.Id.ToString()) >= 0 ? "active" : "";
+        <li class="@active"><a href="@childPage.Url">@childPage.Name</a></li>
+    }
+</ul>
