@@ -6,7 +6,7 @@
     var site = Model.Content.Site();
     var selection = site.Children.Where(x => x.IsVisible());
 
-    var homepage = Model.Content.AncestorOrSelf(1);
+    var homepage = Model.Content.AncestorOrSelf<Home>(1);
     var currentUser = User.Identity.IsAuthenticated ? Membership.GetUser() : null;
 
     /*var isSubmitLogout = (IsPost && Request["submit"] == "Log out");
@@ -16,7 +16,7 @@
         Response.Redirect(Request.RawUrl);
     }
     */
-    
+
 }
 
 @helper RenderUsersName()
@@ -25,19 +25,21 @@
     @Html.Raw(currentUser?.UserName)
 }
 
-@helper ChangePasswordLink(dynamic homepage)
+@helper ChangePasswordLink(Home homepage)
 {
-    if (homepage.changePasswordPage is int)
+    if (homepage.ChangePasswordPage != null)
     {
-        <a href="@Html.Raw(new Node(homepage.changePasswordPage).Url)">Change password</a>
+        <a href="@homepage.ChangePasswordPage.Url">Change password</a>
     }
 }
 
 @helper LogoutForm()
 {
-    <form method="post">
-        <input class="btn-yellow" type="submit" id="submit" name="submit" value="Log out" />
-    </form>
+    using (Html.BeginUmbracoForm("SubmitLogout", "Member", System.Web.Mvc.FormMethod.Post, new { id = "logout" }))
+    {
+        @Html.AntiForgeryToken()
+        <input class="btn-yellow" name="logout" type="submit" value="Log out" />    
+    }
 }
 
 <div class="mainmenu-header">

@@ -1668,6 +1668,8 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\MemberController.cs" />
+    <Compile Include="Model\LoginModel.cs" />
     <Compile Include="Model\Partials\SingleBlogPostModel.cs" />
     <Compile Include="Model\Partials\BlogMiniModel.cs" />
     <Compile Include="Model\Partials\SliderModel.cs" />
@@ -1909,6 +1911,14 @@
     <Content Include="Views\Partials\Blog\SingleBlogPost.cshtml" />
     <Content Include="Views\Partials\Person\Person.cshtml" />
     <Content Include="Views\Partials\Person\Coach.cshtml" />
+    <Content Include="Views\Article.cshtml" />
+    <Content Include="Views\ArticleListing.cshtml" />
+    <Content Include="Views\Partials\Navigation\SideNavigation.cshtml" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Partials\Login.cshtml" />
+    <Content Include="Views\Partials\Logout.cshtml" />
+    <Content Include="Views\Login.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

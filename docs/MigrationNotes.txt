@@ -23,18 +23,19 @@ Blog Post
 MSTC Person Listing
 MSTC Person
 MSTC Coach Listing
+MSTC Articles Home
+MSTC Article
 
 
 To Do
 -----
-MSTC Articles Home
-MSTC Article
-MSTC Athletes
-MSTC Member ICE Details
 MSTC Login
 cFont Contact From (macro)
 ChangePassword (macro)
 ForgotPassword (macro)
+
+MSTC Athletes
+MSTC Member ICE Details
 
 MSTC Member Registration
 MSTC Member Registration Complete
