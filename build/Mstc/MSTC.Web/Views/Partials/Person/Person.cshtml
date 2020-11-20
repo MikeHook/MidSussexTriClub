@@ -1,0 +1,11 @@
+﻿@inherits UmbracoViewPage<Umbraco.Web.PublishedContentModels.Person>
+
+<div class="col-sm-4">
+    <div class="service-image">
+        <img src="@(Model.Photo != null ? Model.Photo.Url : "")" alt="@Model.Name">
+        <h3>@Model.Name</h3>
+    </div>
+</div>
+<div class="col-sm-8">
+    @Model.BodyText
+</div>

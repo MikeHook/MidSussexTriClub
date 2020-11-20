@@ -14,26 +14,16 @@
                         @Model.Content.BodyText
                     </div>
                 </div>
-                @foreach (ContentModels.Person person in Model.Content.Children)
-                {
-                    <div class="row service-wrapper-row">
-                        <div class="col-sm-4">
-                            <div class="service-image">
-                                @if (person.IsHeadCoach == true)
-                                {
-                                    <div class="ribbon-wrapper">
-                                        <div class="ribbon ribbon-yellow">Head Coach</div>
-                                    </div>
-                                }
-                                <img src="@(person.Photo != null ? person.Photo.Url : "")" alt="@person.Name">
-                                <h3>@person.Name</h3>
-                            </div>
-                        </div>
-                        <div class="col-sm-8">
-                            @person.BodyText
-                        </div>
-                    </div>
-                }            
+                <div class="row service-wrapper-row">
+                    @foreach (ContentModels.Person person in Model.Content.Children)
+                    {
+                        if (person.IsCoach) {
+                            @Html.Partial("~/Views/Partials/Person/Coach.cshtml", person)
+                        } else {
+                            @Html.Partial("~/Views/Partials/Person/Person.cshtml", person)
+                        }
+                    }
+                </div>
         </div>
     </section>
 }

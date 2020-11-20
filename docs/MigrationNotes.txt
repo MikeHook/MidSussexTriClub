@@ -19,17 +19,17 @@ MSTC Generic Content
 Testimonials (macro)
 Blog
 Blog Post
+MSTC Person Listing
+MSTC Person
+MSTC Coach Listing
+
 
 To Do
 -----
-MSTC Person Listing
-MSTC Person
 MSTC Member Registration
 MSTC Member Registration Complete
 MSTC Articles Home
 MSTC Article
-MSTC Coach Listing
-MSTC Person
 MSTC OWS Taster Registration
 MSTC OWS Taster Registration Complete
 MSTC Athletes
