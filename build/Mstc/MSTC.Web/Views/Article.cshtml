@@ -1,0 +1,36 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage<ContentModels.Article>
+@using ContentModels = Umbraco.Web.PublishedContentModels;
+@{
+	Layout = "Master.cshtml";
+
+}
+@Html.Partial("~/Views/Partials/SectionHeader.cshtml")
+
+<div class="section">
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-4 blog-sidebar">
+				@Html.Partial("~/Views/Partials/Navigation/SideNavigation.cshtml")	
+			</div>
+			<div class="col-sm-8">
+				<div class="blog-post blog-single-post">
+					<div class="single-post-title">
+						<h3>@Model.Content.Name</h3>
+					</div>
+					<div class="single-post-info">
+						<i class="glyphicon glyphicon-time"></i>@Model.Content.PostDate.ToString("dd MMM yyyy"), @Model.Content.Author
+					</div>
+					@if (Model.Content.Photo != null)
+					{
+						<div class="single-post-image"><img src="@Model.Content.Photo.Url" alt="@Model.Content.Photo.Name" /></div>
+					}
+					<div class="single-post-content">
+						<div class="entry-content">
+							@Model.Content.BodyText
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
