@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using Umbraco.Core.Models;
 
 namespace MSTC.Web.Model
 {
@@ -16,5 +17,7 @@ namespace MSTC.Web.Model
         [Required]
         [DataType(DataType.Password)]
         public string Password { get; set; }
+
+        public IPublishedContent CurrentPage { get; set; }
     }
 }
