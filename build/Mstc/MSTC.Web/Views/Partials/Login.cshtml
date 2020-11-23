@@ -1,19 +1,46 @@
 ﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<MSTC.Web.Model.LoginModel>
 @using Umbraco.Web
-
+@{ 
+    Umbraco.Web.PublishedContentModels.Login loginPageModel = null;
+    if (Model.CurrentPage != null)
+    {
+        loginPageModel = Model.CurrentPage.TryConvertTo<Umbraco.Web.PublishedContentModels.Login>().Result;
+    }    
+}
 @if (!Umbraco.MemberIsLoggedOn())
 {
-    using (Html.BeginUmbracoForm("SubmitLogin", "Member", System.Web.Mvc.FormMethod.Post, new { id = "login" }))
+    using (Html.BeginUmbracoForm("SubmitLogin", "Member", System.Web.Mvc.FormMethod.Post, new { id = "login", @class = "form-horizontal" }))
     {
         @Html.AntiForgeryToken()
-        @Html.LabelFor(m => m.Username)
-        @Html.TextBoxFor(m => m.Username, new { placeholder = "Username" })
+        <div class="form-group">
+            @Html.LabelFor(m => m.Username, new { @class = "col-sm-3 control-label" })
+            <div class="col-sm-7">
+                @Html.TextBoxFor(m => m.Username, new { @class = "form-control", placeholder = "Email", tooltip = "The email address you used to sign up to the website" })
+            </div>
+            <div class="col-sm-2"></div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Password, new { @class = "col-sm-3 control-label" })
+            <div class="col-sm-7">
+                @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Password" })
+                @if (loginPageModel != null)
+                {
+                <a href="@loginPageModel.ForgotPasswordPage.Url">Forgot your password?</a>
+                }
+            </div>
+            <div class="col-sm-2"></div>
+        </div>
+        <div class="help-block alert-danger">
+            @Html.ValidationSummary()
+        </div>
 
-        @Html.LabelFor(m => m.Password)
-        @Html.PasswordFor(m => m.Password, new { placeholder = "Password" })
+        <div class="form-group">
+            <div class="col-sm-10">
+                <button name="login" type="submit" class="btn btn-yellow pull-right">Login</button>
+            </div>
+            <div class="col-sm-2"></div>
+        </div>
 
-        @Html.ValidationSummary()
-        <button name="login" type="submit">Login</button>
     }
 }
 else

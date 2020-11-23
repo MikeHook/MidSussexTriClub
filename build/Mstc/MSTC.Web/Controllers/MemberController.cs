@@ -13,7 +13,7 @@ namespace MSTC.Web.Controllers
     {
         public ActionResult RenderLogin()
         {
-            return PartialView("Login", new LoginModel());
+            return PartialView("Login", new LoginModel() { CurrentPage = CurrentPage });
         }
 
         [HttpPost]
