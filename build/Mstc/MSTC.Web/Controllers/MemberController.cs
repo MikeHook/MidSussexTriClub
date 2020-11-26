@@ -25,6 +25,11 @@ namespace MSTC.Web.Controllers
             return PartialView("ForgotPassword", new ForgotPasswordModel());
         }
 
+        public ActionResult RenderChangePassword()
+        {
+            return PartialView("ChangePassword", new ChangePasswordModel());
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult SubmitLogin(LoginModel model, string returnUrl)
@@ -67,6 +72,40 @@ namespace MSTC.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        public ActionResult ChangePassword(ChangePasswordModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var username = Membership.GetUser().UserName;
+                var member = Services.MemberService.GetByUsername(username);                
+
+                if (member == null)
+                {
+                    ModelState.AddModelError("", "Unable to find logged in member.");
+                    return CurrentUmbracoPage();
+                }                
+        
+                if (!Membership.ValidateUser(username, model.OldPassword))
+                {
+                    ModelState.AddModelError("", "Your old password does not match.");
+                    return CurrentUmbracoPage();
+                }
+
+                if (model.NewPassword.Length < 8)
+                {
+                    ModelState.AddModelError("", "Your new password must be at least 8 characters.");
+                    return CurrentUmbracoPage();
+                }
+
+                Services.MemberService.SavePassword(member, model.NewPassword);
+
+                TempData["Message"] = "Your password has been changed.";
+            }
+            return CurrentUmbracoPage();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult ForgotPassword(ForgotPasswordModel model)
         {
             if (ModelState.IsValid)
@@ -81,7 +120,7 @@ namespace MSTC.Web.Controllers
 
                 var newPassword = Membership.GeneratePassword(10, 1);
                 newPassword = Regex.Replace(newPassword, @"[^a-zA-Z0-9]", m => "9");
-                Services.MemberService.SavePassword(member, newPassword);         
+                Services.MemberService.SavePassword(member, newPassword);
 
                 var mailMessage = new MailMessage();
 

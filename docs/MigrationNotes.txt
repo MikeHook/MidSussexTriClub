@@ -12,7 +12,7 @@ Functionality to do
 - Move Awards post out of blog
 - Investigate tag counts bug eg. LEJOG count wrong
 - Remove redundant properties on Homepage
-- Set min length on passwords
+
 
 Done
 ----
@@ -27,16 +27,14 @@ MSTC Coach Listing
 MSTC Articles Home
 MSTC Article
 MSTC Login
-ForgotPassword (macro)
+ForgotPassword
+ChangePassword
 
 
 To Do
 -----
-
 cFont Contact From (macro)
-ChangePassword (macro)
 404 page
-
 
 MSTC Athletes
 MSTC Member ICE Details
@@ -49,10 +47,11 @@ MSTC Member Services
 MSTC Member Edit
 MSTC Member Renewal
 MSTC Member Admin
+MSTC Payment Complete
+MSTC Unlink bank
 MSTC Swim Admin (Not needed?)
 MSTC Guest Renewal (Not needed?)
-MSTC Payment Complete
 MSTC Mandate Request (Not needed?)
-MSTC Unlink bank
+
 
 Add info about Club subsidised events on website
