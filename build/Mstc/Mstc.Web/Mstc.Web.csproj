@@ -1669,6 +1669,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\MemberController.cs" />
+    <Compile Include="Model\ChangePasswordModel.cs" />
     <Compile Include="Model\ForgotPasswordModel.cs" />
     <Compile Include="Model\LoginModel.cs" />
     <Compile Include="Model\Partials\SingleBlogPostModel.cs" />
@@ -1922,6 +1923,8 @@
     <Content Include="Views\Login.cshtml" />
     <Content Include="Views\Partials\ForgotPassword.cshtml" />
     <Content Include="Views\ForgotPassword.cshtml" />
+    <Content Include="Views\Partials\ChangePassword.cshtml" />
+    <Content Include="Views\ChangePassword.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
