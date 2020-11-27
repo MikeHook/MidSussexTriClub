@@ -6,7 +6,6 @@ using GoCardless;
 using GoCardless.Exceptions;
 using GoCardless.Services;
 using Mstc.Core.Dto;
-using umbraco.BusinessLogic;
 
 namespace Mstc.Core.Providers
 {
@@ -65,15 +64,15 @@ namespace Mstc.Core.Providers
 	        return redirectFlowResponse.RedirectFlow.Links.Mandate;
 	    }
 
-	    public PaymentResponseDto CreatePayment(string memberMandateId, string memberEmail, int costInPence, string description)
+	    public PaymentResponseDto CreatePayment(Umbraco.Core.Logging.ILogger logger, string memberMandateId, string memberEmail, int costInPence, string description)
 	    {
             int retries = 5;
             int tried = 0;
 	        string idempotencyKey = Guid.NewGuid().ToString();
-            return TryCreatePayment(idempotencyKey, memberMandateId, memberEmail, costInPence, description, retries, tried);
+            return TryCreatePayment(logger, idempotencyKey, memberMandateId, memberEmail, costInPence, description, retries, tried);
         }
 
-	    public PaymentResponseDto TryCreatePayment(string idempotencyKey, string memberMandateId, string memberEmail,
+	    public PaymentResponseDto TryCreatePayment(Umbraco.Core.Logging.ILogger logger, string idempotencyKey, string memberMandateId, string memberEmail,
 	        int costInPence, string description, int retries, int tried)
 	    {
 	        if (tried >= retries)
@@ -100,16 +99,15 @@ namespace Mstc.Core.Providers
 	            string message =
 	                $"New CreatePayment request. memberEmail: {memberEmail}, memberMandateId: {memberMandateId}, " +
 	                $"cost: {costInPence}, description: {description}";
-	            Log.Add(LogTypes.Custom, -1, message);
+				logger.Info(typeof(GoCardlessProvider), message);			
 
 	            return PaymentResponseDto.Success;
 	        }
 	        catch (Exception ex)
 	        {
-	            Log.Add(LogTypes.Error, -1,
-	                string.Format(
-	                    $"Unable to CreatePayment for memberEmail: {memberEmail}, memberMandateId: {memberMandateId},, exception: {0}",
-	                    ex));
+				logger.Error(typeof(GoCardlessProvider), string.Format(
+						$"Unable to CreatePayment for memberEmail: {memberEmail}, memberMandateId: {memberMandateId},, exception: {0}",
+						ex), ex);		
 
 	            var exception = ex.InnerException as ApiException;
 	            if (exception != null)
@@ -121,7 +119,7 @@ namespace Mstc.Core.Providers
 	                }
 	            }
 
-	            return TryCreatePayment(idempotencyKey, memberMandateId, memberEmail, costInPence, description, retries,
+	            return TryCreatePayment(logger, idempotencyKey, memberMandateId, memberEmail, costInPence, description, retries,
 	                tried);
 	        }
 	    }

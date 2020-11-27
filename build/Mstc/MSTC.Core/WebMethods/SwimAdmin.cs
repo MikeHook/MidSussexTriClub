@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using Mstc.Core.DataAccess;
 using umbraco.BusinessLogic;
-using umbraco.presentation.umbracobase;
+using Umbraco.Web.BaseRest;
 
 namespace Mstc.Core.WebMethods
 {

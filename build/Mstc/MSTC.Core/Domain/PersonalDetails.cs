@@ -21,7 +21,7 @@ namespace Mstc.Core.Domain
 		[Required, Display(Name = "Last name*")]
 		public string LastName { get; set; }
 
-		[Required, Display(Name = "Email*"), DataType(DataType.EmailAddress)]
+		[Required(ErrorMessage = "Please enter your email address"), Display(Name = "Email*"), DataType(DataType.EmailAddress)]
 		public string Email { get; set; }
 
 		[Required, Display(Name = "Password*"), DataType(DataType.Password), MinLength(8)]

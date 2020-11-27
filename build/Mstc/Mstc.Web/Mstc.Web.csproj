@@ -1671,6 +1671,7 @@
     <Compile Include="Controllers\MemberController.cs" />
     <Compile Include="Model\ChangePasswordModel.cs" />
     <Compile Include="Model\ForgotPasswordModel.cs" />
+    <Compile Include="Model\RegistrationCompleteModel.cs" />
     <Compile Include="Model\LoginModel.cs" />
     <Compile Include="Model\Partials\SingleBlogPostModel.cs" />
     <Compile Include="Model\Partials\BlogMiniModel.cs" />
@@ -1928,6 +1929,8 @@
     <Content Include="Views\MemberRegistration.cshtml" />
     <Content Include="Views\Partials\Registration\PersonalDetails.cshtml" />
     <Content Include="Views\Partials\Registration\MemberOptions.cshtml" />
+    <Content Include="Views\RegistrationComplete.cshtml" />
+    <Content Include="Views\Partials\Registration\RegistrationComplete.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
