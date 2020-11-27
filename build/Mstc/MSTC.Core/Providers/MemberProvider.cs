@@ -35,7 +35,7 @@ namespace Mstc.Core.Providers
             return string.Format("Oct {0} to Mar {1}", year, (year + 1));
         }
 
-        public string GetPaymentDescription(MembershipOptions membershipOptions)
+        public string GetPaymentDescription(MemberOptions membershipOptions)
 		{
 			List<string> descriptionList = new List<string>() { membershipOptions.MembershipType.ToString() };
 			if (!string.IsNullOrWhiteSpace(membershipOptions.SwimSubs1))
@@ -61,22 +61,22 @@ namespace Mstc.Core.Providers
 				: new DateTime(DateTime.Now.Year + 1, 4, 1);
 		}
 
-		public umbraco.cms.businesslogic.member.Member CreateMember(RegistrationDetails regDetails, string[] roles)
+		public umbraco.cms.businesslogic.member.Member CreateMember(PersonalDetails regDetails, string[] roles)
 		{
 			return MemberHelper.Create(regDetails.Email, regDetails.Password, $"{regDetails.FirstName} {regDetails.LastName}", regDetails.Email, "Member",
 				roles);
 		}
 
-		public void UpdateMemberDetails(umbraco.cms.businesslogic.member.Member member, RegistrationFullDetails regDetails)
+		public void UpdateMemberDetails(umbraco.cms.businesslogic.member.Member member, RegistrationDetails regDetails)
 		{
 			IDictionary<String, object> currentmemdata = MemberHelper.Get(member);
 
-			SetMemberDetails(currentmemdata, regDetails.RegistrationDetails);
+			SetMemberDetails(currentmemdata, regDetails.PersonalDetails);
 			var membershipExpiry = GetNewMemberExpiry(DateTime.Now);
             bool zeroSwimCredits = true;
             bool resetEventEntries = false;
 
-            SetMembershipOptions(currentmemdata, regDetails.MembershipOptions, membershipExpiry, zeroSwimCredits, resetEventEntries);
+            SetMembershipOptions(currentmemdata, regDetails.MemberOptions, membershipExpiry, zeroSwimCredits, resetEventEntries);
 
 			foreach (Property property in (List<Property>)member.GenericProperties)
 			{
@@ -86,7 +86,7 @@ namespace Mstc.Core.Providers
 			member.Save();
 		}
 
-		public void UpdateMemberOptions(umbraco.cms.businesslogic.member.Member member, MembershipOptions membershipOptions, bool resetEventEntries, bool isUpgrade)
+		public void UpdateMemberOptions(umbraco.cms.businesslogic.member.Member member, MemberOptions membershipOptions, bool resetEventEntries, bool isUpgrade)
 		{
 			IDictionary<String, object> currentmemdata = MemberHelper.Get(member);
 
@@ -132,7 +132,7 @@ namespace Mstc.Core.Providers
             member.Save();
         }
 
-		private void SetMemberDetails(IDictionary<String, object> currentmemdata, RegistrationDetails registrationDetails)
+		private void SetMemberDetails(IDictionary<String, object> currentmemdata, PersonalDetails registrationDetails)
 		{
 			currentmemdata[MemberProperty.Gender] = registrationDetails.Gender;
 			currentmemdata[MemberProperty.DateOfBirth] = registrationDetails.DateOfBirth;
@@ -149,7 +149,7 @@ namespace Mstc.Core.Providers
 
         }
 
-		private void SetMembershipOptions(IDictionary<String, object> currentmemdata, MembershipOptions membershipOptions, DateTime membershipExpiry, bool zeroSwimCredits, bool resetEventEntries)
+		private void SetMembershipOptions(IDictionary<String, object> currentmemdata, MemberOptions membershipOptions, DateTime membershipExpiry, bool zeroSwimCredits, bool resetEventEntries)
 		{
 			currentmemdata[MemberProperty.membershipType] = ((int)membershipOptions.MembershipType).ToString();
 			currentmemdata[MemberProperty.OpenWaterIndemnityAcceptance] = membershipOptions.OpenWaterIndemnityAcceptance;

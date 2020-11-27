@@ -36,7 +36,7 @@ namespace Mstc.Core.Providers
             return cost / 2; //COVID-19 Discount
 		}
 
-		public static int Calculate(MembershipOptions membershipOptions, DateTime currentDate)
+		public static int Calculate(MemberOptions membershipOptions, DateTime currentDate)
 		{
 			var cost = GetTypeCostPence(membershipOptions.MembershipType, currentDate);		
 			if (!string.IsNullOrWhiteSpace(membershipOptions.SwimSubs1))

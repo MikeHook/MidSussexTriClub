@@ -1,0 +1,12 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<Mstc.Core.Domain.RegistrationDetails>
+@{ 
+    
+}
+
+<div class="form-group">
+    @Html.LabelFor(m => m.MemberOptions.OpenWaterIndemnityAcceptance, new { @class = "col-sm-3 control-label" })
+    <div class="col-sm-7">
+        @Html.CheckBoxFor(m => m.MemberOptions.OpenWaterIndemnityAcceptance, new { @class = "form-control" })
+    </div>
+    <div class="col-sm-2"></div>
+</div>    

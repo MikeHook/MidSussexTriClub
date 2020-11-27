@@ -1,0 +1,43 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage<ContentModels.MemberRegistration>
+@using ContentModels = Umbraco.Web.PublishedContentModels;
+@{
+    Layout = "Master.cshtml";
+}
+@{ Html.RenderPartial("~/Views/Partials/SectionHeader.cshtml"); }
+
+<div class="section">
+		<div class="container edit-member">
+			<div class="row">
+				<div class="col-sm-12">
+					@Model.Content.BodyText
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-12">
+					@using (Html.BeginUmbracoForm("Register", "Registration", FormMethod.Post, new { id = "register", @class = "form-horizontal" }))
+                    {
+                        var model = new Mstc.Core.Domain.RegistrationDetails();
+
+						@Html.AntiForgeryToken()
+
+						Html.RenderPartial("~/Views/Partials/Registration/PersonalDetails.cshtml", model);
+
+						Html.RenderPartial("~/Views/Partials/Registration/MemberOptions.cshtml", model);
+
+						<div class="help-block alert-danger">
+							@Html.ValidationSummary()
+						</div>
+
+						<div class="form-group">
+							<div class="col-sm-10">
+								<button name="register" type="submit" class="btn btn-yellow pull-right">Register</button>
+							</div>
+							<div class="col-sm-2"></div>
+						</div>
+					}			
+				</div>
+			</div>
+		</div>
+</div>
+
+

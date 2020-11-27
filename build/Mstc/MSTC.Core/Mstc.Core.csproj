@@ -83,12 +83,12 @@
     <Compile Include="DataAccess\MemberDal.cs" />
     <Compile Include="Domain\MemberProperty.cs" />
     <Compile Include="Domain\MembershipExtras.cs" />
-    <Compile Include="Domain\MembershipOptions.cs" />
+    <Compile Include="Domain\MemberOptions.cs" />
     <Compile Include="Domain\MembershipType.cs" />
     <Compile Include="Domain\MSTCRoles.cs" />
     <Compile Include="Domain\PaymentStates.cs" />
+    <Compile Include="Domain\PersonalDetails.cs" />
     <Compile Include="Domain\RegistrationDetails.cs" />
-    <Compile Include="Domain\RegistrationFullDetails.cs" />
     <Compile Include="Dto\PaymentResponseDto.cs" />
     <Compile Include="Dto\RedirectResponseDto.cs" />
     <Compile Include="Dto\CustomerDto.cs" />

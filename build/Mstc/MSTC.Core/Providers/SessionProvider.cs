@@ -17,15 +17,15 @@ namespace Mstc.Core.Providers
         private const string _goCardlessRedirectFlowId = "GoCardlessRedirectFlowId";
 	    private const string _mandateSuccessPage = "MandateSuccessPage";
 
-        public MembershipOptions RenewalOptions
+        public MemberOptions RenewalOptions
 		{
-			get { return (MembershipOptions) CurrentSession[_renewalOptionsKey]; }
+			get { return (MemberOptions) CurrentSession[_renewalOptionsKey]; }
 			set { CurrentSession[_renewalOptionsKey] = value; }
 		}
 
-		public RegistrationFullDetails RegistrationFullDetails
+		public RegistrationDetails RegistrationFullDetails
 		{
-			get { return (RegistrationFullDetails)CurrentSession[_regFullDetails]; }
+			get { return (RegistrationDetails)CurrentSession[_regFullDetails]; }
 			set { CurrentSession[_regFullDetails] = value; }
 		}
 
