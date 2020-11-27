@@ -1,6 +1,6 @@
 ﻿namespace Mstc.Core.Domain
 {
-	public enum MembershipType
+	public enum MembershipTypeEnum
 	{
 		Individual = 43,
 		Couple = 44,

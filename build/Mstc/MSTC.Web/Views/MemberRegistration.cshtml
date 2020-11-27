@@ -1,43 +1,55 @@
 ﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage<ContentModels.MemberRegistration>
 @using ContentModels = Umbraco.Web.PublishedContentModels;
 @{
-    Layout = "Master.cshtml";
+	Layout = "Master.cshtml";
 }
+@section Header {
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">
+}
+
 @{ Html.RenderPartial("~/Views/Partials/SectionHeader.cshtml"); }
 
 <div class="section">
-		<div class="container edit-member">
-			<div class="row">
-				<div class="col-sm-12">
-					@Model.Content.BodyText
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-sm-12">
-					@using (Html.BeginUmbracoForm("Register", "Registration", FormMethod.Post, new { id = "register", @class = "form-horizontal" }))
-                    {
-                        var model = new Mstc.Core.Domain.RegistrationDetails();
-
-						@Html.AntiForgeryToken()
-
-						Html.RenderPartial("~/Views/Partials/Registration/PersonalDetails.cshtml", model);
-
-						Html.RenderPartial("~/Views/Partials/Registration/MemberOptions.cshtml", model);
-
-						<div class="help-block alert-danger">
-							@Html.ValidationSummary()
-						</div>
-
-						<div class="form-group">
-							<div class="col-sm-10">
-								<button name="register" type="submit" class="btn btn-yellow pull-right">Register</button>
-							</div>
-							<div class="col-sm-2"></div>
-						</div>
-					}			
-				</div>
+	<div class="container edit-member">
+		<div class="row">
+			<div class="col-sm-12">
+				@Model.Content.BodyText
 			</div>
 		</div>
+		<div class="row">
+			<div class="col-sm-12">
+				@using (Html.BeginUmbracoForm("Register", "Registration", FormMethod.Post, new { id = "register", @class = "form-horizontal" }))
+				{
+					var model = new Mstc.Core.Domain.RegistrationDetails();
+
+					@Html.AntiForgeryToken()
+
+					Html.RenderPartial("~/Views/Partials/Registration/PersonalDetails.cshtml", model);
+
+					Html.RenderPartial("~/Views/Partials/Registration/MemberOptions.cshtml", model);
+
+					<div class="form-group">
+						<div class="col-sm-10">
+							<button name="register" type="submit" class="btn btn-yellow pull-right">Register</button>
+						</div>
+						<div class="col-sm-2"></div>
+					</div>
+				}
+			</div>
+		</div>
+	</div>
 </div>
+
+@section FooterScripts {
+	<script src="//code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
+	<script>
+		$(document).ready(function () {
+			$("input[name*='PersonalDetails.DateOfBirth']").datepicker({
+				dateFormat: 'dd/mm/yy', changeMonth: true, changeYear: true, maxDate: +0, yearRange: "c-60:c+20", defaultDate: "-30y"
+			});
+		});</script>
+}
+
+
 
 
