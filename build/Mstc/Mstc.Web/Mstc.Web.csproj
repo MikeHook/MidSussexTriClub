@@ -1668,6 +1668,7 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\RegistrationController.cs" />
     <Compile Include="Controllers\MemberController.cs" />
     <Compile Include="Model\ChangePasswordModel.cs" />
     <Compile Include="Model\ForgotPasswordModel.cs" />
@@ -1925,6 +1926,9 @@
     <Content Include="Views\ForgotPassword.cshtml" />
     <Content Include="Views\Partials\ChangePassword.cshtml" />
     <Content Include="Views\ChangePassword.cshtml" />
+    <Content Include="Views\MemberRegistration.cshtml" />
+    <Content Include="Views\Partials\Registration\PersonalDetails.cshtml" />
+    <Content Include="Views\Partials\Registration\MemberOptions.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

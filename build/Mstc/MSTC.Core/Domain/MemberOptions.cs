@@ -3,7 +3,7 @@
 namespace Mstc.Core.Domain
 {
 	[Serializable]
-	public class MembershipOptions
+	public class MemberOptions
 	{
 		public MembershipType MembershipType { get; set; }
 		public string SwimSubs1 { get; set; }
