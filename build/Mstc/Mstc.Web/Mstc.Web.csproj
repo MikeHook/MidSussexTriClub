@@ -373,7 +373,6 @@
     <Content Include="scripts\mstc\moment.js" />
     <Content Include="scripts\mstc\moment.min.js" />
     <Content Include="scripts\mstc\shared.js" />
-    <Content Include="scripts\umbraco-starterkit-app.js" />
     <Content Include="umbraco\Actions\delete.aspx" />
     <Content Include="umbraco\Actions\editContent.aspx" />
     <Content Include="umbraco\Actions\preview.aspx" />

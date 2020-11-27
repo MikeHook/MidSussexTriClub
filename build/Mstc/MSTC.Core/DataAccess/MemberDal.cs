@@ -170,7 +170,7 @@ namespace Mstc.Core.DataAccess
 				memberServiceDto.ProfileImageId = imageId;
 			}
 
-		    MembershipType membershipType;
+		    MembershipTypeEnum membershipType;
             Enum.TryParse(GetPropertyValueForAlias(groupedMemberData, "membershipType"), out membershipType);
 		    memberServiceDto.MembershipType = membershipType;
 
@@ -220,8 +220,8 @@ namespace Mstc.Core.DataAccess
 		
 			string membershipType = GetPropertyValueForAlias(groupedMemberData, MemberProperty.membershipType);
 			memberOptionsDto.MembershipType = string.IsNullOrEmpty(membershipType)
-				? (MembershipType?) null
-				: (MembershipType) Enum.Parse(typeof (MembershipType), membershipType);
+				? (MembershipTypeEnum?) null
+				: (MembershipTypeEnum) Enum.Parse(typeof (MembershipTypeEnum), membershipType);
 		
 			string membershipExpiry = GetPropertyValueForAlias(groupedMemberData, MemberProperty.MembershipExpiry);
 			memberOptionsDto.MembershipExpiry = string.IsNullOrEmpty(membershipExpiry) ? (DateTime?) null : DateTime.Parse(membershipExpiry);

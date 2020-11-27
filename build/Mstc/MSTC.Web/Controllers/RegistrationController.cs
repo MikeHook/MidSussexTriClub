@@ -22,6 +22,7 @@ namespace MSTC.Web.Controllers
         {
             if (ModelState.IsValid)
             {
+                //1. Check email not in use
                 
             }
             return CurrentUmbracoPage();

@@ -9,7 +9,7 @@ namespace Mstc.Core.Dto
 		public string Name { get; set; }
 		public string Email { get; set; }
 		public string Phone { get; set; }
-		public MembershipType? MembershipType { get; set; }
+		public MembershipTypeEnum? MembershipType { get; set; }
 		public string MembershipTypeString => MembershipType?.ToString();
 		public string SwimSubs1 { get; set; }
 		public string SwimSubs2 { get; set; }
@@ -36,7 +36,7 @@ namespace Mstc.Core.Dto
 		public string Postcode { get; set; }
 
 
-		public bool IsGuest => MembershipType.HasValue && MembershipType.Value == Domain.MembershipType.Guest;
+		public bool IsGuest => MembershipType.HasValue && MembershipType.Value == Domain.MembershipTypeEnum.Guest;
 
 	}
 }

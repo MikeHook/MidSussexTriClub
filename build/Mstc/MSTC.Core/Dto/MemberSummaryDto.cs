@@ -8,6 +8,6 @@ namespace Mstc.Core.Dto
 		public string Email { get; set; }
 		public string Phone { get; set; }
 		public int? ProfileImageId { get; set; }
-        public MembershipType MembershipType { get; set; }
+        public MembershipTypeEnum MembershipType { get; set; }
     }
 }

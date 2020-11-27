@@ -15,36 +15,36 @@ namespace Mstc.Core.Providers
 	/// </summary>
 	public class MemberProvider
 	{
-        public string GetSwimSub1Description(DateTime now)
+        public static string GetSwimSub1Description(DateTime now)
         {
             int year = now.Year;
             if (now.Month == 1 || now.Month == 2)
             {
                 year--;
             }
-            return string.Format("Apr to Sep {0}", year);
+            return string.Format("Swim subs Apr to Sep {0} - Standard &pound;30 / Concessions &pound;15", year);
         }
 
-        public string GetSwimSub2Description(DateTime now)
+        public static string GetSwimSub2Description(DateTime now)
         {
             int year = now.Year;
             if (now.Month == 1 || now.Month == 2)
             {
                 year--;
             }
-            return string.Format("Oct {0} to Mar {1}", year, (year + 1));
+            return string.Format("Swim subs Oct {0} to Mar {1} - Standard &pound;30 / Concessions &pound;15", year, (year + 1));
         }
 
         public string GetPaymentDescription(MemberOptions membershipOptions)
 		{
 			List<string> descriptionList = new List<string>() { membershipOptions.MembershipType.ToString() };
-			if (!string.IsNullOrWhiteSpace(membershipOptions.SwimSubs1))
+			if (membershipOptions.SwimSubs1)
 			{
-				descriptionList.Add(membershipOptions.SwimSubs1);
+				descriptionList.Add(GetSwimSub1Description(DateTime.Now));
 			}
-            if (!string.IsNullOrWhiteSpace(membershipOptions.SwimSubs2))
+            if (membershipOptions.SwimSubs2)
             {
-				descriptionList.Add(membershipOptions.SwimSubs2);
+				descriptionList.Add(GetSwimSub1Description(DateTime.Now));
 			}
 		    if (membershipOptions.EnglandAthleticsMembership)
 		    {
@@ -119,7 +119,7 @@ namespace Mstc.Core.Providers
             currentmemdata[MemberProperty.OpenWaterIndemnityAcceptance] = true;
 
             //Set SwimAuthNumber
-            MembershipType membershipType;
+            MembershipTypeEnum membershipType;
 	        Enum.TryParse(currentmemdata[MemberProperty.membershipType].ToString(), out membershipType);
             int swimAuthNumber = GetSwimAuthNumber(membershipType);
             currentmemdata[MemberProperty.SwimAuthNumber] = swimAuthNumber;
@@ -166,9 +166,9 @@ namespace Mstc.Core.Providers
 			currentmemdata[MemberProperty.GuestCode] = membershipOptions.GuestCode;
 			currentmemdata[MemberProperty.ReferredByMember] = membershipOptions.ReferredByMember;
 
-			if (membershipOptions.OpenWaterIndemnityAcceptance)
+			if (membershipOptions.OpenWaterIndemnityAcceptance.Value)
 			{
-				int swimAuthNumber = GetSwimAuthNumber(membershipOptions.MembershipType);
+				int swimAuthNumber = GetSwimAuthNumber(membershipOptions.MembershipType.Value);
 				currentmemdata[MemberProperty.SwimAuthNumber] = swimAuthNumber;
 			}
 
@@ -180,7 +180,7 @@ namespace Mstc.Core.Providers
             }
         }
 
-		private int GetSwimAuthNumber(MembershipType membershipType)
+		private int GetSwimAuthNumber(MembershipTypeEnum membershipType)
 		{
 			//Calculate the next available swim auth number
 			IMemberDal memberDal = new MemberDal(new DataConnection());
@@ -188,7 +188,7 @@ namespace Mstc.Core.Providers
 			IEnumerable<MemberOptionsDto> openWaterSwimmers = memberOptions.Where(m => m.SwimAuthNumber.HasValue);
 
 			int swimAuthNumber = 0;
-			if (membershipType != MembershipType.Guest)
+			if (membershipType != MembershipTypeEnum.Guest)
 			{
 				var swimMembers = openWaterSwimmers.Where(m => m.SwimAuthNumber < 1000).OrderBy(m => m.SwimAuthNumber);
 				swimAuthNumber = swimMembers.Any() ? swimMembers.Last().SwimAuthNumber.Value + 1 : 1;

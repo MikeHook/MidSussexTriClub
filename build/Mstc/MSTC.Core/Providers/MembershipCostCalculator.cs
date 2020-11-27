@@ -9,11 +9,11 @@ namespace Mstc.Core.Providers
 	/// </summary>
 	public class MembershipCostCalculator
 	{
-		private static Dictionary<MembershipType, int> TypeCosts = new Dictionary<MembershipType, int>()
+		private static Dictionary<MembershipTypeEnum, int> TypeCosts = new Dictionary<MembershipTypeEnum, int>()
 		{
-			{MembershipType.Individual, 4000},
-			{MembershipType.Couple,3500},
-			{MembershipType.Concession, 2000},
+			{MembershipTypeEnum.Individual, 4000},
+			{MembershipTypeEnum.Couple,3500},
+			{MembershipTypeEnum.Concession, 2000},
 		};
 
 		public static List<int> DiscountedMonths
@@ -21,14 +21,14 @@ namespace Mstc.Core.Providers
 			get { return new List<int>() {10, 11, 12, 1, 2}; }
 		}
 
-        public static int SwimsSubsCostInPence(MembershipType type)
+        public static int SwimsSubsCostInPence(MembershipTypeEnum type)
         {
-            return type == MembershipType.Concession ? 1500 : 3000;
+            return type == MembershipTypeEnum.Concession ? 1500 : 3000;
         }
 	    public static int EnglandAthleticsCostInPence = 1600;
 	    public static int OwsTasterCost = 600;
 
-		public static int GetTypeCostPence(MembershipType type, DateTime currentDate)
+		public static int GetTypeCostPence(MembershipTypeEnum type, DateTime currentDate)
 		{
             int cost = DiscountedMonths.Contains(currentDate.Month)                 
                 ? TypeCosts[type]/2 
@@ -38,14 +38,14 @@ namespace Mstc.Core.Providers
 
 		public static int Calculate(MemberOptions membershipOptions, DateTime currentDate)
 		{
-			var cost = GetTypeCostPence(membershipOptions.MembershipType, currentDate);		
-			if (!string.IsNullOrWhiteSpace(membershipOptions.SwimSubs1))
+			var cost = GetTypeCostPence(membershipOptions.MembershipType.Value, currentDate);		
+			if (membershipOptions.SwimSubs1)
 			{
-				cost += SwimsSubsCostInPence(membershipOptions.MembershipType);
+				cost += SwimsSubsCostInPence(membershipOptions.MembershipType.Value);
 			}
-			if (!string.IsNullOrWhiteSpace(membershipOptions.SwimSubs2))
+			if (membershipOptions.SwimSubs2)
 			{
-				cost += SwimsSubsCostInPence(membershipOptions.MembershipType);
+				cost += SwimsSubsCostInPence(membershipOptions.MembershipType.Value);
             }
 		    if (membershipOptions.EnglandAthleticsMembership)
 		    {
@@ -60,7 +60,7 @@ namespace Mstc.Core.Providers
 			return (int) credits * 100;
 		}
 
-        public static int PaymentStateCost(PaymentStates state, bool hasBTFNumber, MembershipType type)
+        public static int PaymentStateCost(PaymentStates state, bool hasBTFNumber, MembershipTypeEnum type)
         {
             switch (state)
             {
