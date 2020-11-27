@@ -1,1 +1,0 @@
-﻿The files are are copied from the umbraco source as they are not included in the compiled copy for version 4.7

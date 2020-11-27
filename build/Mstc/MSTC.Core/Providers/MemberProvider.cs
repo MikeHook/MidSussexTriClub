@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using cFront.Umbraco;
 using Mstc.Core.DataAccess;
 using Mstc.Core.Domain;
 using Mstc.Core.Dto;
-using umbraco.cms.businesslogic.property;
 using System.Web.Security;
 
 namespace Mstc.Core.Providers
@@ -35,7 +33,7 @@ namespace Mstc.Core.Providers
             return string.Format("Swim subs Oct {0} to Mar {1} - Standard &pound;30 / Concessions &pound;15", year, (year + 1));
         }
 
-        public string GetPaymentDescription(MemberOptions membershipOptions)
+        public static string GetPaymentDescription(MemberOptions membershipOptions)
 		{
 			List<string> descriptionList = new List<string>() { membershipOptions.MembershipType.ToString() };
 			if (membershipOptions.SwimSubs1)
@@ -60,77 +58,77 @@ namespace Mstc.Core.Providers
 				? new DateTime(DateTime.Now.Year, 4, 1)
 				: new DateTime(DateTime.Now.Year + 1, 4, 1);
 		}
+		
+		//public umbraco.cms.businesslogic.member.Member CreateMember(PersonalDetails regDetails, string[] roles)
+		//{
+		//	return MemberHelper.Create(regDetails.Email, regDetails.Password, $"{regDetails.FirstName} {regDetails.LastName}", regDetails.Email, "Member",
+		//		roles);
+		//}
 
-		public umbraco.cms.businesslogic.member.Member CreateMember(PersonalDetails regDetails, string[] roles)
-		{
-			return MemberHelper.Create(regDetails.Email, regDetails.Password, $"{regDetails.FirstName} {regDetails.LastName}", regDetails.Email, "Member",
-				roles);
-		}
+		//public void UpdateMemberDetails(umbraco.cms.businesslogic.member.Member member, RegistrationDetails regDetails)
+		//{
+		//	IDictionary<String, object> currentmemdata = MemberHelper.Get(member);
 
-		public void UpdateMemberDetails(umbraco.cms.businesslogic.member.Member member, RegistrationDetails regDetails)
-		{
-			IDictionary<String, object> currentmemdata = MemberHelper.Get(member);
+		//	SetMemberDetails(currentmemdata, regDetails.PersonalDetails);
+		//	var membershipExpiry = GetNewMemberExpiry(DateTime.Now);
+  //          bool zeroSwimCredits = true;
+  //          bool resetEventEntries = false;
 
-			SetMemberDetails(currentmemdata, regDetails.PersonalDetails);
-			var membershipExpiry = GetNewMemberExpiry(DateTime.Now);
-            bool zeroSwimCredits = true;
-            bool resetEventEntries = false;
+  //          SetMembershipOptions(currentmemdata, regDetails.MemberOptions, membershipExpiry, zeroSwimCredits, resetEventEntries);
 
-            SetMembershipOptions(currentmemdata, regDetails.MemberOptions, membershipExpiry, zeroSwimCredits, resetEventEntries);
+		//	foreach (Property property in (List<Property>)member.GenericProperties)
+		//	{
+		//		if (currentmemdata.ContainsKey(property.PropertyType.Alias))
+		//			property.Value = currentmemdata[property.PropertyType.Alias];
+		//	}
+		//	member.Save();
+		//}
 
-			foreach (Property property in (List<Property>)member.GenericProperties)
-			{
-				if (currentmemdata.ContainsKey(property.PropertyType.Alias))
-					property.Value = currentmemdata[property.PropertyType.Alias];
-			}
-			member.Save();
-		}
+		//public void UpdateMemberOptions(umbraco.cms.businesslogic.member.Member member, MemberOptions membershipOptions, bool resetEventEntries, bool isUpgrade)
+		//{
+		//	IDictionary<String, object> currentmemdata = MemberHelper.Get(member);
 
-		public void UpdateMemberOptions(umbraco.cms.businesslogic.member.Member member, MemberOptions membershipOptions, bool resetEventEntries, bool isUpgrade)
-		{
-			IDictionary<String, object> currentmemdata = MemberHelper.Get(member);
+		//	var membershipExpiry = GetNewMemberExpiry(DateTime.Now);
+  //          bool zeroSwimCredits = false;
 
-			var membershipExpiry = GetNewMemberExpiry(DateTime.Now);
-            bool zeroSwimCredits = false;
+  //          SetMembershipOptions(currentmemdata, membershipOptions, membershipExpiry, zeroSwimCredits, resetEventEntries);
 
-            SetMembershipOptions(currentmemdata, membershipOptions, membershipExpiry, zeroSwimCredits, resetEventEntries);
+		//	foreach (Property property in (List<Property>)member.GenericProperties)
+		//	{
+		//		if (currentmemdata.ContainsKey(property.PropertyType.Alias))
+		//			property.Value = currentmemdata[property.PropertyType.Alias];
+		//	}
 
-			foreach (Property property in (List<Property>)member.GenericProperties)
-			{
-				if (currentmemdata.ContainsKey(property.PropertyType.Alias))
-					property.Value = currentmemdata[property.PropertyType.Alias];
-			}
+  //          if (isUpgrade)
+  //          {
+  //              string username = member.Email;
+  //              Roles.RemoveUserFromRole(username, MSTCRoles.Guest);
+  //              Roles.AddUserToRole(username, MSTCRoles.Member);
+  //          }
 
-            if (isUpgrade)
-            {
-                string username = member.Email;
-                Roles.RemoveUserFromRole(username, MSTCRoles.Guest);
-                Roles.AddUserToRole(username, MSTCRoles.Member);
-            }
+  //          member.Save();
+		//}
 
-            member.Save();
-		}
+	    //public void AcceptOpenWaterWaiver(umbraco.cms.businesslogic.member.Member member)
+	    //{
+     //       IDictionary<String, object> currentmemdata = MemberHelper.Get(member);
 
-	    public void AcceptOpenWaterWaiver(umbraco.cms.businesslogic.member.Member member)
-	    {
-            IDictionary<String, object> currentmemdata = MemberHelper.Get(member);
+     //       //Set OpenWaterIndemnityAcceptance
+     //       currentmemdata[MemberProperty.OpenWaterIndemnityAcceptance] = true;
 
-            //Set OpenWaterIndemnityAcceptance
-            currentmemdata[MemberProperty.OpenWaterIndemnityAcceptance] = true;
+     //       //Set SwimAuthNumber
+     //       MembershipTypeEnum membershipType;
+	    //    Enum.TryParse(currentmemdata[MemberProperty.membershipType].ToString(), out membershipType);
+     //       int swimAuthNumber = GetSwimAuthNumber(membershipType);
+     //       currentmemdata[MemberProperty.SwimAuthNumber] = swimAuthNumber;
 
-            //Set SwimAuthNumber
-            MembershipTypeEnum membershipType;
-	        Enum.TryParse(currentmemdata[MemberProperty.membershipType].ToString(), out membershipType);
-            int swimAuthNumber = GetSwimAuthNumber(membershipType);
-            currentmemdata[MemberProperty.SwimAuthNumber] = swimAuthNumber;
-
-            foreach (Property property in (List<Property>)member.GenericProperties)
-            {
-                if (currentmemdata.ContainsKey(property.PropertyType.Alias))
-                    property.Value = currentmemdata[property.PropertyType.Alias];
-            }
-            member.Save();
-        }
+     //       foreach (Property property in (List<Property>)member.GenericProperties)
+     //       {
+     //           if (currentmemdata.ContainsKey(property.PropertyType.Alias))
+     //               property.Value = currentmemdata[property.PropertyType.Alias];
+     //       }
+     //       member.Save();
+     //   }
 
 		private void SetMemberDetails(IDictionary<String, object> currentmemdata, PersonalDetails registrationDetails)
 		{

@@ -22,7 +22,7 @@
         @Html.LabelFor(m => m.PersonalDetails.Email, new { @class = "col-sm-2 control-label" })
         <div class="col-sm-7">
             @Html.TextBoxFor(m => m.PersonalDetails.Email, new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.PersonalDetails.Email, "Please enter your email address", new { @class = "help-block alert-danger" })
+            @Html.ValidationMessage("PersonalDetails.Email", new { @class = "help-block alert-danger" })
         </div>
     </div>
     <div class="form-group">

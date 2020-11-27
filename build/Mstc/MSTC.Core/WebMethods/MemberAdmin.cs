@@ -6,14 +6,14 @@ using Mstc.Core.DataAccess;
 using Mstc.Core.Dto;
 using Newtonsoft.Json;
 using umbraco.BusinessLogic;
-using umbraco.presentation.umbracobase;
+using Umbraco.Web.BaseRest;
 
 namespace Mstc.Core.WebMethods
 {
 	[RestExtension("MemberAdmin")]
 	public class MemberAdmin
 	{
-		[RestExtensionMethod(returnXml = false, allowAll = false, allowGroup = "MemberAdmin")]
+		[RestExtensionMethod(ReturnXml = false, AllowAll = false, AllowGroup = "MemberAdmin")]
 		public static string Get()
 		{
 			try

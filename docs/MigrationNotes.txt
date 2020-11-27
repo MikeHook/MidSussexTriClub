@@ -1,6 +1,7 @@
 Member migration
 ----------------
 server=.\SQLEXPRESS2019;database=mstc_live;user id=mstcuser;password=Mult1M4dn355;
+
 - Use the 'Member' import not MemberService
 - Tick the 'Store password as clear text' option on the password field
 - Add the extra MemberType fields into the new CMS first
@@ -43,9 +44,11 @@ MSTC Member Registration
 MSTC Member Registration Complete
 MSTC OWS Taster Registration
 MSTC OWS Taster Registration Complete
+MSTC Member Renewal / Upgrade
+
 MSTC Member Services
 MSTC Member Edit
-MSTC Member Renewal
+
 MSTC Member Admin
 MSTC Payment Complete
 MSTC Unlink bank

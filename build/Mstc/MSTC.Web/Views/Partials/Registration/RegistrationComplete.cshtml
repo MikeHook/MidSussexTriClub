@@ -1,0 +1,25 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<MSTC.Web.Model.RegistrationCompleteModel>
+
+@if (Model.PromptForConfirmation) {
+
+    using (Html.BeginUmbracoForm("ConfirmPayment", "Registration", FormMethod.Post, new { id = "register", @class = "form-horizontal" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <p>Your selected membership options:</p>
+        <p><strong>@Html.Raw(Model.PaymentDescription)</strong></p>
+        <p>Would like to register for Mid Sussex Tri Club for <strong>£@Model.Cost?</strong></p>
+        <button name="confirm" type="submit" class="btn btn-yellow pull-right">Confirm Payment</button>
+    }
+
+} else if (Model.IsRegistered) {
+
+<p>Thank you for registering with the Mid Sussex Tri Club! We have setup a payment for £@Model.Cost</p>
+
+<p>Please go to <a href="/members-area/my-details">your details page</a> to make sure your information is up to date and retrieve your open water swim authorisation number.</p>
+
+} else {
+
+<p>Sorry, there has been a problem completing your registration. Please <a href="the-club/contact-us.aspx">send us a message</a> for further assistance </p>
+
+}
