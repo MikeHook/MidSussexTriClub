@@ -12,7 +12,7 @@ namespace Mstc.Core.DataAccess
 	{
 		public IDbConnection SqlConnection
 		{
-			get { return new SqlConnection(ConfigurationManager.AppSettings["triclubDSN"]); }
+			get { return new SqlConnection(ConfigurationManager.ConnectionStrings["umbracoDbDSN"].ConnectionString); }
 		}
 	}
 

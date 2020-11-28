@@ -23,7 +23,7 @@ namespace Mstc.Core.Providers
 			set { CurrentSession[_renewalOptionsKey] = value; }
 		}
 
-		public RegistrationDetails RegistrationFullDetails
+		public RegistrationDetails RegistrationDetails
 		{
 			get { return (RegistrationDetails)CurrentSession[_regFullDetails]; }
 			set { CurrentSession[_regFullDetails] = value; }
