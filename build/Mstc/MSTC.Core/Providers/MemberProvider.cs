@@ -5,6 +5,8 @@ using Mstc.Core.DataAccess;
 using Mstc.Core.Domain;
 using Mstc.Core.Dto;
 using System.Web.Security;
+using Umbraco.Core.Services;
+using Umbraco.Core.Models;
 
 namespace Mstc.Core.Providers
 {
@@ -13,24 +15,31 @@ namespace Mstc.Core.Providers
 	/// </summary>
 	public class MemberProvider
 	{
-        public static string GetSwimSub1Description(DateTime now)
+		private readonly IMemberService _memberService;
+
+		public MemberProvider(IMemberService memberService)
+		{
+			_memberService = memberService;
+		}
+
+        public static string GetSwimSub1Description(DateTime now, bool includePricing)
         {
             int year = now.Year;
             if (now.Month == 1 || now.Month == 2)
             {
                 year--;
             }
-            return string.Format("Swim subs Apr to Sep {0} - Standard &pound;30 / Concessions &pound;15", year);
+            return string.Format("Swim subs Apr to Sep {0}{1}", year, includePricing ? " - Standard &pound;30 / Concessions &pound;15" : "");
         }
 
-        public static string GetSwimSub2Description(DateTime now)
+        public static string GetSwimSub2Description(DateTime now, bool includePricing)
         {
             int year = now.Year;
             if (now.Month == 1 || now.Month == 2)
             {
                 year--;
             }
-            return string.Format("Swim subs Oct {0} to Mar {1} - Standard &pound;30 / Concessions &pound;15", year, (year + 1));
+            return string.Format("Swim subs Oct {0} to Mar {1}{2}", year, (year + 1), includePricing ? " - Standard &pound;30 / Concessions &pound;15" : "");
         }
 
         public static string GetPaymentDescription(MemberOptions membershipOptions)
@@ -38,11 +47,11 @@ namespace Mstc.Core.Providers
 			List<string> descriptionList = new List<string>() { membershipOptions.MembershipType.ToString() };
 			if (membershipOptions.SwimSubs1)
 			{
-				descriptionList.Add(GetSwimSub1Description(DateTime.Now));
+				descriptionList.Add(GetSwimSub1Description(DateTime.Now, true));
 			}
             if (membershipOptions.SwimSubs2)
             {
-				descriptionList.Add(GetSwimSub1Description(DateTime.Now));
+				descriptionList.Add(GetSwimSub1Description(DateTime.Now, true));
 			}
 		    if (membershipOptions.EnglandAthleticsMembership)
 		    {
@@ -58,40 +67,38 @@ namespace Mstc.Core.Providers
 				? new DateTime(DateTime.Now.Year, 4, 1)
 				: new DateTime(DateTime.Now.Year + 1, 4, 1);
 		}
-		
-		//public umbraco.cms.businesslogic.member.Member CreateMember(PersonalDetails regDetails, string[] roles)
-		//{
-		//	return MemberHelper.Create(regDetails.Email, regDetails.Password, $"{regDetails.FirstName} {regDetails.LastName}", regDetails.Email, "Member",
-		//		roles);
-		//}
 
-		//public void UpdateMemberDetails(umbraco.cms.businesslogic.member.Member member, RegistrationDetails regDetails)
-		//{
-		//	IDictionary<String, object> currentmemdata = MemberHelper.Get(member);
+		public IMember CreateMember(PersonalDetails regDetails, string[] roles)
+		{
+			IMember member = _memberService.CreateMember(regDetails.Email, regDetails.Email, $"{regDetails.FirstName} {regDetails.LastName}", "Member");
+			_memberService.Save(member);
+			_memberService.SavePassword(member, regDetails.Password);
 
-		//	SetMemberDetails(currentmemdata, regDetails.PersonalDetails);
-		//	var membershipExpiry = GetNewMemberExpiry(DateTime.Now);
-  //          bool zeroSwimCredits = true;
-  //          bool resetEventEntries = false;
+			foreach (var role in roles) {
+				_memberService.AssignRole(member.Id, role);
+			}
+			return member;
+		}
 
-  //          SetMembershipOptions(currentmemdata, regDetails.MemberOptions, membershipExpiry, zeroSwimCredits, resetEventEntries);
+		public void UpdateMemberDetails(IMember member, RegistrationDetails regDetails)
+		{
+			SetMemberDetails(member, regDetails.PersonalDetails);
+			var membershipExpiry = GetNewMemberExpiry(DateTime.Now);
+			bool zeroSwimCredits = true;			
 
-		//	foreach (Property property in (List<Property>)member.GenericProperties)
-		//	{
-		//		if (currentmemdata.ContainsKey(property.PropertyType.Alias))
-		//			property.Value = currentmemdata[property.PropertyType.Alias];
-		//	}
-		//	member.Save();
-		//}
+			SetMembershipOptions(member, regDetails.MemberOptions, membershipExpiry, zeroSwimCredits);
+
+			_memberService.Save(member);
+		}
 
 		//public void UpdateMemberOptions(umbraco.cms.businesslogic.member.Member member, MemberOptions membershipOptions, bool resetEventEntries, bool isUpgrade)
 		//{
 		//	IDictionary<String, object> currentmemdata = MemberHelper.Get(member);
 
 		//	var membershipExpiry = GetNewMemberExpiry(DateTime.Now);
-  //          bool zeroSwimCredits = false;
+		//          bool zeroSwimCredits = false;
 
-  //          SetMembershipOptions(currentmemdata, membershipOptions, membershipExpiry, zeroSwimCredits, resetEventEntries);
+		//          SetMembershipOptions(currentmemdata, membershipOptions, membershipExpiry, zeroSwimCredits, resetEventEntries);
 
 		//	foreach (Property property in (List<Property>)member.GenericProperties)
 		//	{
@@ -99,83 +106,84 @@ namespace Mstc.Core.Providers
 		//			property.Value = currentmemdata[property.PropertyType.Alias];
 		//	}
 
-  //          if (isUpgrade)
-  //          {
-  //              string username = member.Email;
-  //              Roles.RemoveUserFromRole(username, MSTCRoles.Guest);
-  //              Roles.AddUserToRole(username, MSTCRoles.Member);
-  //          }
+		//          if (isUpgrade)
+		//          {
+		//              string username = member.Email;
+		//              Roles.RemoveUserFromRole(username, MSTCRoles.Guest);
+		//              Roles.AddUserToRole(username, MSTCRoles.Member);
+		//          }
 
-  //          member.Save();
+		//          member.Save();
 		//}
 
-	    //public void AcceptOpenWaterWaiver(umbraco.cms.businesslogic.member.Member member)
-	    //{
-     //       IDictionary<String, object> currentmemdata = MemberHelper.Get(member);
+		//public void AcceptOpenWaterWaiver(umbraco.cms.businesslogic.member.Member member)
+		//{
+		//       IDictionary<String, object> currentmemdata = MemberHelper.Get(member);
 
-     //       //Set OpenWaterIndemnityAcceptance
-     //       currentmemdata[MemberProperty.OpenWaterIndemnityAcceptance] = true;
+		//       //Set OpenWaterIndemnityAcceptance
+		//       currentmemdata[MemberProperty.OpenWaterIndemnityAcceptance] = true;
 
-     //       //Set SwimAuthNumber
-     //       MembershipTypeEnum membershipType;
-	    //    Enum.TryParse(currentmemdata[MemberProperty.membershipType].ToString(), out membershipType);
-     //       int swimAuthNumber = GetSwimAuthNumber(membershipType);
-     //       currentmemdata[MemberProperty.SwimAuthNumber] = swimAuthNumber;
+		//       //Set SwimAuthNumber
+		//       MembershipTypeEnum membershipType;
+		//    Enum.TryParse(currentmemdata[MemberProperty.membershipType].ToString(), out membershipType);
+		//       int swimAuthNumber = GetSwimAuthNumber(membershipType);
+		//       currentmemdata[MemberProperty.SwimAuthNumber] = swimAuthNumber;
 
-     //       foreach (Property property in (List<Property>)member.GenericProperties)
-     //       {
-     //           if (currentmemdata.ContainsKey(property.PropertyType.Alias))
-     //               property.Value = currentmemdata[property.PropertyType.Alias];
-     //       }
-     //       member.Save();
-     //   }
+		//       foreach (Property property in (List<Property>)member.GenericProperties)
+		//       {
+		//           if (currentmemdata.ContainsKey(property.PropertyType.Alias))
+		//               property.Value = currentmemdata[property.PropertyType.Alias];
+		//       }
+		//       member.Save();
+		//   }
 
-		private void SetMemberDetails(IDictionary<String, object> currentmemdata, PersonalDetails registrationDetails)
+		private void SetMemberDetails(IMember member, PersonalDetails registrationDetails)
 		{
-			currentmemdata[MemberProperty.Gender] = registrationDetails.Gender;
-			currentmemdata[MemberProperty.DateOfBirth] = registrationDetails.DateOfBirth;
-			currentmemdata[MemberProperty.Address1] = registrationDetails.Address1;
-			currentmemdata[MemberProperty.Address2] = registrationDetails.City;
-			currentmemdata[MemberProperty.Postcode] = registrationDetails.Postcode;
-			currentmemdata[MemberProperty.Phone] = registrationDetails.PhoneNumber;
-			currentmemdata[MemberProperty.BTFNumber] = registrationDetails.BTFNumber;
+			member.SetValue(MemberProperty.Gender, registrationDetails.Gender);
+			member.SetValue(MemberProperty.DateOfBirth, registrationDetails.DateOfBirth);
+			member.SetValue(MemberProperty.Address1, registrationDetails.Address1);
+			member.SetValue(MemberProperty.City, registrationDetails.City);
+			member.SetValue(MemberProperty.Postcode, registrationDetails.Postcode);
+			member.SetValue(MemberProperty.Phone, registrationDetails.PhoneNumber);
+			member.SetValue(MemberProperty.BTFNumber, registrationDetails.BTFNumber);
 
-			currentmemdata[MemberProperty.medicalConditions] = registrationDetails.MedicalConditions;
-			currentmemdata[MemberProperty.emergencyContactName] = registrationDetails.EmergencyContactName;
-			currentmemdata[MemberProperty.emergencyContactNumber] = registrationDetails.EmergencyContactPhone;
-			currentmemdata[MemberProperty.directDebitMandateId] = registrationDetails.DirectDebitMandateId;
-
+			member.SetValue(MemberProperty.medicalConditions, registrationDetails.MedicalConditions);
+			member.SetValue(MemberProperty.emergencyContactName, registrationDetails.EmergencyContactName);
+			member.SetValue(MemberProperty.emergencyContactNumber, registrationDetails.EmergencyContactPhone);
+			member.SetValue(MemberProperty.directDebitMandateId, registrationDetails.DirectDebitMandateId);
         }
 
-		private void SetMembershipOptions(IDictionary<String, object> currentmemdata, MemberOptions membershipOptions, DateTime membershipExpiry, bool zeroSwimCredits, bool resetEventEntries)
+		private void SetMembershipOptions(IMember member, MemberOptions membershipOptions, DateTime membershipExpiry, bool zeroSwimCredits)
 		{
-			currentmemdata[MemberProperty.membershipType] = ((int)membershipOptions.MembershipType).ToString();
-			currentmemdata[MemberProperty.OpenWaterIndemnityAcceptance] = membershipOptions.OpenWaterIndemnityAcceptance;
-            //todo - Set these to the right strings
-            currentmemdata[MemberProperty.swimSubs1] = membershipOptions.SwimSubs1;
-			currentmemdata[MemberProperty.swimSubs2] = membershipOptions.SwimSubs2;
-		    currentmemdata[MemberProperty.EnglandAthleticsMembership] = membershipOptions.EnglandAthleticsMembership;
-			currentmemdata[MemberProperty.Volunteering] = membershipOptions.Volunteering;
-			currentmemdata[MemberProperty.MembershipExpiry] = membershipExpiry;
+			member.SetValue(MemberProperty.membershipType, ((int)membershipOptions.MembershipType).ToString());
+			member.SetValue(MemberProperty.OpenWaterIndemnityAcceptance, membershipOptions.OpenWaterIndemnityAcceptance);
+	
+			if (membershipOptions.SwimSubs1)
+			{
+				member.SetValue(MemberProperty.swimSubs1, GetSwimSub1Description(DateTime.Now, false));				
+			}
+			if (membershipOptions.SwimSubs2)
+			{
+				member.SetValue(MemberProperty.swimSubs2, GetSwimSub2Description(DateTime.Now, false));
+			}
+
+			member.SetValue(MemberProperty.EnglandAthleticsMembership, membershipOptions.EnglandAthleticsMembership);
+			member.SetValue(MemberProperty.Volunteering, membershipOptions.Volunteering);
+			member.SetValue(MemberProperty.MembershipExpiry, membershipExpiry);
+		
 			if (zeroSwimCredits)
 			{
-				currentmemdata[MemberProperty.SwimCreditsBought] = 0;
+				member.SetValue(MemberProperty.CreditsBought, 0);
+		
 			}
-			currentmemdata[MemberProperty.GuestCode] = membershipOptions.GuestCode;
-			currentmemdata[MemberProperty.ReferredByMember] = membershipOptions.ReferredByMember;
+			member.SetValue(MemberProperty.GuestCode, membershipOptions.GuestCode);
+			member.SetValue(MemberProperty.ReferredByMember, membershipOptions.ReferredByMember);
 
 			if (membershipOptions.OpenWaterIndemnityAcceptance.Value)
 			{
 				int swimAuthNumber = GetSwimAuthNumber(membershipOptions.MembershipType.Value);
-				currentmemdata[MemberProperty.SwimAuthNumber] = swimAuthNumber;
-			}
-
-            if (resetEventEntries)
-            {
-                currentmemdata[MemberProperty.DuathlonEntry] = "";
-                currentmemdata[MemberProperty.TriFestEntry] = "";
-                currentmemdata[MemberProperty.CharitySwimEntry] = "";
-            }
+				member.SetValue(MemberProperty.SwimAuthNumber, swimAuthNumber);
+			}            
         }
 
 		private int GetSwimAuthNumber(MembershipTypeEnum membershipType)

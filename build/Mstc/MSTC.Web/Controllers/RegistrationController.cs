@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Configuration;
 using System.Web.Mvc;
+using System.Web.Security;
 using Mstc.Core.Domain;
 using Mstc.Core.Dto;
 using Mstc.Core.Providers;
@@ -13,12 +15,17 @@ namespace MSTC.Web.Controllers
     {
         protected SessionProvider _sessionProvider;
         protected GoCardlessProvider _goCardlessProvider;
+        EmailProvider _emailProvider;
+        MemberProvider _memberProvider;
+
 
         public RegistrationController( )
         {
             //TODO - Use IoC?
             _sessionProvider = new SessionProvider();
             _goCardlessProvider = new GoCardlessProvider();
+            _emailProvider = new EmailProvider();
+            _memberProvider = new MemberProvider(Services.MemberService);
         }
 
 
@@ -40,7 +47,7 @@ namespace MSTC.Web.Controllers
                 return CurrentUmbracoPage();
             }        
 
-            _sessionProvider.RegistrationFullDetails = model;
+            _sessionProvider.RegistrationDetails = model;
 
             Logger.Info(typeof(RegistrationController), $"New member registration request: {JsonConvert.SerializeObject(model)}");     
 
@@ -66,18 +73,18 @@ namespace MSTC.Web.Controllers
 
         public ActionResult RenderRegistrationComplete()
         {
-            var registrationFullDetails = _sessionProvider.RegistrationFullDetails;
-            if (registrationFullDetails == null)
+            var registrationDetails = _sessionProvider.RegistrationDetails;
+            if (registrationDetails == null)
             {
                 return PartialView("Registration/RegistrationComplete", new RegistrationCompleteModel());
             }
 
-            int costInPence = MembershipCostCalculator.Calculate(registrationFullDetails.MemberOptions, DateTime.Now);
+            int costInPence = MembershipCostCalculator.Calculate(registrationDetails.MemberOptions, DateTime.Now);
 
             var model = new RegistrationCompleteModel()
             {
-                PromptForConfirmation = registrationFullDetails != null,
-                PaymentDescription = MemberProvider.GetPaymentDescription(registrationFullDetails.MemberOptions),
+                PromptForConfirmation = registrationDetails != null,
+                PaymentDescription = MemberProvider.GetPaymentDescription(registrationDetails.MemberOptions),
                 Cost = (costInPence / 100m).ToString("N2")
             };
 
@@ -88,6 +95,54 @@ namespace MSTC.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult ConfirmPayment(RegistrationCompleteModel model)
         {
+            var registrationDetails = _sessionProvider.RegistrationDetails;
+            if (registrationDetails == null || string.IsNullOrWhiteSpace(_sessionProvider.GoCardlessRedirectFlowId))
+            {
+                return PartialView("Registration/RegistrationComplete", new RegistrationCompleteModel());
+            }
+
+            string mandateId = _goCardlessProvider.CompleteRedirectRequest(_sessionProvider.GoCardlessRedirectFlowId, _sessionProvider.SessionId);
+            registrationDetails.PersonalDetails.DirectDebitMandateId = mandateId;
+
+            var regDetails = registrationDetails.PersonalDetails;
+            int costInPence = MembershipCostCalculator.Calculate(registrationDetails.MemberOptions, DateTime.Now);
+            var paymentDescription = MemberProvider.GetPaymentDescription(registrationDetails.MemberOptions);
+            var paymentResponse = _goCardlessProvider.CreatePayment(Logger, regDetails.DirectDebitMandateId, regDetails.Email, costInPence, paymentDescription);
+
+            model.PromptForConfirmation = false;
+            model.IsRegistered = paymentResponse == PaymentResponseDto.Success;
+
+            if (model.IsRegistered)
+            {
+                
+                var member = _memberProvider.CreateMember(regDetails, new string[] { MSTCRoles.Member });
+                _memberProvider.UpdateMemberDetails(member, registrationDetails);
+
+                //Login the member
+                FormsAuthentication.SetAuthCookie(member.Username, true);
+
+                string content = string.Format("<p>A new member has registered with the club</p><p>Member details: {0}</p>",
+                    JsonConvert.SerializeObject(registrationDetails, Formatting.Indented));
+                var passwordObfuscator = new PasswordObfuscator();
+                content = passwordObfuscator.ObfuscateString(content);
+
+                _emailProvider.SendEmail(EmailProvider.MembersEmail, EmailProvider.SupportEmail,
+                    "New MSTC member registration", content);
+
+                _sessionProvider.RegistrationDetails = null;
+                _sessionProvider.GoCardlessRedirectFlowId = null;
+            }
+            else
+            {
+                string content = string.Format("<p>A new member has NOT been registered with the club</p><p>Member details: {0}</p>",
+                    JsonConvert.SerializeObject(registrationDetails, Formatting.Indented));
+                var passwordObfuscator = new PasswordObfuscator();
+                content = passwordObfuscator.ObfuscateString(content);
+
+                _emailProvider.SendEmail(EmailProvider.SupportEmail, EmailProvider.SupportEmail,
+                    "MSTC member registration problem", content);
+            }
+
             return CurrentUmbracoPage();
         }
     }

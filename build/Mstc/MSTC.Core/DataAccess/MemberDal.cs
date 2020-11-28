@@ -85,13 +85,13 @@ namespace Mstc.Core.DataAccess
 		{
 			string query = BaseSelectQuery +
 			               string.Format(@" WHERE	(MemberList.nodeId IS NOT NULL)
-					        and MemberTypes.Alias in ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '{8}', '{9}', '{10}', '{11}', '{12}', '{13}', '{14}', '{15}', '{16}', '{17}', '{18}', '{19}', '{20}', '{21}', '{22}', '{23}')",
+					        and MemberTypes.Alias in ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '{8}', '{9}', '{10}', '{11}', '{12}', '{13}', '{14}', '{15}', '{16}', '{17}', '{18}')",
 				               MemberProperty.Phone, MemberProperty.membershipType, MemberProperty.swimSubs1,
 				               MemberProperty.swimSubs2, MemberProperty.OpenWaterIndemnityAcceptance,
 				               MemberProperty.Volunteering, MemberProperty.MembershipExpiry, MemberProperty.SwimAuthNumber,
-				               MemberProperty.DuathlonEntry, MemberProperty.SwimCreditsBought, MemberProperty.SwimCreditsUsed,
-				               MemberProperty.TriFestEntry, MemberProperty.TriathlonIndemnityAcceptance, MemberProperty.CharitySwimEntry, MemberProperty.SwimBalanceLastYear, MemberProperty.EnglandAthleticsMembership, MemberProperty.RelayTeamName, 
-							   MemberProperty.BTFNumber, MemberProperty.Gender, MemberProperty.DateOfBirth, MemberProperty.Address1, MemberProperty.Address2, MemberProperty.Address3, MemberProperty.Postcode);
+				               MemberProperty.CreditsBought, MemberProperty.CreditsUsed,
+				               MemberProperty.TriathlonIndemnityAcceptance, MemberProperty.CreditsRemainingLastYear, MemberProperty.EnglandAthleticsMembership, 
+							   MemberProperty.BTFNumber, MemberProperty.Gender, MemberProperty.DateOfBirth, MemberProperty.Address1, MemberProperty.City, MemberProperty.Postcode);
 
 			IEnumerable<MemberData> memberData;
 			using (IDbConnection connection = _dataConnection.SqlConnection)
@@ -129,7 +129,7 @@ namespace Mstc.Core.DataAccess
 							AND MemberDataTable.propertytypeid = MemberTypes.id 
 						LEFT OUTER JOIN dbo.cmsMember AS CmsMember ON CmsMember.nodeId = MemberList.nodeId
 						inner join dbo.umbracoNode n on n.id = MemberList.nodeId 
-						Where	MemberTypes.Alias = '{0}' and MemberList.nodeId in @NodeIds", MemberProperty.SwimCreditsUsed, creditCost);
+						Where	MemberTypes.Alias = '{0}' and MemberList.nodeId in @NodeIds", MemberProperty.CreditsUsed, creditCost);
 			using (IDbConnection connection = _dataConnection.SqlConnection)
 			{
 				connection.Execute(query, new {NodeIds = nodeIds});
@@ -188,33 +188,28 @@ namespace Mstc.Core.DataAccess
 				SwimSubs1 = GetPropertyValueForAlias(groupedMemberData, MemberProperty.swimSubs1),
 				SwimSubs2 = GetPropertyValueForAlias(groupedMemberData, MemberProperty.swimSubs2),
                 EnglandAthleticsMembership = GetBool(GetPropertyValueForAlias(groupedMemberData, MemberProperty.EnglandAthleticsMembership)),
-                DuathlonEntry = GetPropertyValueForAlias(groupedMemberData, MemberProperty.DuathlonEntry),
 				OpenWaterIndemnityAcceptance =
 					GetBool(GetPropertyValueForAlias(groupedMemberData, MemberProperty.OpenWaterIndemnityAcceptance)),
 				Volunteering = GetBool(GetPropertyValueForAlias(groupedMemberData, MemberProperty.Volunteering)),
-				TriFestEntry = GetPropertyValueForAlias(groupedMemberData, MemberProperty.TriFestEntry),
 				TriathlonIndemnityAcceptance =
-					GetBool(GetPropertyValueForAlias(groupedMemberData, MemberProperty.TriathlonIndemnityAcceptance)),
-				RelayTeamName = GetPropertyValueForAlias(groupedMemberData, MemberProperty.RelayTeamName),
-                BtfNumber = GetPropertyValueForAlias(groupedMemberData, MemberProperty.BTFNumber),
-                CharitySwimEntry = GetPropertyValueForAlias(groupedMemberData, MemberProperty.CharitySwimEntry),
+					GetBool(GetPropertyValueForAlias(groupedMemberData, MemberProperty.TriathlonIndemnityAcceptance)),				
+                BtfNumber = GetPropertyValueForAlias(groupedMemberData, MemberProperty.BTFNumber),            
 				Gender = GetPropertyValueForAlias(groupedMemberData, MemberProperty.Gender),
 				Address1 = GetPropertyValueForAlias(groupedMemberData, MemberProperty.Address1),
-				Address2 = GetPropertyValueForAlias(groupedMemberData, MemberProperty.Address2),
-				Address3 = GetPropertyValueForAlias(groupedMemberData, MemberProperty.Address3),
+				Address2 = GetPropertyValueForAlias(groupedMemberData, MemberProperty.City),				
 				Postcode = GetPropertyValueForAlias(groupedMemberData, MemberProperty.Postcode)
 			};			
 
 			int balanceLastYear = 0;
-			int.TryParse(GetPropertyValueForAlias(groupedMemberData, MemberProperty.SwimBalanceLastYear), out balanceLastYear);
+			int.TryParse(GetPropertyValueForAlias(groupedMemberData, MemberProperty.CreditsRemainingLastYear), out balanceLastYear);
 			memberOptionsDto.SwimBalanceLastYear = balanceLastYear;
 
 			int swimCreditsBought = 0;
-			int.TryParse(GetPropertyValueForAlias(groupedMemberData, MemberProperty.SwimCreditsBought), out swimCreditsBought);
+			int.TryParse(GetPropertyValueForAlias(groupedMemberData, MemberProperty.CreditsBought), out swimCreditsBought);
 			memberOptionsDto.SwimCreditsBought = swimCreditsBought;
 
 			int swimCreditsUsed = 0;
-			int.TryParse(GetPropertyValueForAlias(groupedMemberData, MemberProperty.SwimCreditsUsed), out swimCreditsUsed);
+			int.TryParse(GetPropertyValueForAlias(groupedMemberData, MemberProperty.CreditsUsed), out swimCreditsUsed);
 			memberOptionsDto.SwimCreditsUsed = swimCreditsUsed;
 		
 			string membershipType = GetPropertyValueForAlias(groupedMemberData, MemberProperty.membershipType);

@@ -32,6 +32,12 @@ namespace Mstc.Core.Providers
 
 		public void SendEmail(string toAddress, string fromAddress, string subject, string htmlContent)
 		{
+			string environment = ConfigurationManager.AppSettings["environment"];
+			if (environment != "Production")
+			{
+				toAddress = SupportEmail;
+			}
+
 			MailMessage objMail = new MailMessage();
 
 			objMail.To.Add(toAddress);
