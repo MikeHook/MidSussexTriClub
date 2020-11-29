@@ -13,6 +13,8 @@ Functionality to do
 - Move Awards post out of blog
 - Investigate tag counts bug eg. LEJOG count wrong
 - Remove redundant properties on Homepage
+- Update registration email
+- Check member properties in umbraco
 
 
 Done

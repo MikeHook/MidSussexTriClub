@@ -76,7 +76,7 @@ namespace MSTC.Web.Controllers
             var registrationDetails = _sessionProvider.RegistrationDetails;
             if (registrationDetails == null)
             {
-                return PartialView("Registration/RegistrationComplete", new RegistrationCompleteModel());
+                  return PartialView("Registration/RegistrationComplete", new RegistrationCompleteModel());
             }
 
             int costInPence = MembershipCostCalculator.Calculate(registrationDetails.MemberOptions, DateTime.Now);
@@ -87,7 +87,7 @@ namespace MSTC.Web.Controllers
                 PaymentDescription = MemberProvider.GetPaymentDescription(registrationDetails.MemberOptions),
                 Cost = (costInPence / 100m).ToString("N2")
             };
-
+    
             return PartialView("Registration/RegistrationComplete", model);
         }
 
@@ -95,10 +95,12 @@ namespace MSTC.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult ConfirmPayment(RegistrationCompleteModel model)
         {
+            model.PromptForConfirmation = false;
             var registrationDetails = _sessionProvider.RegistrationDetails;
             if (registrationDetails == null || string.IsNullOrWhiteSpace(_sessionProvider.GoCardlessRedirectFlowId))
             {
-                return PartialView("Registration/RegistrationComplete", new RegistrationCompleteModel());
+                TempData["Model"] = model;
+                return CurrentUmbracoPage();
             }
 
             string mandateId = _goCardlessProvider.CompleteRedirectRequest(_sessionProvider.GoCardlessRedirectFlowId, _sessionProvider.SessionId);
@@ -106,15 +108,14 @@ namespace MSTC.Web.Controllers
 
             var regDetails = registrationDetails.PersonalDetails;
             int costInPence = MembershipCostCalculator.Calculate(registrationDetails.MemberOptions, DateTime.Now);
+            model.Cost = (costInPence / 100m).ToString("N2");
             var paymentDescription = MemberProvider.GetPaymentDescription(registrationDetails.MemberOptions);
             var paymentResponse = _goCardlessProvider.CreatePayment(Logger, regDetails.DirectDebitMandateId, regDetails.Email, costInPence, paymentDescription);
-
-            model.PromptForConfirmation = false;
+                        
             model.IsRegistered = paymentResponse == PaymentResponseDto.Success;
 
             if (model.IsRegistered)
-            {
-                
+            {                
                 var member = _memberProvider.CreateMember(regDetails, new string[] { MSTCRoles.Member });
                 _memberProvider.UpdateMemberDetails(member, registrationDetails);
 
@@ -131,6 +132,8 @@ namespace MSTC.Web.Controllers
 
                 _sessionProvider.RegistrationDetails = null;
                 _sessionProvider.GoCardlessRedirectFlowId = null;
+                TempData["Model"] = model;
+                return CurrentUmbracoPage();                             
             }
             else
             {
@@ -143,6 +146,7 @@ namespace MSTC.Web.Controllers
                     "MSTC member registration problem", content);
             }
 
+            TempData["Model"] = model;
             return CurrentUmbracoPage();
         }
     }
