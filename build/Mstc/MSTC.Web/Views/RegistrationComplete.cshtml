@@ -1,5 +1,4 @@
-﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage<ContentModels.RegistrationComplete>
-@using ContentModels = Umbraco.Web.PublishedContentModels;
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage<RegistrationComplete>
 @{
 	Layout = "Master.cshtml";
 }
@@ -9,8 +8,10 @@
 <div class="section">
 	<div class="container edit-member">
 		<div class="row">
-			<div class="col-sm-12">
-				@{ Html.RenderAction("RenderRegistrationComplete", "Registration"); }	
+			<div class="col-sm-12">				
+
+				@{ Html.RenderAction("RenderRegistrationComplete", "Registration"); }
+
 			</div>
 		</div>
 	</div>
