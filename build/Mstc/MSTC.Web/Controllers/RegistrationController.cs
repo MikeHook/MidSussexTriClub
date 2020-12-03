@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Configuration;
+using System.Text;
 using System.Web.Mvc;
 using System.Web.Security;
 using Mstc.Core.Domain;
@@ -25,10 +26,8 @@ namespace MSTC.Web.Controllers
             _sessionProvider = new SessionProvider();
             _goCardlessProvider = new GoCardlessProvider();
             _emailProvider = new EmailProvider();
-            _memberProvider = new MemberProvider(Services.MemberService);
+            _memberProvider = new MemberProvider(Services);
         }
-
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -96,7 +95,7 @@ namespace MSTC.Web.Controllers
         public ActionResult ConfirmPayment(RegistrationCompleteModel model)
         {
             model.PromptForConfirmation = false;
-            var registrationDetails = _sessionProvider.RegistrationDetails;
+            RegistrationDetails registrationDetails = _sessionProvider.RegistrationDetails;
             if (registrationDetails == null || string.IsNullOrWhiteSpace(_sessionProvider.GoCardlessRedirectFlowId))
             {
                 TempData["Model"] = model;
@@ -120,13 +119,9 @@ namespace MSTC.Web.Controllers
                 _memberProvider.UpdateMemberDetails(member, registrationDetails);
 
                 //Login the member
-                FormsAuthentication.SetAuthCookie(member.Username, true);
+                FormsAuthentication.SetAuthCookie(member.Username, true);          
 
-                string content = string.Format("<p>A new member has registered with the club</p><p>Member details: {0}</p>",
-                    JsonConvert.SerializeObject(registrationDetails, Formatting.Indented));
-                var passwordObfuscator = new PasswordObfuscator();
-                content = passwordObfuscator.ObfuscateString(content);
-
+                string content = GetRegEmailContent(registrationDetails, true);
                 _emailProvider.SendEmail(EmailProvider.MembersEmail, EmailProvider.SupportEmail,
                     "New MSTC member registration", content);
 
@@ -137,17 +132,34 @@ namespace MSTC.Web.Controllers
             }
             else
             {
-                string content = string.Format("<p>A new member has NOT been registered with the club</p><p>Member details: {0}</p>",
-                    JsonConvert.SerializeObject(registrationDetails, Formatting.Indented));
-                var passwordObfuscator = new PasswordObfuscator();
-                content = passwordObfuscator.ObfuscateString(content);
-
+                string content = GetRegEmailContent(registrationDetails, false);
                 _emailProvider.SendEmail(EmailProvider.SupportEmail, EmailProvider.SupportEmail,
                     "MSTC member registration problem", content);
             }
 
             TempData["Model"] = model;
             return CurrentUmbracoPage();
+        }
+
+        private string GetRegEmailContent(RegistrationDetails registrationDetails, bool isRegistered)
+        {
+            var stringBuilder = new StringBuilder();
+            stringBuilder.AppendFormat("<p>A new member has {0} been registered with the club</p><p>Member details:</p>", isRegistered ? "" : "NOT");
+
+            var personalDets = registrationDetails.PersonalDetails;
+            var memberOptions = registrationDetails.MemberOptions;
+            stringBuilder.AppendFormat("{0}: <strong>{1}</strong><br/>", "Name", $"{personalDets.FirstName} {personalDets.LastName}");
+            stringBuilder.AppendFormat("{0}: <strong>{1}</strong><br/>", "Email", $"{personalDets.Email}");
+            stringBuilder.AppendFormat("{0}: <strong>{1}</strong><br/>", "Phone number", $"{personalDets.PhoneNumber}");
+            stringBuilder.AppendFormat("{0}: <strong>{1}</strong><br/>", "Gender", $"{personalDets.Gender.ToString()}");
+            stringBuilder.AppendFormat("{0}: <strong>{1}</strong><br/>", "Date of Birth", $"{personalDets.DateOfBirth.Value.ToString("dd MMM yyyy")}");
+            stringBuilder.AppendFormat("{0}: <strong>{1}</strong><br/>", "Membership Type", $"{memberOptions.MembershipType.ToString()}");
+            stringBuilder.AppendFormat("{0}: <strong>{1}</strong><br/>", "England Athletics Membership", memberOptions.EnglandAthleticsMembership ? "Yes" : "No");
+            stringBuilder.AppendFormat("{0}: <strong>{1}</strong><br/>", MemberProvider.GetSwimSub1Description(DateTime.Now, false), memberOptions.SwimSubs1 ? "Yes" : "No");
+            stringBuilder.AppendFormat("{0}: <strong>{1}</strong><br/>", MemberProvider.GetSwimSub2Description(DateTime.Now, false), memberOptions.SwimSubs2 ? "Yes" : "No");
+            stringBuilder.AppendFormat("{0}: <strong>{1}</strong><br/>", "Open water swimming?", memberOptions.OpenWaterIndemnityAcceptance.Value ? "Yes" : "No");
+
+            return stringBuilder.ToString();
         }
     }
 }

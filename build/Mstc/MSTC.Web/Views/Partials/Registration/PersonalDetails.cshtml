@@ -38,8 +38,8 @@
             <span class="radio">
                 @foreach (var gender in Model.PersonalDetails.Genders)
                 {
-                    @Html.RadioButtonFor(m => m.PersonalDetails.Gender, gender, new { id = $"gender-{gender}" })
-                    <span>&nbsp;</span>@Html.Label($"gender-{gender}", gender)
+                    @Html.RadioButtonFor(m => m.PersonalDetails.Gender, gender.Item1, new { id = $"gender-{gender.Item1}" })
+                    <span>&nbsp;</span>@Html.Label($"gender-{gender.Item1}", gender.Item2)
                     <br />
                 }
             </span>
