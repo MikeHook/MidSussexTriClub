@@ -1903,8 +1903,6 @@
     <Content Include="Views\Home.cshtml" />
     <Content Include="Views\Master.cshtml" />
     <Content Include="Views\People.cshtml" />
-    <Content Include="Views\Product.cshtml" />
-    <Content Include="Views\Products.cshtml" />
     <Content Include="Views\Partials\HomeSlider.cshtml" />
     <Content Include="Views\Partials\Blog\BlogMiniListing.cshtml" />
     <Content Include="Views\Partials\Footer.cshtml" />

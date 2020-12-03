@@ -2,9 +2,9 @@
 {
 	public enum MembershipTypeEnum
 	{
-		Individual = 43,
-		Couple = 44,
-		Concession = 45,
-		Guest = 46
+		Individual = 230,
+		Couple = 231,
+		Concession = 232,
+		Guest = 233
 	}
 }

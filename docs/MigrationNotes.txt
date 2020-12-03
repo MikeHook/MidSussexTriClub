@@ -12,9 +12,6 @@ Templates
 Functionality to do
 - Move Awards post out of blog
 - Investigate tag counts bug eg. LEJOG count wrong
-- Remove redundant properties on Homepage
-- Update registration email
-- Check member properties in umbraco
 
 
 Done
@@ -32,7 +29,8 @@ MSTC Article
 MSTC Login
 ForgotPassword
 ChangePassword
-
+MSTC Member Registration
+MSTC Member Registration Complete
 
 To Do
 -----
@@ -41,16 +39,11 @@ cFont Contact From (macro)
 
 MSTC Athletes
 MSTC Member ICE Details
-
-MSTC Member Registration
-MSTC Member Registration Complete
 MSTC OWS Taster Registration
 MSTC OWS Taster Registration Complete
 MSTC Member Renewal / Upgrade
-
 MSTC Member Services
 MSTC Member Edit
-
 MSTC Member Admin
 MSTC Payment Complete
 MSTC Unlink bank

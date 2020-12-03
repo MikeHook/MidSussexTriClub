@@ -10,10 +10,14 @@ namespace Mstc.Core.Domain
 	{
 		public PersonalDetails()
 		{
-			Genders = new List<string>() { "Male", "Female" };
+			Genders = new List<Tuple<GenderEnum, string>>()
+			{
+				new Tuple<GenderEnum, string>(GenderEnum.Male, "Male"),
+				new Tuple<GenderEnum, string>(GenderEnum.Female, "Female")
+			};
 		}
 
-		public List<string> Genders { get; set; }
+		public List<Tuple<GenderEnum, string>> Genders { get; set; }
 
 		[Required, Display(Name = "First name*")]
 		public string FirstName { get; set; }
@@ -28,7 +32,7 @@ namespace Mstc.Core.Domain
 		public string Password { get; set; }
 
 		[Required, Display(Name = "Gender*")]	
-		public string Gender { get; set; }
+		public GenderEnum Gender { get; set; }
 
 		[Required, Display(Name = "Date of birth*"), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}"), DateOver16Validator, DataType(DataType.Date)]
 		public DateTime? DateOfBirth { get; set; }

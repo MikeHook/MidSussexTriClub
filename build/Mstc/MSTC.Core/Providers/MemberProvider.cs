@@ -17,9 +17,9 @@ namespace Mstc.Core.Providers
 	{
 		private readonly IMemberService _memberService;
 
-		public MemberProvider(IMemberService memberService)
+		public MemberProvider(ServiceContext serviceContext)
 		{
-			_memberService = memberService;
+			_memberService = serviceContext.MemberService;
 		}
 
         public static string GetSwimSub1Description(DateTime now, bool includePricing)
@@ -139,7 +139,7 @@ namespace Mstc.Core.Providers
 
 		private void SetMemberDetails(IMember member, PersonalDetails registrationDetails)
 		{
-			member.SetValue(MemberProperty.Gender, registrationDetails.Gender);
+			member.SetValue(MemberProperty.Gender, (int)registrationDetails.Gender);			
 			member.SetValue(MemberProperty.DateOfBirth, registrationDetails.DateOfBirth);
 			member.SetValue(MemberProperty.Address1, registrationDetails.Address1);
 			member.SetValue(MemberProperty.City, registrationDetails.City);
@@ -155,7 +155,7 @@ namespace Mstc.Core.Providers
 
 		private void SetMembershipOptions(IMember member, MemberOptions membershipOptions, DateTime membershipExpiry, bool zeroSwimCredits)
 		{
-			member.SetValue(MemberProperty.membershipType, ((int)membershipOptions.MembershipType).ToString());
+			member.SetValue(MemberProperty.membershipType, (int)membershipOptions.MembershipType);
 			member.SetValue(MemberProperty.OpenWaterIndemnityAcceptance, membershipOptions.OpenWaterIndemnityAcceptance);
 	
 			if (membershipOptions.SwimSubs1)
