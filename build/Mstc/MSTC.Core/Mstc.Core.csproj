@@ -231,6 +231,7 @@
     <Compile Include="configuration\GmailSmtpClient.cs" />
     <Compile Include="DataAccess\DataConnection.cs" />
     <Compile Include="DataAccess\MemberDal.cs" />
+    <Compile Include="Domain\TopicEnum.cs" />
     <Compile Include="Domain\MemberProperty.cs" />
     <Compile Include="Domain\MembershipExtras.cs" />
     <Compile Include="Domain\MemberOptions.cs" />
