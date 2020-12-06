@@ -31,22 +31,22 @@ ForgotPassword
 ChangePassword
 MSTC Member Registration
 MSTC Member Registration Complete
-
-To Do
------
 cFont Contact From (macro)
 404 page
 
+To Do
+-----
+MSTC Member Edit
+MSTC Member Admin
 MSTC Athletes
 MSTC Member ICE Details
 MSTC OWS Taster Registration
 MSTC OWS Taster Registration Complete
 MSTC Member Renewal / Upgrade
 MSTC Member Services
-MSTC Member Edit
-MSTC Member Admin
 MSTC Payment Complete
 MSTC Unlink bank
+
 MSTC Swim Admin (Not needed?)
 MSTC Guest Renewal (Not needed?)
 MSTC Mandate Request (Not needed?)

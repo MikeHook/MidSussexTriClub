@@ -2,6 +2,7 @@
 using System.Configuration;
 using System.Net.Mail;
 using Mstc.Core.configuration;
+using Mstc.Core.Domain;
 
 namespace Mstc.Core.Providers
 {
@@ -20,14 +21,14 @@ namespace Mstc.Core.Providers
 		public const string CoachingEmail = "coaching@midsussextriclub.com";
 
 
-		public Dictionary<string, string> EmailLookup = new Dictionary<string, string>()
+		public Dictionary<TopicEnum, string> EmailLookup = new Dictionary<TopicEnum, string>()
 		{
-			{"Membership", MembersEmail},
-			{"OWS", OwsEmail},
-            {"Sponsorship", SponsorsEmail},
-			{"Juniors", JuniorsEmail},
-			{"Website", SupportEmail},
-			{"Coaching", CoachingEmail},
+			{TopicEnum.Membership, MembersEmail},
+			{TopicEnum.OWS, OwsEmail},
+            {TopicEnum.Sponsorship, SponsorsEmail},
+			{TopicEnum.Juniors, JuniorsEmail},
+			{TopicEnum.Website, SupportEmail},
+			{TopicEnum.Coaching, CoachingEmail},
 		};
 
 		public void SendEmail(string toAddress, string fromAddress, string subject, string htmlContent)
