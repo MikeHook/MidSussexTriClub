@@ -1668,11 +1668,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\ContactController.cs" />
+    <Compile Include="Controllers\MemberEditController.cs" />
     <Compile Include="Controllers\RegistrationController.cs" />
     <Compile Include="Controllers\MemberController.cs" />
     <Compile Include="Model\ChangePasswordModel.cs" />
     <Compile Include="Model\ForgotPasswordModel.cs" />
     <Compile Include="Model\ContactModel.cs" />
+    <Compile Include="Model\Partials\MemberImageModel.cs" />
+    <Compile Include="Model\Partials\MemberOptionsModel.cs" />
+    <Compile Include="Model\Partials\MemberDetailsModel.cs" />
     <Compile Include="Model\RegistrationCompleteModel.cs" />
     <Compile Include="Model\LoginModel.cs" />
     <Compile Include="Model\Partials\SingleBlogPostModel.cs" />
@@ -1932,6 +1936,10 @@
     <Content Include="Views\Partials\Registration\RegistrationComplete.cshtml" />
     <Content Include="Views\Partials\Contact.cshtml" />
     <Content Include="Views\ContactUs.cshtml" />
+    <Content Include="Views\MemberEdit.cshtml" />
+    <Content Include="Views\Partials\Member\EditMemberDetails.cshtml" />
+    <Content Include="Views\Partials\Member\EditMemberImage.cshtml" />
+    <Content Include="Views\Partials\Member\EditMemberOptions.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
