@@ -1,0 +1,118 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<MSTC.Web.Model.Partials.MemberDetailsModel>
+
+<div class="personal-details">
+    <div class="form-group">
+        <h3 class="col-sm-12">Personal Details</h3>
+    </div>
+    @*<div class="form-group">
+        @Html.LabelFor(m => m.PersonalDetails.FirstName, new { @class = "col-sm-2 control-label" })
+        <div class="col-sm-7">
+            @Html.TextBoxFor(m => m.PersonalDetails.FirstName, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.PersonalDetails.FirstName, "Please enter your first name", new { @class = "help-block alert-danger" } )
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.PersonalDetails.LastName, new { @class = "col-sm-2 control-label" })
+        <div class="col-sm-7">
+            @Html.TextBoxFor(m => m.PersonalDetails.LastName, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.PersonalDetails.LastName, "Please enter your last name", new { @class = "help-block alert-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.PersonalDetails.Email, new { @class = "col-sm-2 control-label" })
+        <div class="col-sm-7">
+            @Html.TextBoxFor(m => m.PersonalDetails.Email, new { @class = "form-control" })
+            @Html.ValidationMessage("PersonalDetails.Email", new { @class = "help-block alert-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.PersonalDetails.Password, new { @class = "col-sm-2 control-label" })
+        <div class="col-sm-7">
+            @Html.PasswordFor(m => m.PersonalDetails.Password, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.PersonalDetails.Password, "Please enter a password of at least 8 characters", new { @class = "help-block alert-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.PersonalDetails.Gender, new { @class = "col-sm-2 control-label" })
+        <div class="col-sm-7">
+            <span class="radio">
+                @foreach (var gender in Model.PersonalDetails.Genders)
+                {
+                    @Html.RadioButtonFor(m => m.PersonalDetails.Gender, gender.Item1, new { id = $"gender-{gender.Item1}" })
+                    <span>&nbsp;</span>@Html.Label($"gender-{gender.Item1}", gender.Item2)
+                    <br />
+                }
+            </span>
+                @Html.ValidationMessageFor(m => m.PersonalDetails.Gender, "Please select your gender", new { @class = "help-block alert-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.PersonalDetails.DateOfBirth, new { @class = "col-sm-2 control-label" })
+        <div class="col-sm-7">
+            @Html.TextBoxFor(m => m.PersonalDetails.DateOfBirth, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.PersonalDetails.DateOfBirth, "Your date of birth must be in the format dd/mm/yyyy and you must be at least 16 years old at the time of registration", new { @class = "help-block alert-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.PersonalDetails.Address1, new { @class = "col-sm-2 control-label" })
+        <div class="col-sm-7">
+            @Html.TextBoxFor(m => m.PersonalDetails.Address1, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.PersonalDetails.Address1, "Please enter your house number and street", new { @class = "help-block alert-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.PersonalDetails.City, new { @class = "col-sm-2 control-label" })
+        <div class="col-sm-7">
+            @Html.TextBoxFor(m => m.PersonalDetails.City, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.PersonalDetails.City, "Please enter your town / city", new { @class = "help-block alert-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.PersonalDetails.Postcode, new { @class = "col-sm-2 control-label" })
+        <div class="col-sm-7">
+            @Html.TextBoxFor(m => m.PersonalDetails.Postcode, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.PersonalDetails.Postcode, "Please enter your postcode", new { @class = "help-block alert-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.PersonalDetails.PhoneNumber, new { @class = "col-sm-2 control-label" })
+        <div class="col-sm-7">
+            @Html.TextBoxFor(m => m.PersonalDetails.PhoneNumber, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.PersonalDetails.PhoneNumber, "Please enter your phone number", new { @class = "help-block alert-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.PersonalDetails.BTFNumber, new { @class = "col-sm-2 control-label" })
+        <div class="col-sm-7">
+            @Html.TextBoxFor(m => m.PersonalDetails.BTFNumber, new { @class = "form-control" })
+        </div>
+    </div>*@
+</div>
+<div class="emergency-details">
+    <div class="form-group">
+        <h3 class="col-sm-12">Emergency Details</h3>
+    </div>
+    @*<div class="form-group">
+        @Html.LabelFor(m => m.PersonalDetails.MedicalConditions, new { @class = "col-sm-2 control-label" })
+        <div class="col-sm-7">
+            @Html.TextBoxFor(m => m.PersonalDetails.MedicalConditions, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.PersonalDetails.MedicalConditions, "Please enter your medical conditions, enter 'none' if you don't have any", new { @class = "help-block alert-danger" })
+
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.PersonalDetails.EmergencyContactName, new { @class = "col-sm-2 control-label" })
+        <div class="col-sm-7">
+            @Html.TextBoxFor(m => m.PersonalDetails.EmergencyContactName, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.PersonalDetails.EmergencyContactName, "Please enter your emergency contact", new { @class = "help-block alert-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.PersonalDetails.EmergencyContactPhone, new { @class = "col-sm-2 control-label" })
+        <div class="col-sm-7">
+            @Html.TextBoxFor(m => m.PersonalDetails.EmergencyContactPhone, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.PersonalDetails.EmergencyContactPhone, "Please enter the phone number of your emergency contact", new { @class = "help-block alert-danger" })
+        </div>
+    </div>*@
+</div>
+
