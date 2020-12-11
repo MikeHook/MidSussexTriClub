@@ -20,6 +20,9 @@ namespace MSTC.Web.Controllers
 {
     public class MemberEditController : SurfaceController
     {
+        const int _profileImageFolderId = 2273;
+        const int _serviceImageFolderId = 2271;
+
         protected SessionProvider _sessionProvider;
         protected GoCardlessProvider _goCardlessProvider;
         EmailProvider _emailProvider;
@@ -38,7 +41,12 @@ namespace MSTC.Web.Controllers
         [HttpGet]
         public ActionResult MemberImage()
         {
-            var model = new MemberImageModel();            
+            var member = _memberProvider.GetLoggedInMember();
+            var model = new MemberImageModel();
+            if (member != null)
+            {
+                model.ProfileImageId = member.GetValue<string>(MemberProperty.ProfileImage);
+            }                
 
             return PartialView("Member/EditMemberImage", model);
         }
@@ -55,13 +63,116 @@ namespace MSTC.Web.Controllers
         [HttpGet]
         public ActionResult MemberOptions()
         {
-            var model = new MemberOptionsModel()
+            var member = _memberProvider.GetLoggedInMember();
+            var model = new MemberOptionsModel();
+            if (member != null)
             {
+                //TODO - Set these
+                model.EnableMemberRenewal = true; 
+                model.EnableOpenWater = true;
 
-            };
+                model.MembershipExpiry = member.GetValue<DateTime>(MemberProperty.MembershipExpiry);
+                model.MembershipType = member.GetValue<MembershipTypeEnum>(MemberProperty.membershipType).ToString();
+
+                string swimSubs1 = member.GetValue<string>(MemberProperty.swimSubs1);
+                if (!string.IsNullOrEmpty(swimSubs1)) 
+                {
+                    model.OptionalExtras.Add(swimSubs1);
+                }
+                string swimSubs2 = member.GetValue<string>(MemberProperty.swimSubs2);
+                if (!string.IsNullOrEmpty(swimSubs2))
+                {
+                    model.OptionalExtras.Add(swimSubs2);
+                }
+                if (member.GetValue<bool>(MemberProperty.EnglandAthleticsMembership))
+                {
+                    model.OptionalExtras.Add("England Athletics Member");
+                }
+                if (model.OptionalExtras.Count == 0)
+                {
+                    model.OptionalExtras.Add("None");
+                }
+
+                
+            }         
 
             return PartialView("Member/EditMemberOptions", model);
         }
+
+        [HttpPost]
+        public ActionResult BuySwimSubs1()
+        {
+            var member = _memberProvider.GetLoggedInMember();
+            if (member == null)
+            {
+                return CurrentUmbracoPage();
+            }
+            
+            //TODO Implement this
+            return RedirectToCurrentUmbracoUrl();
+        }
+
+        [HttpPost]
+        public ActionResult BuySwimSubs2()
+        {
+            var member = _memberProvider.GetLoggedInMember();
+            if (member == null)
+            {
+                return CurrentUmbracoPage();
+            }
+
+            //TODO Implement this
+            return RedirectToCurrentUmbracoUrl();
+        }
+
+        [HttpPost]
+        public ActionResult UnlinkBank()
+        {
+            var member = _memberProvider.GetLoggedInMember();
+            if (member == null)
+            {
+                return CurrentUmbracoPage();
+            }
+
+            //TODO Implement this
+            return RedirectToCurrentUmbracoUrl();
+        }
+
+        [HttpPost]
+        public ActionResult AcceptOWSIndemnity()
+        {
+            var member = _memberProvider.GetLoggedInMember();
+            if (member == null)
+            {
+                return CurrentUmbracoPage();
+            }
+
+            //TODO Implement this
+            return RedirectToCurrentUmbracoUrl();
+        }
+
+        [HttpPost]
+        public ActionResult MemberImage(MemberImageModel model)
+        {
+            var member = _memberProvider.GetLoggedInMember();
+            if (!ModelState.IsValid || member == null)
+            {
+                return CurrentUmbracoPage();
+            }
+
+            if (model.ProfileImageFile != null)
+            {
+                var imageUdi = SaveImage(model.ProfileImageFile, _profileImageFolderId);
+                member.SetValue(MemberProperty.ProfileImage, imageUdi);
+            } else if (model.RemoveImage)
+            {
+                member.SetValue(MemberProperty.ProfileImage, "");
+            }
+
+            Services.MemberService.Save(member);
+
+            return RedirectToCurrentUmbracoUrl();
+        }        
 
         [HttpPost]
         public ActionResult MemberDetails(MemberDetailsModel model)
@@ -136,11 +247,11 @@ namespace MSTC.Web.Controllers
 
             if (model.ServiceImageFile != null)
             {
-                var imageUdi = SaveImage(model.ServiceImageFile, 2271);               
+                var imageUdi = SaveImage(model.ServiceImageFile, _serviceImageFolderId);               
                 member.SetValue(MemberProperty.ServiceImage, imageUdi);
             }
             Services.MemberService.Save(member);
-        }
+        }       
 
         private string SaveImage(HttpPostedFileBase postedFile, int parentFolderId)
         {

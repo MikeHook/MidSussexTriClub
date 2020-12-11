@@ -1,3 +1,31 @@
 ﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<MSTC.Web.Model.Partials.MemberImageModel>
 
-<h2>Profile image</h2>
+@using (Html.BeginUmbracoForm("MemberImage", "MemberEdit", FormMethod.Post, new { id = "memberimage", @class = "form-horizontal" }))
+{
+    <h2>Profile image</h2>
+
+    <div class="profile-image">
+        @if (string.IsNullOrEmpty(Model.ProfileImageId) == false) {
+        <img src="@Umbraco.TypedMedia(Model.ProfileImageId).Url" />
+        }
+    <div>Recommended size 200 x 200px</div>
+    </div>
+    <div class="contact-form-wrapper">
+        <div class="form-group">            
+            <div class="col-sm-12">
+                @Html.TextBoxFor(m => m.ProfileImageFile, new { type = "file" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-5 control-label" for="RemoveProfileImage"><b>Remove image</b></label>
+            <div class="col-sm-7">
+                @Html.CheckBoxFor(m => m.RemoveImage)
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-12">
+                <button name="save" type="submit" class="btn btn-yellow pull-left">Save changes</button>              
+            </div>
+        </div>
+    </div>
+}
