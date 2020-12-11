@@ -1,3 +1,129 @@
 ﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<MSTC.Web.Model.Partials.MemberOptionsModel>
 
+<div class="form-horizontal">
     <h2>Membership</h2>
+    <div class="contact-form-wrapper col-sm-12">
+        @if (Model.EnableMemberRenewal)
+        {
+            <div class="form-group">
+                <div>
+                    <a href="/members-area/membership-renewal" class="btn btn-yellow pull-left">Renew Now</a>
+                </div>
+            </div>
+        }
+        <div class="form-group">
+            <label class="control-label"><b>Membership expires</b></label>
+            <p class="form-control-static">@(Model.MembershipExpired ? "Expired" : Model.MembershipExpiry.ToString("dd MMM yyyy"))</p>
+        </div>
+        <div class="form-group">
+            <label class="control-label"><b>Membership Type</b></label>
+            <p class="form-control-static">@Model.MembershipType</p>
+        </div>
+        <div class="form-group">
+            <label class="control-label"><b>Optional extras</b></label>
+            <p class="form-control-static">
+                @foreach (var option in Model.OptionalExtras)
+                {
+                    @option <br />
+                }
+            </p>
+        </div>
+        @if (Model.ShowBuySwimSubs1 || Model.ShowBuySwimSubs2)
+        {
+            <div class="form-group">
+                <label class="control-label"><b>Pool Swim Subs</b></label>
+            </div>
+        }
+        @if (Model.ShowBuySwimSubs1)
+        {
+            using (Html.BeginUmbracoForm("BuySwimSubs1", "MemberEdit", FormMethod.Post))
+            {
+                <div class="form-group">
+                    <div>
+                        <button name="subs1" type="submit" class="btn btn-yellow pull-left">Buy Swim Subs 1</button>
+                    </div>
+                </div>
+            }
+        }
+        @if (Model.ShowBuySwimSubs2)
+        {
+            using (Html.BeginUmbracoForm("BuySwimSubs2", "MemberEdit", FormMethod.Post))
+            {
+                <div class="form-group">
+                    <div>
+                        <button name="subs2" type="submit" class="btn btn-yellow pull-left">Buy Swim Subs 2</button>
+                    </div>
+                </div>
+            }
+        }
+        @using (Html.BeginUmbracoForm("UnlinkBank", "MemberEdit", FormMethod.Post))
+        {
+            <div class="form-group">
+                <label class="control-label"><b>Payment details</b></label>
+            </div>
+            <div class="form-group">
+                <div>
+                    <p>
+                        If you need to update your bank account details press the button below.<br />
+                        You will then be prompted to enter new details when you next make a payment
+                    </p>
+                    <button name="bank" type="submit" class="btn btn-yellow pull-left">Unlink bank account</button>           
+                </div>
+            </div>
+        }
+
+        @if (Model.ShowMemberAdminLink)
+        {
+            <div class="form-group">
+                <label class="control-label"><b>Super secret admin page</b></label>
+                <p class="form-control-static"><a href="/members-area/members-admin-details">Members Admin Details</a></p>
+            </div>
+        }
+
+        @if (Model.ShowIceLink)
+        {
+            <div class="form-group">
+                <label class="control-label"><b>In case of Emergency page</b></label>
+                <p class="form-control-static"><a href="/members-area/members-ice-details">Members ICE Details</a></p>
+            </div>
+        }
+    </div>
+</div>
+
+@if (Model.EnableOpenWater)
+{
+<div id="open-water-section" class="form-horizontal">
+    <h2>Open Water Swim</h2>
+    <div class="contact-form-wrapper col-sm-12">
+        @if (Model.OwsIndemnityAccepted)
+        {
+            <div class="form-group">
+                <label class="control-label"><b>O/W swim auth number</b></label>
+                <p class="form-control-static">
+                    <a data-toggle="tooltip" data-placement="bottom"
+                       title="Take this number with you to open water swim sessions. You can't get in the water unless you have your number!">@Model.OWSNumber</a>
+                </p>
+            </div>
+        }
+        else
+        {
+            using (Html.BeginUmbracoForm("AcceptOWSIndemnity", "MemberEdit", FormMethod.Post))
+            {
+            <div class="form-group">
+                <p>If you would like to take part in open water swimming please read the waiver and indicate your acceptance.</p>
+                <p><a href="http://midsussextriclub.com/media/47452/MSTCIndemnityWaiver.pdf" target="_blank">Open water swim indemnity waiver</a></p>
+                <button name="acceptOWS" type="submit" class="btn btn-yellow pull-left">Accept Indemnity Waiver</button>
+            </div>
+            }
+        }
+        </div>
+</div>
+}
+
+<div id="training-section">
+    <h2>Training and Events</h2>
+    <div class="form-group">
+        <p>If you would like to take part in training sessions or events please pre-book on the below page.</p>
+        <p><a href="/members-area/event-booking">Training & Event Booking</a></p>
+    </div>
+</div>
