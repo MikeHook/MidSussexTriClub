@@ -20,11 +20,11 @@
 		public const string emergencyContactNumber = "emergencyContactNumber";
 	    public const string directDebitMandateId = "directDebitMandateId";
 
-        public const string showService = "showService";
-		public const string serviceLinkAddress = "serviceLinkAddress";
-		public const string serviceLinkText = "serviceLinkText";
-		public const string serviceImage = "serviceImage";
-		public const string serviceDescription = "serviceDescription";
+        public const string ShowService = "showService";
+		public const string ServiceLinkAddress = "serviceLinkAddress";
+		public const string ServiceLinkText = "serviceLinkText";
+		public const string ServiceImage = "serviceImage";
+		public const string ServiceDescription = "serviceDescription";
 
 		public const string membershipType = "membershipType";
 		public const string swimSubs1 = "swimSubs1";

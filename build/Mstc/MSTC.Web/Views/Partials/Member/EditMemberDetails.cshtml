@@ -32,7 +32,7 @@
         <div class="form-group">
             @Html.LabelFor(m => m.DateOfBirth, new { @class = "col-sm-3 control-label" })
             <div class="col-sm-9">
-                @Html.TextBoxFor(m => m.DateOfBirth, new { @class = "form-control" })
+                @Html.TextBoxFor(m => m.DateOfBirth, "{0:dd/MM/yyyy}", new { @class = "form-control" })
                 @Html.ValidationMessageFor(m => m.DateOfBirth, "Your date of birth must be in the format dd/mm/yyyy and you must be at least 16 years old at the time of registration", new { @class = "help-block alert-danger" })
             </div>
         </div>
@@ -123,9 +123,13 @@
             </div>
         </div>
         <div class="form-group">
-            @Html.LabelFor(m => m.ServiceImage, new { @class = "col-sm-3 control-label" })
+            @Html.LabelFor(m => m.ServiceImageId, new { @class = "col-sm-3 control-label" })
             <div class="col-sm-9">
-                @Html.TextBoxFor(m => m.ServiceImage, new { @class = "form-control" })
+                @if (string.IsNullOrEmpty(Model.ServiceImageId) == false)
+                {
+                    <img src="@Umbraco.TypedMedia(Model.ServiceImageId).Url" />
+                }
+                @Html.TextBoxFor(m => m.ServiceImageFile, new { type = "file" })
             </div>
         </div>
 
