@@ -91,6 +91,17 @@ namespace Mstc.Core.Providers
 			_memberService.Save(member);
 		}
 
+		public IMember GetLoggedInMember()
+		{
+			var membershipUser = Membership.GetUser();
+			if (membershipUser == null)
+			{
+				return null;
+			}
+		
+			return _memberService.GetByUsername(membershipUser.UserName);
+		}
+
 		//public void UpdateMemberOptions(umbraco.cms.businesslogic.member.Member member, MemberOptions membershipOptions, bool resetEventEntries, bool isUpgrade)
 		//{
 		//	IDictionary<String, object> currentmemdata = MemberHelper.Get(member);

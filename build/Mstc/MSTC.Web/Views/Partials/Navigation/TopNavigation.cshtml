@@ -1,28 +1,13 @@
 ﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
 @using Umbraco.Web;
-@using umbraco.NodeFactory
 
 @{
     var site = Model.Content.Site();
     var selection = site.Children.Where(x => x.IsVisible());
 
     var homepage = Model.Content.AncestorOrSelf<Home>(1);
-    var currentUser = User.Identity.IsAuthenticated ? Membership.GetUser() : null;
-
-    /*var isSubmitLogout = (IsPost && Request["submit"] == "Log out");
-    if (isSubmitLogout)
-    {
-        FormsAuthentication.SignOut();
-        Response.Redirect(Request.RawUrl);
-    }
-    */
-
-}
-
-@helper RenderUsersName()
-{
-    var currentUser = User.Identity.IsAuthenticated ? Membership.GetUser() : null;
-    @Html.Raw(currentUser?.UserName)
+    var _memberProvider = new Mstc.Core.Providers.MemberProvider(ApplicationContext.Services);
+    var currentUser = User.Identity.IsAuthenticated ? _memberProvider.GetLoggedInMember() : null;
 }
 
 @helper ChangePasswordLink(Home homepage)
@@ -49,7 +34,7 @@
                 <div class="login-status">
                     @if (currentUser != null)
                     {
-                        <p><em>Welcome back @RenderUsersName().</em> @ChangePasswordLink(homepage) @LogoutForm()</p>
+                        <p><em>Welcome back @currentUser.Name</em> @ChangePasswordLink(homepage) @LogoutForm()</p>
                     }
                 </div>
 

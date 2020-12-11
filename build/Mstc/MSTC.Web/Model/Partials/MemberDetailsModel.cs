@@ -20,7 +20,7 @@ namespace MSTC.Web.Model.Partials
 		public GenderEnum Gender { get; set; }
 
 		[Required, Display(Name = "Date of birth*"), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}"), DateOver16Validator, DataType(DataType.Date)]
-		public DateTime? DateOfBirth { get; set; }
+		public DateTime DateOfBirth { get; set; }
 
 		[Required, Display(Name = "House number and Street*")]
 		public string Address1 { get; set; }
@@ -56,7 +56,9 @@ namespace MSTC.Web.Model.Partials
 		public string ServiceName { get; set; }
 
 		[Display(Name = "Service Image")]
-		public object ServiceImage { get; set; }
+		public string ServiceImageId { get; set; }
+
+		public HttpPostedFileBase ServiceImageFile { get; set; }
 
 		[Display(Name = "Service Description"), MaxLength(200)]
 		public string ServiceDescription { get; set; }
