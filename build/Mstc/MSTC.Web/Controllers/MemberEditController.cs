@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Text;
 using System.Web;
@@ -15,6 +16,7 @@ using Umbraco.Core;
 using Umbraco.Core.Models;
 using Umbraco.Core.Services;
 using Umbraco.Web.Mvc;
+using Umbraco.Web.PublishedContentModels;
 
 namespace MSTC.Web.Controllers
 {
@@ -63,37 +65,42 @@ namespace MSTC.Web.Controllers
         [HttpGet]
         public ActionResult MemberOptions()
         {
-            var member = _memberProvider.GetLoggedInMember();
+            var memberEditPage = CurrentPage as MemberEdit;
+
+            IMember member = _memberProvider.GetLoggedInMember();
             var model = new MemberOptionsModel();
             if (member != null)
             {
-                //TODO - Set these
-                model.EnableMemberRenewal = true; 
-                model.EnableOpenWater = true;
+                var memberType = member.GetValue<MembershipTypeEnum>(MemberProperty.membershipType);
+                var isGuest = memberType == MembershipTypeEnum.Guest;
+                var membershipExpiry = member.GetValue<DateTime>(MemberProperty.MembershipExpiry);
 
-                model.MembershipExpiry = member.GetValue<DateTime>(MemberProperty.MembershipExpiry);
-                model.MembershipType = member.GetValue<MembershipTypeEnum>(MemberProperty.membershipType).ToString();
-
+                model.MembershipExpired = membershipExpiry < DateTime.Now;
+                model.MembershipExpiry = membershipExpiry;
+                model.MembershipType = memberType.ToString();
+               
                 string swimSubs1 = member.GetValue<string>(MemberProperty.swimSubs1);
-                if (!string.IsNullOrEmpty(swimSubs1)) 
-                {
-                    model.OptionalExtras.Add(swimSubs1);
-                }
+                model.ShowBuySwimSubs1 = !model.EnableMemberRenewal && !isGuest && string.IsNullOrEmpty(swimSubs1) && DateTime.Now.Month < 10 && DateTime.Now.Month > 2;
                 string swimSubs2 = member.GetValue<string>(MemberProperty.swimSubs2);
-                if (!string.IsNullOrEmpty(swimSubs2))
-                {
-                    model.OptionalExtras.Add(swimSubs2);
-                }
-                if (member.GetValue<bool>(MemberProperty.EnglandAthleticsMembership))
-                {
-                    model.OptionalExtras.Add("England Athletics Member");
-                }
-                if (model.OptionalExtras.Count == 0)
-                {
-                    model.OptionalExtras.Add("None");
-                }
+                model.ShowBuySwimSubs2 = !model.EnableMemberRenewal && !isGuest && string.IsNullOrEmpty(swimSubs2);
+                model.OptionalExtras = GetOptionalExtras(member);
+                decimal swimSubsCost = MembershipCostCalculator.SwimsSubsCostInPence(memberType) / 100;
+                model.BuySwimSubs1Text = string.Format("Buy {0} @ £{1:N2}", MemberProvider.GetSwimSub1Description(DateTime.Now, false), swimSubsCost);
+                model.BuySwimSubs2Text = string.Format("Buy {0} @ £{1:N2}", MemberProvider.GetSwimSub2Description(DateTime.Now, false), swimSubsCost);
 
-                
+                model.EnableMemberRenewal = memberEditPage.RenewalsEnabled && DateTime.Now.Month > 2 && !isGuest && model.MembershipExpired;
+                model.ShowIceLink = Roles.IsUserInRole(MSTCRoles.Coach) || Roles.IsUserInRole(MSTCRoles.MemberAdmin);
+                model.ShowMemberAdminLink = Roles.IsUserInRole(MSTCRoles.MemberAdmin);
+
+                model.EnableOpenWater = memberEditPage.OWsenabled && !isGuest && model.MembershipExpired;
+                model.OWSNumber = member.GetValue<string>(MemberProperty.SwimAuthNumber);
+                model.OwsIndemnityAccepted = member.GetValue<bool>(MemberProperty.OpenWaterIndemnityAcceptance);
+                model.OwsIndemnityDocLink = memberEditPage.IndemnityWaiverDoc?.Url;
+
+                model.RenewalPageUrl = memberEditPage.RenewalPage?.Url;
+                model.MemberAdminPageUrl = memberEditPage.MemberAdminPage?.Url;
+                model.ICEPageUrl = memberEditPage.ICepage?.Url;
+                model.EventBookingPageUrl = memberEditPage.EventBookingPage?.Url;
             }         
 
             return PartialView("Member/EditMemberOptions", model);
@@ -272,6 +279,31 @@ namespace MSTC.Web.Controllers
             stringBuilder.AppendFormat("{0}: <strong>{1}</strong><br/>", "New Email", memberDetails.Email);           
 
             return stringBuilder.ToString();
+        }
+
+        private List<string> GetOptionalExtras(IMember member)
+        {
+            var options = new List<string>();
+
+            string swimSubs1 = member.GetValue<string>(MemberProperty.swimSubs1);         
+            if (!string.IsNullOrEmpty(swimSubs1))
+            {
+                options.Add(swimSubs1);
+            }
+            string swimSubs2 = member.GetValue<string>(MemberProperty.swimSubs2);   
+            if (!string.IsNullOrEmpty(swimSubs2))
+            {
+                options.Add(swimSubs2);
+            }
+            if (member.GetValue<bool>(MemberProperty.EnglandAthleticsMembership))
+            {
+                options.Add("England Athletics Member");
+            }
+            if (options.Count == 0)
+            {
+                options.Add("None");
+            }
+            return options;
         }
     }
 }
