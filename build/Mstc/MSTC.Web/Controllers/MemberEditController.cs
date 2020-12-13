@@ -92,7 +92,7 @@ namespace MSTC.Web.Controllers
                 model.ShowIceLink = Roles.IsUserInRole(MSTCRoles.Coach) || Roles.IsUserInRole(MSTCRoles.MemberAdmin);
                 model.ShowMemberAdminLink = Roles.IsUserInRole(MSTCRoles.MemberAdmin);
 
-                model.EnableOpenWater = memberEditPage.OWsenabled && !isGuest && model.MembershipExpired;
+                model.EnableOpenWater = memberEditPage.OWsenabled && !isGuest && !model.MembershipExpired;
                 model.OWSNumber = member.GetValue<string>(MemberProperty.SwimAuthNumber);
                 model.OwsIndemnityAccepted = member.GetValue<bool>(MemberProperty.OpenWaterIndemnityAcceptance);
                 model.OwsIndemnityDocLink = memberEditPage.IndemnityWaiverDoc?.Url;
@@ -101,6 +101,7 @@ namespace MSTC.Web.Controllers
                 model.MemberAdminPageUrl = memberEditPage.MemberAdminPage?.Url;
                 model.ICEPageUrl = memberEditPage.ICepage?.Url;
                 model.EventBookingPageUrl = memberEditPage.EventBookingPage?.Url;
+                model.UnlinkBankPageUrl = memberEditPage.UnlinkBankPage?.Url;
             }         
 
             return PartialView("Member/EditMemberOptions", model);
@@ -154,7 +155,8 @@ namespace MSTC.Web.Controllers
                 return CurrentUmbracoPage();
             }
 
-            //TODO Implement this
+            _memberProvider.AcceptOpenWaterWaiver(member);
+
             return RedirectToCurrentUmbracoUrl();
         }
 
