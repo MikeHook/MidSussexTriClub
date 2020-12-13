@@ -13,6 +13,8 @@ Functionality to do
 - Move Awards post out of blog
 - Investigate tag counts bug eg. LEJOG count wrong
 - Improve Section Header styling
+- Move member costs into Umbraco
+
 
 
 Done
