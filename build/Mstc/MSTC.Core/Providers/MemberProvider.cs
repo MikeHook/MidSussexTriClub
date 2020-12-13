@@ -127,26 +127,16 @@ namespace Mstc.Core.Providers
 		//          member.Save();
 		//}
 
-		//public void AcceptOpenWaterWaiver(umbraco.cms.businesslogic.member.Member member)
-		//{
-		//       IDictionary<String, object> currentmemdata = MemberHelper.Get(member);
+		public void AcceptOpenWaterWaiver(IMember member)
+		{
+			member.SetValue(MemberProperty.OpenWaterIndemnityAcceptance, true);
 
-		//       //Set OpenWaterIndemnityAcceptance
-		//       currentmemdata[MemberProperty.OpenWaterIndemnityAcceptance] = true;
-
-		//       //Set SwimAuthNumber
-		//       MembershipTypeEnum membershipType;
-		//    Enum.TryParse(currentmemdata[MemberProperty.membershipType].ToString(), out membershipType);
-		//       int swimAuthNumber = GetSwimAuthNumber(membershipType);
-		//       currentmemdata[MemberProperty.SwimAuthNumber] = swimAuthNumber;
-
-		//       foreach (Property property in (List<Property>)member.GenericProperties)
-		//       {
-		//           if (currentmemdata.ContainsKey(property.PropertyType.Alias))
-		//               property.Value = currentmemdata[property.PropertyType.Alias];
-		//       }
-		//       member.Save();
-		//   }
+			//Set SwimAuthNumber
+			MembershipTypeEnum membershipType = member.GetValue<MembershipTypeEnum>(MemberProperty.membershipType);		
+			int swimAuthNumber = GetSwimAuthNumber(membershipType);
+			member.SetValue(MemberProperty.SwimAuthNumber, swimAuthNumber);
+			_memberService.Save(member);
+		}
 
 		private void SetMemberDetails(IMember member, PersonalDetails registrationDetails)
 		{

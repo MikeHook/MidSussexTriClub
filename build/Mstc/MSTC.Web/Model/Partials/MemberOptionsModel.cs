@@ -38,5 +38,6 @@ namespace MSTC.Web.Model.Partials
         public string MemberAdminPageUrl { get; set; }
         public string ICEPageUrl { get; set; }
         public string EventBookingPageUrl { get; set; }
+        public string UnlinkBankPageUrl { get; set; }
     }
 }
