@@ -1669,6 +1669,7 @@
   <ItemGroup>
     <Compile Include="Controllers\ContactController.cs" />
     <Compile Include="Controllers\MemberEditController.cs" />
+    <Compile Include="Controllers\PaymentController.cs" />
     <Compile Include="Controllers\RegistrationController.cs" />
     <Compile Include="Controllers\MemberController.cs" />
     <Compile Include="Model\ChangePasswordModel.cs" />
@@ -1940,6 +1941,8 @@
     <Content Include="Views\Partials\Member\EditMemberDetails.cshtml" />
     <Content Include="Views\Partials\Member\EditMemberImage.cshtml" />
     <Content Include="Views\Partials\Member\EditMemberOptions.cshtml" />
+    <Content Include="Views\Partials\Payment\UnlinkBank.cshtml" />
+    <Content Include="Views\UnlinkBank.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1972,7 +1975,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>57945</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:49963/</IISUrl>
+          <IISUrl>http://localhost:49964/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

@@ -1,0 +1,30 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage
+
+@if (TempData["IsUnlinked"] != null)
+{
+    <p>Your bank account is now unlinked. You will be prompted to enter new details when you next make a payment.</p>
+    <p>You can make new payments from <a href="/members-area/my-details">your details page</a>.</p>
+}
+else
+{
+    using (Html.BeginUmbracoForm("UnlinkBank", "Payment", System.Web.Mvc.FormMethod.Post, new { id = "unlink-bank-form", @class = "form-horizontal" }))
+    {
+        @Html.AntiForgeryToken()
+        <div class="form-group">           
+            <div class="col-sm-10">
+                <p>
+                    Press the button below to confirm you would like to unlink your bank account. <br />
+                    You will then be prompted to enter new details when you next make a payment
+                </p>
+            </div>
+            <div class="col-sm-2"></div>
+        </div>     
+
+        <div class="form-group">
+            <div class="col-sm-12">
+                <button name="unlinkBank" type="submit" class="btn btn-yellow">Unlink Bank</button>
+            </div>            
+        </div>
+
+    }
+}

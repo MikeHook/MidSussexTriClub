@@ -16,6 +16,7 @@ namespace MSTC.Web.Model.Partials
         public DateTime MembershipExpiry { get; set; }
         public string MembershipType { get; set; }
         public List<string> OptionalExtras { get; set; }
+        public bool IsBankLinked { get; set; }
 
         //Swim Subs
         public bool ShowBuySwimSubs1 { get; set; }

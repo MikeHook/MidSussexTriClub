@@ -62,17 +62,29 @@
                 <label class="control-label"><b>Payment details</b></label>
             </div>
             <div class="form-group">
-                <div>
-                    <p>
-                        If you need to update your bank account details press the button below.<br />
-                        You will then be prompted to enter new details when you next make a payment
-                    </p>
+                @if (Model.IsBankLinked)
+                {
                     <div>
-                        <a href="@Model.UnlinkBankPageUrl" class="btn btn-yellow pull-left">Unlink bank account</a>
+                        <p>
+                            If you need to update your bank account details press the button below.<br />
+                            You will then be prompted to enter new details when you next make a payment
+                        </p>
+                        <div>
+                            <a href="@Model.UnlinkBankPageUrl" class="btn btn-yellow pull-left">Unlink bank account</a>
+                        </div>
                     </div>
-                </div>
+                }
+                else
+                {
+                    <div>
+                        <p>
+                            Your bank account is unlinked, you will be prompted to enter details when you next make a payment.
+                        </p>                       
+                    </div>
+                }
             </div>
         }
+        
 
         @if (Model.ShowMemberAdminLink)
         {
