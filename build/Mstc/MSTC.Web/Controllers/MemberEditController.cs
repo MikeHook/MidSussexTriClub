@@ -78,7 +78,8 @@ namespace MSTC.Web.Controllers
                 model.MembershipExpired = membershipExpiry < DateTime.Now;
                 model.MembershipExpiry = membershipExpiry;
                 model.MembershipType = memberType.ToString();
-               
+                model.IsBankLinked = !string.IsNullOrEmpty(member.GetValue<string>(MemberProperty.directDebitMandateId));
+
                 string swimSubs1 = member.GetValue<string>(MemberProperty.swimSubs1);
                 model.ShowBuySwimSubs1 = !model.EnableMemberRenewal && !isGuest && string.IsNullOrEmpty(swimSubs1) && DateTime.Now.Month < 10 && DateTime.Now.Month > 2;
                 string swimSubs2 = member.GetValue<string>(MemberProperty.swimSubs2);

@@ -1,0 +1,19 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage<ContentModels.UnlinkBank>
+@using ContentModels = Umbraco.Web.PublishedContentModels;
+@{
+	Layout = "Master.cshtml";
+}
+
+@{ Html.RenderPartial("~/Views/Partials/SectionHeader.cshtml"); }
+
+<div class="section">
+	<div class="container edit-member">
+		<div class="row">
+			<div class="col-sm-12">
+
+				@{ Html.RenderPartial("~/Views/Partials/Payment/UnlinkBank.cshtml"); }
+
+			</div>
+		</div>
+	</div>
+</div>

@@ -36,6 +36,7 @@ MSTC Member Registration
 MSTC Member Registration Complete
 cFont Contact From (macro)
 404 page
+MSTC Unlink bank
 
 To Do
 -----
@@ -47,7 +48,6 @@ MSTC Member ICE Details
 MSTC Member Renewal / Upgrade
 MSTC Member Services
 MSTC Payment Complete
-MSTC Unlink bank
 
 MSTC OWS Taster Registration (Can defer)
 MSTC OWS Taster Registration Complete (Can defer)
