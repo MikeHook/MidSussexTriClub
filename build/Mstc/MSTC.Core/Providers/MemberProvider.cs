@@ -10,9 +10,6 @@ using Umbraco.Core.Models;
 
 namespace Mstc.Core.Providers
 {
-	/// <summary>
-	/// Summary description for MemberProvider
-	/// </summary>
 	public class MemberProvider
 	{
 		private readonly IMemberService _memberService;
@@ -102,30 +99,20 @@ namespace Mstc.Core.Providers
 			return _memberService.GetByUsername(membershipUser.UserName);
 		}
 
-		//public void UpdateMemberOptions(umbraco.cms.businesslogic.member.Member member, MemberOptions membershipOptions, bool resetEventEntries, bool isUpgrade)
-		//{
-		//	IDictionary<String, object> currentmemdata = MemberHelper.Get(member);
+		public void UpdateMemberOptions(IMember member, MemberOptions membershipOptions, bool isUpgrade)
+		{
+			var membershipExpiry = GetNewMemberExpiry(DateTime.Now);
+			bool zeroSwimCredits = false;
 
-		//	var membershipExpiry = GetNewMemberExpiry(DateTime.Now);
-		//          bool zeroSwimCredits = false;
+			SetMembershipOptions(member, membershipOptions, membershipExpiry, zeroSwimCredits);			
 
-		//          SetMembershipOptions(currentmemdata, membershipOptions, membershipExpiry, zeroSwimCredits, resetEventEntries);
-
-		//	foreach (Property property in (List<Property>)member.GenericProperties)
-		//	{
-		//		if (currentmemdata.ContainsKey(property.PropertyType.Alias))
-		//			property.Value = currentmemdata[property.PropertyType.Alias];
-		//	}
-
-		//          if (isUpgrade)
-		//          {
-		//              string username = member.Email;
-		//              Roles.RemoveUserFromRole(username, MSTCRoles.Guest);
-		//              Roles.AddUserToRole(username, MSTCRoles.Member);
-		//          }
-
-		//          member.Save();
-		//}
+			if (isUpgrade)
+			{
+				string username = member.Email;
+				Roles.RemoveUserFromRole(username, MSTCRoles.Guest);
+				Roles.AddUserToRole(username, MSTCRoles.Member);
+			}
+		}
 
 		public void AcceptOpenWaterWaiver(IMember member)
 		{

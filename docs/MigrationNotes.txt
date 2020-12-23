@@ -41,19 +41,20 @@ MSTC Unlink bank
 To Do
 -----
 MSTC Member Edit
+MSTC Payment Complete
+MSTC Mandate Request
+
 MSTC Member Admin
 MSTC Athletes
 MSTC Member ICE Details
-
 MSTC Member Renewal / Upgrade
 MSTC Member Services
-MSTC Payment Complete
 
 MSTC OWS Taster Registration (Can defer)
 MSTC OWS Taster Registration Complete (Can defer)
 MSTC Swim Admin (Not needed?)
 MSTC Guest Renewal (Not needed?)
-MSTC Mandate Request (Not needed?)
+
 
 
 Add info about Club subsidised events on website
