@@ -4,13 +4,10 @@ namespace Mstc.Core.Domain
 {
 	public enum PaymentStates
 	{
-		[Description("Swim Credits GBP2")] S00299C = 2,
-		[Description("Swim Credits GBP6")] S00199C = 6,
-        [Description("Swim Credits GBP18")] S00599C = 18,
-        [Description("Swim Credits GBP32")] S001099C = 30,
-		[Description("Swim Credits GBP44")] S001599C = 42,
-        [Description("Swim Credits GBP24")] S002499C = 24,
+		
+		[Description("Swim Credits")] S00199C = 6,       
 
+        /*
         [Description("Duathlon - Short Individual")] E00D101C = 101,
         [Description("Duathlon - Standard Individual")] E00D102C = 102,
         [Description("Duathlon - Relay")] E00D103C = 103,
@@ -30,10 +27,10 @@ namespace Mstc.Core.Domain
 
         [Description("Charity Swim - 1km")] E00S1KM301C = 301,
 		[Description("Charity Swim - Over 1km")] E00S3KM302C = 302,
+        */
 
 		[Description("Swim subs Apr to Sept")] SS05991 = 401,
 		[Description("Swim subs Oct to Mar")] SS05992 = 402,
-		[Description("Swim subs Jan to Mar")] SS05996 = 403,
 
         [Description("MSTC Membership Renewal")]
         MemberRenewal = 501,

@@ -1,0 +1,17 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage<ContentModels.RenewDdmandate>
+@using ContentModels = Umbraco.Web.PublishedContentModels;
+@{
+	Layout = "Master.cshtml";
+}
+
+@{ Html.RenderPartial("~/Views/Partials/SectionHeader.cshtml"); }
+
+<div class="section">
+	<div class="container edit-member">
+		<div class="row">
+			<div class="col-sm-12">
+				@{ Html.RenderAction("RenewMandate", "Payment"); }
+			</div>
+		</div>
+	</div>
+</div>

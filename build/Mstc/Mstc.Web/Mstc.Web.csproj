@@ -1678,6 +1678,7 @@
     <Compile Include="Model\Partials\MemberImageModel.cs" />
     <Compile Include="Model\Partials\MemberOptionsModel.cs" />
     <Compile Include="Model\Partials\MemberDetailsModel.cs" />
+    <Compile Include="Model\PaymentModel.cs" />
     <Compile Include="Model\RegistrationCompleteModel.cs" />
     <Compile Include="Model\LoginModel.cs" />
     <Compile Include="Model\Partials\SingleBlogPostModel.cs" />
@@ -1943,6 +1944,9 @@
     <Content Include="Views\Partials\Member\EditMemberOptions.cshtml" />
     <Content Include="Views\Partials\Payment\UnlinkBank.cshtml" />
     <Content Include="Views\UnlinkBank.cshtml" />
+    <Content Include="Views\MemberPayment.cshtml" />
+    <Content Include="Views\Partials\Payment\Payment.cshtml" />
+    <Content Include="Views\RenewDDMandate.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

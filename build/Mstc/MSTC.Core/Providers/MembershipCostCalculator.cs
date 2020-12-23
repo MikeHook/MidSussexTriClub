@@ -60,60 +60,15 @@ namespace Mstc.Core.Providers
 			return (int) credits * 100;
 		}
 
-        public static int PaymentStateCost(PaymentStates state, bool hasBTFNumber, MembershipTypeEnum type)
+        public static int PaymentStateCost(PaymentStates state, MembershipTypeEnum type)
         {
             switch (state)
-            {
-                case PaymentStates.S00199C:
-                case PaymentStates.S00299C:
-                case PaymentStates.S00599C:
-                case PaymentStates.S001099C:
-                case PaymentStates.S001599C:
-                case PaymentStates.S002499C:
-                {
-                    return SwimCreditsCost(state);
-                    }
-                case PaymentStates.E00D101C:
-                case PaymentStates.E00D102C:
-                    {
-                    return 1500;
-                }
-                case PaymentStates.E00D103C:
-                    {
-                        return 1000;
-                    }
-                case PaymentStates.E00TRIOI201C:
-                case PaymentStates.E00TRIMI203C:                
-                case PaymentStates.E00TRISI205C:
-                case PaymentStates.E00AOI207C:
-                case PaymentStates.E00AMI209C:
-                case PaymentStates.E00ASI211C:
-                    {
-                    return hasBTFNumber ? 2000 : 2400;
-                }
-                case PaymentStates.E00TRIOR202C:
-                case PaymentStates.E00TRIMR204C:
-                case PaymentStates.E00TRISR206C:
-                case PaymentStates.E00AOR208C:
-                case PaymentStates.E00AMR210C:
-                case PaymentStates.E00ASR212C:
-                    {
-                    return hasBTFNumber ? 1000 : 1400;
-                }
-                case PaymentStates.E00S1KM301C:
-                    {
-                        return 1000;
-                    }
-                case PaymentStates.E00S3KM302C:
-                    {
-                        return 2000;
-                    }
+            {               
                 case PaymentStates.SS05991:
-                case PaymentStates.SS05992:
-                case PaymentStates.SS05996:
-                    {
-                        return SwimsSubsCostInPence(type);
-                    }
+                case PaymentStates.SS05992:        
+                {
+                    return SwimsSubsCostInPence(type);
+                }
             }
 
             throw new Exception("Unknown cost");

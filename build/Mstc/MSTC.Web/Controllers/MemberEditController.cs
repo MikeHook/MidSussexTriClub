@@ -88,6 +88,8 @@ namespace MSTC.Web.Controllers
                 decimal swimSubsCost = MembershipCostCalculator.SwimsSubsCostInPence(memberType) / 100;
                 model.BuySwimSubs1Text = string.Format("Buy {0} @ £{1:N2}", MemberProvider.GetSwimSub1Description(DateTime.Now, false), swimSubsCost);
                 model.BuySwimSubs2Text = string.Format("Buy {0} @ £{1:N2}", MemberProvider.GetSwimSub2Description(DateTime.Now, false), swimSubsCost);
+                model.SwimSubs1PageUrl = $"{memberEditPage.PaymentPage?.Url}?state={PaymentStates.SS05991}";
+                model.SwimSubs2PageUrl = $"{memberEditPage.PaymentPage?.Url}?state={PaymentStates.SS05992}";
 
                 model.EnableMemberRenewal = memberEditPage.RenewalsEnabled && DateTime.Now.Month > 2 && !isGuest && model.MembershipExpired;
                 model.ShowIceLink = Roles.IsUserInRole(MSTCRoles.Coach) || Roles.IsUserInRole(MSTCRoles.MemberAdmin);
@@ -103,49 +105,11 @@ namespace MSTC.Web.Controllers
                 model.ICEPageUrl = memberEditPage.ICepage?.Url;
                 model.EventBookingPageUrl = memberEditPage.EventBookingPage?.Url;
                 model.UnlinkBankPageUrl = memberEditPage.UnlinkBankPage?.Url;
+                
             }         
 
             return PartialView("Member/EditMemberOptions", model);
-        }
-
-        [HttpPost]
-        public ActionResult BuySwimSubs1()
-        {
-            var member = _memberProvider.GetLoggedInMember();
-            if (member == null)
-            {
-                return CurrentUmbracoPage();
-            }
-            
-            //TODO Implement this
-            return RedirectToCurrentUmbracoUrl();
-        }
-
-        [HttpPost]
-        public ActionResult BuySwimSubs2()
-        {
-            var member = _memberProvider.GetLoggedInMember();
-            if (member == null)
-            {
-                return CurrentUmbracoPage();
-            }
-
-            //TODO Implement this
-            return RedirectToCurrentUmbracoUrl();
-        }
-
-        [HttpPost]
-        public ActionResult UnlinkBank()
-        {
-            var member = _memberProvider.GetLoggedInMember();
-            if (member == null)
-            {
-                return CurrentUmbracoPage();
-            }
-
-            //TODO Implement this
-            return RedirectToCurrentUmbracoUrl();
-        }
+        }       
 
         [HttpPost]
         public ActionResult AcceptOWSIndemnity()
