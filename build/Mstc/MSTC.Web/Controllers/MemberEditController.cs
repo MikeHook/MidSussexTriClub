@@ -87,9 +87,7 @@ namespace MSTC.Web.Controllers
                 model.OptionalExtras = GetOptionalExtras(member);
                 decimal swimSubsCost = MembershipCostCalculator.SwimsSubsCostInPence(memberType) / 100;
                 model.BuySwimSubs1Text = string.Format("Buy {0} @ £{1:N2}", MemberProvider.GetSwimSub1Description(DateTime.Now, false), swimSubsCost);
-                model.BuySwimSubs2Text = string.Format("Buy {0} @ £{1:N2}", MemberProvider.GetSwimSub2Description(DateTime.Now, false), swimSubsCost);
-                model.SwimSubs1PageUrl = $"{memberEditPage.PaymentPage?.Url}?state={PaymentStates.SS05991}";
-                model.SwimSubs2PageUrl = $"{memberEditPage.PaymentPage?.Url}?state={PaymentStates.SS05992}";
+                model.BuySwimSubs2Text = string.Format("Buy {0} @ £{1:N2}", MemberProvider.GetSwimSub2Description(DateTime.Now, false), swimSubsCost);          
 
                 model.EnableMemberRenewal = memberEditPage.RenewalsEnabled && DateTime.Now.Month > 2 && !isGuest && model.MembershipExpired;
                 model.ShowIceLink = Roles.IsUserInRole(MSTCRoles.Coach) || Roles.IsUserInRole(MSTCRoles.MemberAdmin);
@@ -109,7 +107,23 @@ namespace MSTC.Web.Controllers
             }         
 
             return PartialView("Member/EditMemberOptions", model);
-        }       
+        }
+
+        [HttpPost]
+        public ActionResult PaymentRedirect(PaymentStates state)
+        {
+            var member = _memberProvider.GetLoggedInMember();
+            if (member == null)
+            {
+                return CurrentUmbracoPage();
+            }
+
+            _sessionProvider.CanProcessPaymentCompletion = true;
+
+            var memberEditPage = CurrentPage as MemberEdit;
+            var redirectUrl = $"{memberEditPage.PaymentPage?.Url}?state={state}";
+            return Redirect(redirectUrl);
+        }
 
         [HttpPost]
         public ActionResult AcceptOWSIndemnity()

@@ -36,24 +36,26 @@
         }
         @if (Model.ShowBuySwimSubs1)
         {
-            using (Html.BeginUmbracoForm("BuySwimSubs1", "MemberEdit", FormMethod.Post))
+            using (Html.BeginUmbracoForm("PaymentRedirect", "MemberEdit", FormMethod.Post))
             {
-            <div class="form-group">
-                <div>
-                    <a href="@Model.SwimSubs1PageUrl" class="btn btn-yellow pull-left">@Model.BuySwimSubs1Text</a>
+                <div class="form-group">
+                    <div>
+                        @Html.Hidden("state", Mstc.Core.Domain.PaymentStates.SS05991)
+                        <button name="btnSwimSubs1" type="submit" class="btn btn-yellow pull-left">@Model.BuySwimSubs1Text</button>
+                    </div>
                 </div>
-            </div>
-            }
+            }            
         }
         @if (Model.ShowBuySwimSubs2)
         {
-            using (Html.BeginUmbracoForm("BuySwimSubs2", "MemberEdit", FormMethod.Post))
+            using (Html.BeginUmbracoForm("PaymentRedirect", "MemberEdit", FormMethod.Post))
             {
-            <div class="form-group">
-                <div>
-                    <a href="@Model.SwimSubs2PageUrl" class="btn btn-yellow pull-left">@Model.BuySwimSubs2Text</a>
+                <div class="form-group">
+                    <div>
+                        @Html.Hidden("state", Mstc.Core.Domain.PaymentStates.SS05992)
+                        <button name="btnSwimSubs2" type="submit" class="btn btn-yellow pull-left">@Model.BuySwimSubs2Text</button>
+                    </div>
                 </div>
-            </div>
             }
         }
         @using (Html.BeginUmbracoForm("UnlinkBank", "MemberEdit", FormMethod.Post))
@@ -79,12 +81,12 @@
                     <div>
                         <p>
                             Your bank account is unlinked, you will be prompted to enter details when you next make a payment.
-                        </p>                       
+                        </p>
                     </div>
                 }
             </div>
         }
-        
+
 
         @if (Model.ShowMemberAdminLink)
         {
