@@ -1,0 +1,69 @@
+﻿@model MSTC.Web.Model.PaymentModel
+
+@{
+    ViewBag.Title = "Payment";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="section section-breadcrumbs">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">                   
+                    <h1>Payment</h1>                
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="section">
+    <div class="container edit-member">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="row">
+                    @if (!Model.HasPaymentDetails)
+                    {
+                        <p>No pending payment request has been found.</p>
+                    }
+                    else if (!Model.PaymentConfirmed)
+                    {
+                        using (Html.BeginUmbracoForm("Confirm", "PaymentActions", FormMethod.Post, new { id = "confirm-payment", @class = "form-horizontal" }))
+                        {
+                            @Html.AntiForgeryToken()
+
+                            <p>Please confirm that you would like to purchase <strong>@Html.Raw(Model.PaymentDescription)</strong> for <strong>£@Html.Raw(Model.Cost.ToString("N2"))</strong></p>                         
+                            <button name="confirm" type="submit" class="btn btn-yellow">Confirm Payment</button>
+                        }
+                    }
+                    else
+                    {
+                        if (Model.ShowPaymentFailed)
+                        {
+                            <div class="col-sm-12">
+                                <p>Sorry, there has been a problem completing your payment. Please <a href="the-club/contact-us.aspx">send us a message</a> for further assistance </p>
+                            </div>
+                        }
+                        else if (Model.ShowSwimSubsConfirmation)
+                        {
+                            <div class="col-sm-12">
+                                <p>Thank you for purchasing additional swim subs, enjoy your swim!</p>
+                                <p>You have purchased <strong>@Html.Raw(Model.PaymentDescription)</strong> for <strong>£@Html.Raw(Model.Cost.ToString("N2"))</strong></p>
+                                <p>Please go to <a href="/members-area/my-details">your details page</a> to check out all your full member profile.</p>
+                            </div>
+                        }
+                        else if (Model.ShowRenewed)
+                        {
+                            <div class="col-sm-12">
+                                <p>Thank you for updating your membership for @DateTime.Now.Year</p>
+                                <p>Please go to <a href="/members-area/my-details">your details page</a> to make sure your information is up to date and retrieve your open water swim authorisation number.</p>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+

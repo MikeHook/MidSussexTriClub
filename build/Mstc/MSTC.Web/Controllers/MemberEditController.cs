@@ -119,9 +119,7 @@ namespace MSTC.Web.Controllers
             }
 
             _sessionProvider.CanProcessPaymentCompletion = true;
-
-            var memberEditPage = CurrentPage as MemberEdit;
-            var redirectUrl = $"{memberEditPage.PaymentPage?.Url}?state={state}";
+            var redirectUrl = $"/Payment?state={state}";
             return Redirect(redirectUrl);
         }
 

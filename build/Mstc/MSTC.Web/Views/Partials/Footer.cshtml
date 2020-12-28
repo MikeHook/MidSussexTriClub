@@ -1,9 +1,8 @@
-﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
-@using Umbraco.Web;
-@{
-    var homepage = Model.Content.AncestorOrSelf(1) as Home;
-    var termsPage = homepage.TermsPage;
-    var contactPage = homepage.ContactPage;
+﻿@using Umbraco.Web;
+@{    
+    var homepage = UmbracoContext.Current.ContentCache.GetAtRoot().FirstOrDefault() as Home;
+    var termsPage = homepage?.TermsPage;
+    var contactPage = homepage?.ContactPage;
 }
 
 <div class="footer">

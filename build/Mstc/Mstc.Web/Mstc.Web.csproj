@@ -1667,9 +1667,11 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApplicationEventHandler.cs" />
     <Compile Include="Controllers\ContactController.cs" />
     <Compile Include="Controllers\MemberEditController.cs" />
     <Compile Include="Controllers\PaymentController.cs" />
+    <Compile Include="Controllers\PaymentSurfaceController.cs" />
     <Compile Include="Controllers\RegistrationController.cs" />
     <Compile Include="Controllers\MemberController.cs" />
     <Compile Include="Model\ChangePasswordModel.cs" />
@@ -1947,6 +1949,8 @@
     <Content Include="Views\MemberPayment.cshtml" />
     <Content Include="Views\Partials\Payment\Payment.cshtml" />
     <Content Include="Views\RenewDDMandate.cshtml" />
+    <Content Include="Views\Payment\Index.cshtml" />
+    <Content Include="Views\Payment\Mandate.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
