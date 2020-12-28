@@ -19,7 +19,12 @@ namespace Mstc.Core.Providers
 			_memberService = serviceContext.MemberService;
 		}
 
-        public static string GetSwimSub1Description(DateTime now, bool includePricing)
+		public MemberProvider(IMemberService memberService)
+		{
+			_memberService = memberService;
+		}
+
+		public static string GetSwimSub1Description(DateTime now, bool includePricing)
         {
             int year = now.Year;
             if (now.Month == 1 || now.Month == 2)

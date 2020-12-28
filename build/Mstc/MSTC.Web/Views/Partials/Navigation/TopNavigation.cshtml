@@ -1,12 +1,8 @@
-﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
-@using Umbraco.Web;
-
+﻿@using Umbraco.Web;
 @{
-    var site = Model.Content.Site();
-    var selection = site.Children.Where(x => x.IsVisible());
-
-    var homepage = Model.Content.AncestorOrSelf<Home>(1);
-    var _memberProvider = new Mstc.Core.Providers.MemberProvider(ApplicationContext.Services);
+    var homepage = UmbracoContext.Current.ContentCache.GetAtRoot().FirstOrDefault() as Home;
+    //var homepage = Model.Content.AncestorOrSelf<Home>(1);
+    var _memberProvider = new Mstc.Core.Providers.MemberProvider(Umbraco.Core.ApplicationContext.Current.Services);
     var currentUser = User.Identity.IsAuthenticated ? _memberProvider.GetLoggedInMember() : null;
 }
 

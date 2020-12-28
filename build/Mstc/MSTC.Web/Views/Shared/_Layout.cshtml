@@ -1,40 +1,75 @@
-﻿<!DOCTYPE html>
-<html>
+﻿<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+<!--<![endif]-->
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
-    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
-    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
-    <script src="~/Scripts/modernizr-2.8.3.js"></script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>Mid Sussex Tri Club</title>
+
+
+    <link rel="stylesheet" href="/css/mstc/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/mstc/icomoon-social.css">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700,600,800' rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" href="/css/mstc/leaflet.css" />
+    <!--[if lte IE 8]>
+    <link rel="stylesheet" href="/css/mstc/leaflet.ie.css" />
+    <![endif]-->
+    <link rel="stylesheet" href="/css/mstc/main-yellow.css?v=1.0">
+
+    <script src="/scripts/mstc/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+
+    <!-- Google Analytics script -->
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-16134591-11']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+    @RenderSection("Header", required: false)
 </head>
+
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
+    <!--[if lt IE 7]>
+        <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+    <![endif]-->
+
+    @Html.Partial("~/Views/Partials/Navigation/TopNavigation.cshtml")
+
+    <div class="mainmenu-wrapper">
         <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
+            <nav id="mainmenu" class="mainmenu">
+                <ul>
+                    <li class="logo-wrapper"><a href="/"><img src="/images/mstc/mstc_logo_nowhite_small.png" alt="Mid Sussex Tri Club"></a></li>
+                    <li><a href="/">Home</a></li>
                 </ul>
-            </div>
+            </nav>
         </div>
     </div>
 
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
-    </div>
+    @RenderBody()
 
-    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
-    <script src="~/Scripts/bootstrap.min.js"></script>
+    @Html.Partial("~/Views/Partials/Footer.cshtml")
+
+    <!-- Javascripts -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/scripts/mstc/jquery-1.9.1.min.js"><\/script>')</script>
+    <script src="/scripts/mstc/bootstrap.min.js"></script>
+    <script src="/scripts/mstc/main-menu.js"></script>
+    <script src="/scripts/mstc/shared.js"></script>
+
+    @RenderSection("FooterScripts", required: false)
+
 </body>
 </html>
