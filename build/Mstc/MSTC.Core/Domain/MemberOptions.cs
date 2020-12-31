@@ -36,6 +36,9 @@ namespace Mstc.Core.Domain
 			ShowSwimSubs1 = 2 < DateTime.Now.Month && DateTime.Now.Month < 10;
 		}
 
+		public bool IsRenewing { get; set; }
+		public bool IsUpgrading { get; set; }
+
 		public List<Tuple<MembershipTypeEnum, string>> MembershipTypes { get; set; }
 
 		public List<Tuple<bool, string>> IndemnityOptions { get; set; }

@@ -1672,6 +1672,7 @@
     <Compile Include="Controllers\MemberEditController.cs" />
     <Compile Include="Controllers\MandateController.cs" />
     <Compile Include="Controllers\PaymentController.cs" />
+    <Compile Include="Controllers\RenewController.cs" />
     <Compile Include="Controllers\UnlinkBankController.cs" />
     <Compile Include="Controllers\RegistrationController.cs" />
     <Compile Include="Controllers\MemberController.cs" />
@@ -1951,6 +1952,7 @@
     <Content Include="Views\RenewDDMandate.cshtml" />
     <Content Include="Views\Payment\Index.cshtml" />
     <Content Include="Views\Mandate\Index.cshtml" />
+    <Content Include="Views\MemberRenewUpgrade.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

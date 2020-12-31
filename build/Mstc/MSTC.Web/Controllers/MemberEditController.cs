@@ -87,9 +87,10 @@ namespace MSTC.Web.Controllers
                 model.OptionalExtras = GetOptionalExtras(member);
                 decimal swimSubsCost = MembershipCostCalculator.SwimsSubsCostInPence(memberType) / 100;
                 model.BuySwimSubs1Text = string.Format("Buy {0} @ £{1:N2}", MemberProvider.GetSwimSub1Description(DateTime.Now, false), swimSubsCost);
-                model.BuySwimSubs2Text = string.Format("Buy {0} @ £{1:N2}", MemberProvider.GetSwimSub2Description(DateTime.Now, false), swimSubsCost);          
+                model.BuySwimSubs2Text = string.Format("Buy {0} @ £{1:N2}", MemberProvider.GetSwimSub2Description(DateTime.Now, false), swimSubsCost);
 
-                model.EnableMemberRenewal = memberEditPage.RenewalsEnabled && DateTime.Now.Month > 2 && !isGuest && model.MembershipExpired;
+                model.EnableMemberRenewal = memberEditPage.RenewalsEnabled && DateTime.Now.Month > 2 && !isGuest && membershipExpiry.Year <= DateTime.Now.Year;
+
                 model.ShowIceLink = Roles.IsUserInRole(MSTCRoles.Coach) || Roles.IsUserInRole(MSTCRoles.MemberAdmin);
                 model.ShowMemberAdminLink = Roles.IsUserInRole(MSTCRoles.MemberAdmin);
 

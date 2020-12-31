@@ -1,4 +1,4 @@
-﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage<ContentModels.MemberRegistration>
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage<ContentModels.MemberRenewUpgrade>
 @using ContentModels = Umbraco.Web.PublishedContentModels;
 @{
 	Layout = "Master.cshtml";
@@ -13,27 +13,13 @@
 	<div class="container edit-member">
 		<div class="row">
 			<div class="col-sm-12">
-				@Model.Content.BodyText
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-sm-12">
-				@using (Html.BeginUmbracoForm("Register", "Registration", FormMethod.Post, new { id = "register", @class = "form-horizontal" }))
+				@using (Html.BeginUmbracoForm("Renew", "Renew", FormMethod.Post, new { id = "renew", @class = "form-horizontal" }))
 				{
 					var model = new Mstc.Core.Domain.RegistrationDetails();
 
-					@Html.AntiForgeryToken()
+					@Html.AntiForgeryToken()			
 
-					Html.RenderPartial("~/Views/Partials/Registration/PersonalDetails.cshtml", model);
-
-					Html.RenderPartial("~/Views/Partials/Registration/MemberOptions.cshtml", model);
-
-				<div class="form-group">
-					<div class="col-sm-2"></div>
-					<div class="col-sm-10">
-						<button name="register" type="submit" class="btn btn-yellow">Register</button>
-					</div>
-				</div>
+                    Html.RenderAction("RenewOptions", "Renew");					
 				}
 			</div>
 		</div>
@@ -49,7 +35,3 @@
 			});
 		});</script>
 }
-
-
-
-
