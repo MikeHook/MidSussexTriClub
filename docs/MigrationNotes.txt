@@ -16,6 +16,10 @@ Functionality to do
 - Move member costs into Umbraco
 - Fix login page not redirecting
 
+Testing
+-------
+- Member renewal / upgrade
+
 
 
 Done

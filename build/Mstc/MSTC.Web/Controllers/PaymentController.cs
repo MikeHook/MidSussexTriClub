@@ -9,9 +9,11 @@ using Mstc.Core.Dto;
 using Mstc.Core.Providers;
 using MSTC.Web.Model;
 using Umbraco.Core;
+using Umbraco.Core.Models;
 using Umbraco.Core.Services;
 using Umbraco.Web.Models;
 using Umbraco.Web.Mvc;
+using Umbraco.Core.Logging;
 
 namespace MSTC.Web.Controllers
 {
@@ -23,6 +25,7 @@ namespace MSTC.Web.Controllers
         protected GoCardlessProvider _goCardlessProvider;
         protected EmailProvider _emailProvider;
         protected MemberProvider _memberProvider;
+        protected ILogger _logger;
 
         public PaymentController()
         {
@@ -31,29 +34,8 @@ namespace MSTC.Web.Controllers
             _emailProvider = new EmailProvider();
             _memberService = ApplicationContext.Current.Services.MemberService;
             _memberProvider = new MemberProvider(_memberService);
-        }
-
-        /*
-        public override ActionResult Index(RenderModel model)
-        {
-            _sessionProvider = new SessionProvider();
-            _goCardlessProvider = new GoCardlessProvider();
-            _emailProvider = new EmailProvider();
-            _memberProvider = new MemberProvider(Services);
-
-            var member = _memberProvider.GetLoggedInMember();
-            string state = Request.QueryString["state"];
-            bool canProcessPaymentCompletion = _sessionProvider.CanProcessPaymentCompletion;
-            if (member == null || !canProcessPaymentCompletion || string.IsNullOrEmpty(state))
-            {
-                //TODO - Show Error
-                return base.Index(model);
-            }
-
-
-            // Do some stuff here, then return the base method
-            return base.Index(model);
-        }*/
+            _logger = ApplicationContext.Current.ProfilingLogger.Logger;
+        }       
 
         [HttpGet]
         public ActionResult Index()
@@ -84,6 +66,71 @@ namespace MSTC.Web.Controllers
                 return RedirectToMandatePage(paymentState);
             }
 
+            MapPaymentStateToModel(model, member, paymentState);
+
+            return View(model);
+        }
+        
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Index(PaymentModel model)
+        {
+            var member = _memberProvider.GetLoggedInMember();
+            string state = Request.QueryString["state"];
+            bool canProcessPaymentCompletion = _sessionProvider.CanProcessPaymentCompletion;
+            if (member == null || !canProcessPaymentCompletion || string.IsNullOrEmpty(state))
+            {
+                model.HasPaymentDetails = false;
+                return View(model);            
+            }
+
+            var paymentState = (PaymentStates)Enum.Parse(typeof(PaymentStates), state);
+            MapPaymentStateToModel(model, member, paymentState);
+            
+            var paymentResponse = CreatePayment(member, paymentState);
+
+            if (paymentResponse == PaymentResponseDto.Success)
+            {
+                ProcessPaymentState(model, member, paymentState);
+                model.PaymentConfirmed = true;
+            }
+            else if (paymentResponse == PaymentResponseDto.MandateError)
+            {
+                return RedirectToMandatePage(paymentState);
+            }
+            else
+            {
+                model.ShowPaymentFailed = true;
+            }
+
+            _sessionProvider.CanProcessPaymentCompletion = false;
+
+            return View(model);
+        }
+
+
+        private ActionResult RedirectToMandatePage(PaymentStates paymentState)
+        {
+            var mandatePageUrl = $"/mandate?state={paymentState}";
+            return Redirect(mandatePageUrl);
+        }
+
+        private PaymentResponseDto CreatePayment(IMember member, PaymentStates paymentState)
+        {
+            var membershipType = member.GetValue<MembershipTypeEnum>(MemberProperty.membershipType);
+            string mandateId = member.GetValue<string>(MemberProperty.directDebitMandateId);
+            string email = member.Email;
+
+            int costInPence = (paymentState == PaymentStates.MemberRenewal || paymentState == PaymentStates.MemberUpgrade)
+                ? MembershipCostCalculator.Calculate(_sessionProvider.RenewalOptions, DateTime.Now)
+                : MembershipCostCalculator.PaymentStateCost(paymentState, membershipType);
+            string description = paymentState.GetAttributeOfType<DescriptionAttribute>().Description;
+
+            return _goCardlessProvider.CreatePayment(_logger, mandateId, email, costInPence, description);
+        }
+
+        private void MapPaymentStateToModel(PaymentModel model, IMember member, PaymentStates paymentState)
+        {
             model.HasPaymentDetails = true;
             model.PaymentDescription = paymentState.GetAttributeOfType<DescriptionAttribute>().Description;
 
@@ -93,59 +140,36 @@ namespace MSTC.Web.Controllers
                 : MembershipCostCalculator.PaymentStateCost(paymentState, membershipType);
 
             model.Cost = (costInPence / 100m);
-
-            return View(model);
         }
 
-        [HttpGet]
-        public ActionResult Mandate()
+        private void ProcessPaymentState(PaymentModel model, IMember member, PaymentStates paymentState)
         {
-            var member = _memberProvider.GetLoggedInMember();
-            string state = Request.QueryString["state"];
-            bool canProcessPaymentCompletion = _sessionProvider.CanProcessPaymentCompletion;
-            if (member == null || !canProcessPaymentCompletion || string.IsNullOrEmpty(state))
+            switch (paymentState)
             {
-                return View(false);
+                case PaymentStates.SS05991:
+                    {
+                        member.SetValue(MemberProperty.swimSubs1, string.Format("Swim Subs Apr - Sept {0}", DateTime.Now.Year));
+                        model.ShowSwimSubsConfirmation = true;
+                        break;
+                    }
+                case PaymentStates.SS05992:
+                    {
+                        var janToMarch = new List<int>() { 1, 2, 3 };
+                        int year1 = janToMarch.Any(m => m == DateTime.Now.Month) ? DateTime.Now.Year - 1 : DateTime.Now.Year;
+                        member.SetValue(MemberProperty.swimSubs2, string.Format("Swim Subs Oct {0} - Mar {1}", year1, year1 + 1));
+                        model.ShowSwimSubsConfirmation = true;
+                        break;
+                    }
+                case PaymentStates.MemberRenewal:
+                case PaymentStates.MemberUpgrade:
+                    {
+                        _memberProvider.UpdateMemberOptions(member, _sessionProvider.RenewalOptions, isUpgrade: paymentState == PaymentStates.MemberUpgrade);
+                        model.ShowRenewed = true;
+                        break;
+                    }
             }
 
-            var fullName = member.Name;
-            string familyName = fullName;
-            string givenName = string.Empty;
-            if (fullName.Contains(" "))
-            {
-                var names = fullName.Split(' ');
-                familyName = names.Last();
-                givenName = string.Join(" ", names.Take(names.Length - 1));
-            }
-
-            var customerDto = new CustomerDto()
-            {
-                GivenName = givenName,
-                FamilyName = familyName,
-                AddressLine1 = member.GetValue<string>(MemberProperty.Address1),
-                City = member.GetValue<string>(MemberProperty.City),
-                PostalCode = member.GetValue<string>(MemberProperty.Postcode),
-                Email = member.Email
-            };
-           
-            //var mandateSuccessUrl = $"/Payment?state={state}";
-            string rootUrl = string.Format("{0}://{1}{2}", Request.Url.Scheme, Request.Url.Host, Request.Url.Port == 80 ? string.Empty : ":" + Request.Url.Port);
-            string mandateSuccessUrl = string.Format("{0}/payment?state={1}", rootUrl, state);
-
-            var redirectResponse = _goCardlessProvider.CreateRedirectRequest(customerDto, "Mid Sussex Tri Club DD Mandate Setup", _sessionProvider.SessionId,
-                mandateSuccessUrl);
-
-            _sessionProvider.GoCardlessRedirectFlowId = redirectResponse.Id;
-            return Redirect(redirectResponse.RedirectUrl);
-        }
-
-
-        private ActionResult RedirectToMandatePage(PaymentStates paymentState)
-        {
-            //var memberPaymentPage = CurrentPage as Umbraco.Web.PublishedContentModels.MemberPayment;
-            //var mandatePageUrl = $"{memberPaymentPage.MandatePage.Url}?state={paymentState}";
-            var mandatePageUrl = $"/payment/mandate?state={paymentState}";
-            return Redirect(mandatePageUrl);
+            _memberService.Save(member);
         }
     }
 }

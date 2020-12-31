@@ -7,7 +7,7 @@
 }
 else
 {
-    using (Html.BeginUmbracoForm("UnlinkBank", "Payment", System.Web.Mvc.FormMethod.Post, new { id = "unlink-bank-form", @class = "form-horizontal" }))
+    using (Html.BeginUmbracoForm("Unlink", "UnlinkBank", System.Web.Mvc.FormMethod.Post, new { id = "unlink-bank-form", @class = "form-horizontal" }))
     {
         @Html.AntiForgeryToken()
         <div class="form-group">           
