@@ -2,86 +2,114 @@
 @{
 
 }
-    <div class="member-options">
-        <div class="form-group">
-            <h3 class="col-sm-12">Membership options</h3>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(m => m.MemberOptions.MembershipType, new { @class = "col-sm-2 control-label" })
-            <div class="col-sm-10">
-                <span class="radio">
-                    @foreach (var type in Model.MemberOptions.MembershipTypes)
-                    {
-                        @Html.RadioButtonFor(m => m.MemberOptions.MembershipType, type.Item1, new { id = $"membertype-{type.Item1}" })                  
-                        <label for="membertype-@type.Item1">@Html.Raw(type.Item2)</label>
-                        <br />
-                    }
-                </span>
-                @Html.ValidationMessageFor(m => m.MemberOptions.MembershipType, "Please select your membership type", new { @class = "help-block alert-danger" })
-                @if (Mstc.Core.Providers.MembershipCostCalculator.DiscountedMonths.Contains(DateTime.Now.Month))
-                {
-                    <span class="help-block alert-success">Good news! The 50% second half season discount has been applied!</span>
-                }
-                <span class="help-block alert-warning">Youth members parents must complete the <a href="http://midsussextriclub.com/media/63667/Consent%20form%20Feb%202017.pdf" target="_blank">consent form</a>.</span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-sm-2 control-label"><b>Optional extras</b></label>
-            <div class="col-sm-10">
-                <span class="checkbox">
-                    @if (Model.MemberOptions.ShowSwimSubs1)
-                    {
-                        Html.CheckBoxFor(m => m.MemberOptions.SwimSubs1, new { id = "cb-swimsubs1" });
-                        <label for="cb-swimsubs1">@Html.Raw(Mstc.Core.Providers.MemberProvider.GetSwimSub1Description(DateTime.Now, true))</label><br />
-                    }
 
-                    @Html.CheckBoxFor(m => m.MemberOptions.SwimSubs2, new { id = "cb-swimsubs2" })
-                    <label for="cb-swimsubs2">@Html.Raw(Mstc.Core.Providers.MemberProvider.GetSwimSub2Description(DateTime.Now, true))</label><br />
+@if (Model.MemberOptions.IsRenewing)
+{
+    <p>Please select from the options below to renew your club membership</p>
+}
+@if (Model.MemberOptions.IsUpgrading)
+{
+    <p>Please select from the options below to upgrade your club membership</p>
+}
 
-                    @Html.CheckBoxFor(m => m.MemberOptions.EnglandAthleticsMembership, new { id = "cb-athletics" })
-                    <label for="cb-athletics">England Athletics Membership* - &pound;16</label><br />
-                </span>
-
-                <span class="help-block alert-info">*If you choose England Athletics Membership we will provide England Athletics with your personal data which they will use to enable access to an online portal for you (called myAthletics). England Athletics will contact you to invite you to sign in and update your MyAthletics portal which allows you, amongst other things, to set and amend your privacy settings. If you have any questions about the continuing privacy of your personal data when it is shared with England Athletics, please contact dataprotection@englandathletics.org</span>
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(m => m.MemberOptions.OpenWaterIndemnityAcceptance, new { @class = "col-sm-2 control-label" })   
-            <div class="col-sm-10">
-                <p><a href="/training-zone/open-water-swim-sessions.aspx" target="_blank">Click here to review the OWS Safety Video and Guidelines</a></p>
-                <p><a href="http://midsussextriclub.com/media/47452/MSTCIndemnityWaiver.pdf" target="_blank">Click here to view the Open Water Swimming Indemnity Document</a></p>
-
-                <span class="radio">
-                    @foreach (var option in Model.MemberOptions.IndemnityOptions)
-                    {
-                        @Html.RadioButtonFor(m => m.MemberOptions.OpenWaterIndemnityAcceptance, option.Item1, new { id = $"indemnity-{option.Item1}" })                        
-                        <label for="indemnity-@option.Item1.ToString()">@Html.Raw(option.Item2)</label>
-                        <br />
-                    }
-                </span>
-                @Html.ValidationMessageFor(m => m.MemberOptions.OpenWaterIndemnityAcceptance, "Please select your open water indemnity waiver response", new { @class = "help-block alert-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(m => m.MemberOptions.Volunteering, new { @class = "col-sm-2 control-label" })
-            <div class="col-sm-10">
-                <span class="checkbox">
-                    @Html.CheckBoxFor(m => m.MemberOptions.Volunteering, new { id = "cb-volunteer" })
-                    <label for="cb-volunteer">I agree to give my time to assist in marshalling duties this year at either the Mid Sussex Triathlon or club events.</label><br />
-                    @Html.ValidationMessageFor(m => m.MemberOptions.Volunteering, "Please accept the volunteering agreement to proceed", new { @class = "help-block alert-danger" })
-                </span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-sm-2 control-label"><b>Personal data</b></label>
-            <div class="col-sm-10">
-                <p class="form-control-static">
-                    In becoming a member of Mid Sussex Triathlon Club ("the Club"), the Club will collect certain
-                    personal information about you. This data will be used for the purposes of administration of Club
-                    membership, Club management, sending communications to you about the Club, and administration
-                    of training sessions and club competitions. Further details can be found in the Club's 
-                    <a href="https://midsussextriclub.com/media/69408/mstcprivacypolicymay2018.pdf" target="_blank">privacy statement and policy</a>.
-                </p>
-            </div>
-        </div>       
+<div class="member-options">
+    <div class="form-group">
+        <h3 class="col-sm-12">Membership options</h3>
     </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.MemberOptions.MembershipType, new { @class = "col-sm-2 control-label" })
+        <div class="col-sm-10">
+            <span class="radio">
+                @foreach (var type in Model.MemberOptions.MembershipTypes)
+                {
+                    @Html.RadioButtonFor(m => m.MemberOptions.MembershipType, type.Item1, new { id = $"membertype-{type.Item1}" })
+                    <label for="membertype-@type.Item1">@Html.Raw(type.Item2)</label>
+                    <br />
+                }
+            </span>
+            @Html.ValidationMessageFor(m => m.MemberOptions.MembershipType, "Please select your membership type", new { @class = "help-block alert-danger" })
+            @if (Mstc.Core.Providers.MembershipCostCalculator.DiscountedMonths.Contains(DateTime.Now.Month))
+            {
+                <span class="help-block alert-success">Good news! The 50% second half season discount has been applied!</span>
+            }
+            <span class="help-block alert-warning">Youth members parents must complete the <a href="http://midsussextriclub.com/media/63667/Consent%20form%20Feb%202017.pdf" target="_blank">consent form</a>.</span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label"><b>Optional extras</b></label>
+        <div class="col-sm-10">
+            <span class="checkbox">
+                @if (Model.MemberOptions.ShowSwimSubs1)
+                {
+                    Html.CheckBoxFor(m => m.MemberOptions.SwimSubs1, new { id = "cb-swimsubs1" });
+                    <label for="cb-swimsubs1">@Html.Raw(Mstc.Core.Providers.MemberProvider.GetSwimSub1Description(DateTime.Now, true))</label><br />
+                }
+
+                @Html.CheckBoxFor(m => m.MemberOptions.SwimSubs2, new { id = "cb-swimsubs2" })
+                <label for="cb-swimsubs2">@Html.Raw(Mstc.Core.Providers.MemberProvider.GetSwimSub2Description(DateTime.Now, true))</label><br />
+
+                @Html.CheckBoxFor(m => m.MemberOptions.EnglandAthleticsMembership, new { id = "cb-athletics" })
+                <label for="cb-athletics">England Athletics Membership* - &pound;16</label><br />
+            </span>
+
+            <span class="help-block alert-info">*If you choose England Athletics Membership we will provide England Athletics with your personal data which they will use to enable access to an online portal for you (called myAthletics). England Athletics will contact you to invite you to sign in and update your MyAthletics portal which allows you, amongst other things, to set and amend your privacy settings. If you have any questions about the continuing privacy of your personal data when it is shared with England Athletics, please contact dataprotection@englandathletics.org</span>
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.MemberOptions.OpenWaterIndemnityAcceptance, new { @class = "col-sm-2 control-label" })
+        <div class="col-sm-10">
+            <p><a href="/training-zone/open-water-swim-sessions.aspx" target="_blank">Click here to review the OWS Safety Video and Guidelines</a></p>
+            <p><a href="http://midsussextriclub.com/media/47452/MSTCIndemnityWaiver.pdf" target="_blank">Click here to view the Open Water Swimming Indemnity Document</a></p>
+
+            <span class="radio">
+                @foreach (var option in Model.MemberOptions.IndemnityOptions)
+                {
+                    @Html.RadioButtonFor(m => m.MemberOptions.OpenWaterIndemnityAcceptance, option.Item1, new { id = $"indemnity-{option.Item1}" })
+                    <label for="indemnity-@option.Item1.ToString()">@Html.Raw(option.Item2)</label>
+                    <br />
+                }
+            </span>
+            @Html.ValidationMessageFor(m => m.MemberOptions.OpenWaterIndemnityAcceptance, "Please select your open water indemnity waiver response", new { @class = "help-block alert-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.MemberOptions.Volunteering, new { @class = "col-sm-2 control-label" })
+        <div class="col-sm-10">
+            <span class="checkbox">
+                @Html.CheckBoxFor(m => m.MemberOptions.Volunteering, new { id = "cb-volunteer" })
+                <label for="cb-volunteer">I agree to give my time to assist in marshalling duties this year at either the Mid Sussex Triathlon or club events.</label><br />
+                @Html.ValidationMessageFor(m => m.MemberOptions.Volunteering, "Please accept the volunteering agreement to proceed", new { @class = "help-block alert-danger" })
+            </span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label"><b>Personal data</b></label>
+        <div class="col-sm-10">
+            <p class="form-control-static">
+                In becoming a member of Mid Sussex Triathlon Club ("the Club"), the Club will collect certain
+                personal information about you. This data will be used for the purposes of administration of Club
+                membership, Club management, sending communications to you about the Club, and administration
+                of training sessions and club competitions. Further details can be found in the Club's
+                <a href="https://midsussextriclub.com/media/69408/mstcprivacypolicymay2018.pdf" target="_blank">privacy statement and policy</a>.
+            </p>
+        </div>
+    </div>
+    @if (Model.MemberOptions.IsRenewing)
+    {
+        <div class="form-group">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-10">
+                <button name="renew" type="submit" class="btn btn-yellow">Renew</button>
+            </div>
+        </div>
+    }
+    @if (Model.MemberOptions.IsUpgrading)
+    {
+        <div class="form-group">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-10">
+                <button name="upgrade" type="submit" class="btn btn-yellow">Upgrade</button>
+            </div>
+        </div>
+    }
+</div>
