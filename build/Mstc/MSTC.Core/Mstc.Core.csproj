@@ -231,7 +231,6 @@
   <ItemGroup>
     <Compile Include="configuration\GmailSmtpClient.cs" />
     <Compile Include="DataAccess\DataConnection.cs" />
-    <Compile Include="DataAccess\MemberDal.cs" />
     <Compile Include="Domain\TopicEnum.cs" />
     <Compile Include="Domain\MemberProperty.cs" />
     <Compile Include="Domain\MembershipExtras.cs" />
@@ -247,7 +246,7 @@
     <Compile Include="Dto\CustomerDto.cs" />
     <Compile Include="Dto\MemberIceDto.cs" />
     <Compile Include="Dto\MemberData.cs" />
-    <Compile Include="Dto\MemberOptionsDto.cs" />
+    <Compile Include="Dto\MemberDetailsDto.cs" />
     <Compile Include="Dto\MemberServiceDto.cs" />
     <Compile Include="Dto\MemberSummaryDto.cs" />
     <Compile Include="EnumHelper.cs" />
@@ -260,8 +259,6 @@
     <Compile Include="Providers\PasswordObfuscator.cs" />
     <Compile Include="Providers\SessionProvider.cs" />
     <Compile Include="Validation\DateOver16Validator.cs" />
-    <Compile Include="WebMethods\MemberAdmin.cs" />
-    <Compile Include="WebMethods\SwimAdmin.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

@@ -46,10 +46,10 @@ MSTC Member Edit
 MSTC Payment Complete
 MSTC Mandate Request
 MSTC Member Renewal / Upgrade
+MSTC Member Admin
 
 To Do
 -----
-MSTC Member Admin
 MSTC Athletes
 MSTC Member ICE Details
 MSTC Member Services
