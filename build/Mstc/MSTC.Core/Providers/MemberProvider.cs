@@ -104,6 +104,18 @@ namespace Mstc.Core.Providers
 			return _memberService.GetByUsername(membershipUser.UserName);
 		}
 
+		public IEnumerable<IMember> GetAll()
+		{
+			int total;
+			return _memberService.GetAll(0, 99999, out total);
+		}
+
+		public IEnumerable<MemberDetailsDto> GetAllMemberDetails()
+		{
+			var members = GetAll();
+			return members.Select(m => MapToMemberDetails(m));
+		}
+
 		public void UpdateMemberOptions(IMember member, MemberOptions membershipOptions, bool isUpgrade)
 		{
 			var membershipExpiry = GetNewMemberExpiry(DateTime.Now);
@@ -181,10 +193,10 @@ namespace Mstc.Core.Providers
 
 		private int GetSwimAuthNumber(MembershipTypeEnum membershipType)
 		{
-			//Calculate the next available swim auth number
-			IMemberDal memberDal = new MemberDal(new DataConnection());
-			IEnumerable<MemberOptionsDto> memberOptions = memberDal.GetMemberOptions();
-			IEnumerable<MemberOptionsDto> openWaterSwimmers = memberOptions.Where(m => m.SwimAuthNumber.HasValue);
+			var membersDetails = GetAllMemberDetails();
+
+			//Calculate the next available swim auth number			
+			IEnumerable<MemberDetailsDto> openWaterSwimmers = membersDetails.Where(m => m.SwimAuthNumber.HasValue);
 
 			int swimAuthNumber = 0;
 			if (membershipType != MembershipTypeEnum.Guest)
@@ -199,6 +211,37 @@ namespace Mstc.Core.Providers
 			}
 
 			return swimAuthNumber;
+		}
+
+		public MemberDetailsDto MapToMemberDetails(IMember member)
+		{
+			var memberDetails = new MemberDetailsDto()
+			{
+				Name = member.Name,
+				Email = member.Email,
+				Phone = member.GetValue<string>(MemberProperty.Phone),
+				MembershipType = member.GetValue<MembershipTypeEnum>(MemberProperty.membershipType),
+
+				SwimSubs1 = member.GetValue<string>(MemberProperty.swimSubs1),
+				SwimSubs2 = member.GetValue<string>(MemberProperty.swimSubs2),
+				EnglandAthleticsMembership = member.GetValue<bool>(MemberProperty.EnglandAthleticsMembership),
+				OpenWaterIndemnityAcceptance = member.GetValue<bool>(MemberProperty.OpenWaterIndemnityAcceptance),
+				Volunteering = member.GetValue<bool>(MemberProperty.Volunteering),
+				MembershipExpiry = member.GetValue<DateTime>(MemberProperty.MembershipExpiry),
+
+				SwimAuthNumber = member.GetValue<int?>(MemberProperty.SwimAuthNumber),
+				SwimBalanceLastYear = member.GetValue<int>(MemberProperty.CreditsRemainingLastYear),
+				SwimCreditsBought = member.GetValue<int>(MemberProperty.CreditsBought),
+				SwimCreditsUsed = member.GetValue<int>(MemberProperty.CreditsUsed),
+
+				BtfNumber = member.GetValue<string>(MemberProperty.BTFNumber),
+				Gender = member.GetValue<GenderEnum>(MemberProperty.Gender).ToString(),
+				DateOfBirth = member.GetValue<DateTime>(MemberProperty.DateOfBirth),
+				Address1 = member.GetValue<string>(MemberProperty.Address1),
+				City = member.GetValue<string>(MemberProperty.City),
+				Postcode = member.GetValue<string>(MemberProperty.Postcode)
+			};
+			return memberDetails;
 		}
 	}
 }

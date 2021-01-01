@@ -1669,6 +1669,7 @@
   <ItemGroup>
     <Compile Include="ApplicationEventHandler.cs" />
     <Compile Include="Controllers\ContactController.cs" />
+    <Compile Include="Controllers\MemberAdminController.cs" />
     <Compile Include="Controllers\MemberEditController.cs" />
     <Compile Include="Controllers\MandateController.cs" />
     <Compile Include="Controllers\PaymentController.cs" />
@@ -1953,6 +1954,7 @@
     <Content Include="Views\Payment\Index.cshtml" />
     <Content Include="Views\Mandate\Index.cshtml" />
     <Content Include="Views\MemberRenewUpgrade.cshtml" />
+    <Content Include="Views\MemberAdmin.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
