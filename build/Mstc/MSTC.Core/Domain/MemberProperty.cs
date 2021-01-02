@@ -38,6 +38,7 @@
 		public const string CreditsRemainingLastYear = "creditsRemainingLastYear";
 		public const string CreditsBought = "creditsBought";
 		public const string CreditsUsed = "creditsUsed";
+		public const string TrainingCredits = "trainingCredits";		
 
 		public static string GuestCode = "guestCode";
 		public static string ReferredByMember = "referredByMember";

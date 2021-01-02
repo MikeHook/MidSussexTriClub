@@ -22,19 +22,23 @@
 					<th>Gender</th>
 					<th>Date of Birth</th>
 					<th>Address 1</th>
-					<th>City / Town</th>		
+					<th>City / Town</th>
 					<th>Postcode</th>
 					<th>Membership Type</th>
 					<th>Membership Expiry Date</th>
 					<th>England Athletics Member?</th>
 					<th>Swim Subs 1</th>
-					<th>Swim Subs 2</th>					
-					<th>BTF Number</th>					
+					<th>Swim Subs 2</th>
+					<th>BTF Number</th>
 					<th>OWS Accepted indemnity?</th>
 					<th>OWS auth no</th>
 					<th>Swim Balance Last Year</th>
 					<th>Credits Bought</th>
 					<th>Credits Used</th>
+					<th>Training Credits</th>
+					<th>Medical Conditions</th>
+					<th>Emergency Contact Name</th>
+					<th>Emergency Contact Number</th>
 				</tr>
 			</thead>
 			<tbody></tbody>
@@ -59,10 +63,26 @@
 					<th></th>
 					<th></th>
 					<th></th>
+					<th></th>
+					<th></th>
+					<th></th>
+					<th></th>
 				</tr>
 			</tfoot>
 		</table>
 
+
+		@using (Html.BeginUmbracoForm("SyncCredits", "MemberEdit", FormMethod.Post, new { id = "sync-credits", @class = "form-horizontal" }))
+		{
+			@Html.AntiForgeryToken()		
+
+			<div class="form-group">
+				<div class="col-sm-2"></div>
+				<div class="col-sm-10">
+					<button name="sync" type="submit" class="btn btn-yellow">Sync Training Credits</button>
+				</div>
+			</div>
+		}
 	</div>
 </div>
 
@@ -131,9 +151,13 @@
 						visible: false
 					},
 					{ data: 'SwimAuthNumber' },
-					{ data: 'SwimBalanceLastYear' },
-					{ data: 'SwimCreditsBought' },
-					{ data: 'SwimCreditsUsed' }
+					{ data: 'SwimBalanceLastYear', visible: false },
+					{ data: 'SwimCreditsBought', visible: false },
+					{ data: 'SwimCreditsUsed', visible: false },
+					{ data: 'TrainingCredits' },
+					{ data: 'MedicalConditions', visible: false },
+					{ data: 'EmergencyContactName', visible: false  },
+					{ data: 'EmergencyContactNumber', visible: false  },
 				],
 				'order': [[0, 'desc']],
 				initComplete: function () {
