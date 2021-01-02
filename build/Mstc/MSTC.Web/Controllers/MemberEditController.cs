@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Linq;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
@@ -185,6 +186,28 @@ namespace MSTC.Web.Controllers
 
             return RedirectToCurrentUmbracoUrl(); 
         }
+
+        [HttpPost]
+        public ActionResult SyncCredits()
+        {
+            var currentMember = _memberProvider.GetLoggedInMember();
+            if (!ModelState.IsValid || currentMember == null)
+            {
+                return CurrentUmbracoPage();
+            }
+
+            var members = _memberProvider.GetAll().ToList();
+            foreach(var member in members)
+            {
+                int trainingCredits = member.GetValue<int>(MemberProperty.CreditsRemainingLastYear) + member.GetValue<int>(MemberProperty.CreditsBought) - member.GetValue<int>(MemberProperty.CreditsUsed);
+                member.SetValue(MemberProperty.TrainingCredits, trainingCredits);
+                Services.MemberService.Save(member);
+            }
+
+            return RedirectToCurrentUmbracoUrl();
+        }
+
+        
 
         public MemberDetailsModel MapMemberDetails(IMember member)
         {

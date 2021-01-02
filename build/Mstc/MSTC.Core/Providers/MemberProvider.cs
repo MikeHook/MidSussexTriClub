@@ -233,13 +233,18 @@ namespace Mstc.Core.Providers
 				SwimBalanceLastYear = member.GetValue<int>(MemberProperty.CreditsRemainingLastYear),
 				SwimCreditsBought = member.GetValue<int>(MemberProperty.CreditsBought),
 				SwimCreditsUsed = member.GetValue<int>(MemberProperty.CreditsUsed),
+				TrainingCredits = member.GetValue<int>(MemberProperty.TrainingCredits),
 
 				BtfNumber = member.GetValue<string>(MemberProperty.BTFNumber),
 				Gender = member.GetValue<GenderEnum>(MemberProperty.Gender).ToString(),
 				DateOfBirth = member.GetValue<DateTime>(MemberProperty.DateOfBirth),
 				Address1 = member.GetValue<string>(MemberProperty.Address1),
 				City = member.GetValue<string>(MemberProperty.City),
-				Postcode = member.GetValue<string>(MemberProperty.Postcode)
+				Postcode = member.GetValue<string>(MemberProperty.Postcode),
+
+				MedicalConditions = member.GetValue<string>(MemberProperty.MedicalConditions),
+				EmergencyContactName = member.GetValue<string>(MemberProperty.EmergencyContactName),
+				EmergencyContactNumber = member.GetValue<string>(MemberProperty.EmergencyContactNumber),
 			};
 			return memberDetails;
 		}

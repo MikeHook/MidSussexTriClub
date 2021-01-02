@@ -20,14 +20,18 @@ namespace Mstc.Core.Dto
 		public int SwimBalanceLastYear { get; set; }
 		public int SwimCreditsBought { get; set; }
 		public int SwimCreditsUsed { get; set; }
-		
-        public string BtfNumber { get; set; }
+		public int TrainingCredits { get; set; }
+
+		public string BtfNumber { get; set; }
 		public string Gender { get; set; }
 		public DateTime? DateOfBirth { get; set; }
 		public string Address1 { get; set; }
 		public string City { get; set; }	
 		public string Postcode { get; set; }
 
+		public string MedicalConditions { get; set; }
+		public string EmergencyContactName { get; set; }
+		public string EmergencyContactNumber { get; set; }
 
 		public bool IsGuest => MembershipType.HasValue && MembershipType.Value == Domain.MembershipTypeEnum.Guest;
 

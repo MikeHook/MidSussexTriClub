@@ -15,6 +15,7 @@ Functionality to do
 - Improve Section Header styling
 - Move member costs into Umbraco
 - Fix login page not redirecting
+- Remove extra swim credits properties
 
 Testing
 -------
@@ -47,11 +48,12 @@ MSTC Payment Complete
 MSTC Mandate Request
 MSTC Member Renewal / Upgrade
 MSTC Member Admin
+MSTC Member ICE Details
 
 To Do
 -----
 MSTC Athletes
-MSTC Member ICE Details
+
 MSTC Member Services
 
 Event Booking / Buy Credits (New feature)
