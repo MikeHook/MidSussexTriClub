@@ -1,0 +1,95 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage<ContentModels.MemberList>
+@using ContentModels = Umbraco.Web.PublishedContentModels;
+@using Umbraco.Core.Persistence.DatabaseModelDefinitions;
+@using Mstc.Core.Domain
+@{
+	Layout = "Master.cshtml";
+	//gets the page from the querystring
+	int pageSize = 25;
+	long page = 0;
+	if (!string.IsNullOrEmpty(Request.QueryString["page"]))
+	{
+		long.TryParse(Request.QueryString["page"], out page);
+		if (page < 0)
+		{
+			page = 0;
+		}
+	}
+
+	long totalMembers = 0;
+	var members = ApplicationContext.Services.MemberService.GetAll(page, pageSize, out totalMembers, "Name", Direction.Ascending);
+	var pageCount = (int)Math.Ceiling((double)totalMembers / (double)pageSize);
+
+}
+
+@helper PageLink(string url, long page)
+{
+	@(url + "?page=" + page);
+}
+
+@Html.Partial("~/Views/Partials/SectionHeader.cshtml")
+
+
+<section class="section">
+	<div class="container">
+		@if (Model.Content.BodyText != null)
+		{
+			<div class="row">
+				<div class="col-sm-12">
+					@Model.Content.BodyText
+				</div>
+			</div>
+		}
+		<div class="row service-wrapper-row">
+			@foreach (IMember member in members)
+			{
+				var profileImageId = member.GetValue<string>(MemberProperty.ProfileImage);
+				<div class="col-sm-2">
+					<div class="service-image">
+						@if (string.IsNullOrEmpty(profileImageId) == false)
+						{
+							<img class="member-directory-image" src="@Umbraco.TypedMedia(profileImageId).Url" alt="@member.Name" />
+						}
+						else
+						{
+							<img class="member-directory-image" src="/images/mstc/headshot-placeholder.jpg" alt="@member.Name" />
+
+						}
+						<h3>@member.Name</h3>
+					</div>
+				</div>
+			}
+		</div>
+		@if (totalMembers > pageSize)
+		{
+			<div class="pagination">
+				<nav class="nav-bar nav-bar--center">
+					@if (page <= 0)
+					{
+						<span class="nav-link nav-link--black nav-link--disabled">Prev</span>
+					}
+					else
+					{
+						<a class="nav-link nav-link--black" href="@(PageLink(Model.Content.Url,(page - 1)))">Prev</a>
+					}
+
+					@for (int i = 0; i < pageCount; i++)
+					{
+						<a class="nav-link nav-link--black @(page == i ? "nav-link--active" : null)" href="@(PageLink(Model.Content.Url, i))">@(i + 1)</a>
+					}
+					@if (page == (pageCount-1))
+					{
+						<span class="nav-link nav-link--black nav-link--disabled">Next</span>
+					}
+					else
+					{
+						<a class="nav-link nav-link--black" href="@(PageLink(Model.Content.Url, (page + 1)))">Next</a>
+					}
+
+				</nav>
+			</div>
+		}
+	</div>
+</section>
+
+

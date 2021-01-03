@@ -5,28 +5,32 @@
 }
 @Html.Partial("~/Views/Partials/SectionHeader.cshtml")
 
-@if (Model.Content.BodyText != null)
-{
-    <section class="section">
-        <div class="container">
-                <div class="row">
-                    <div class="col-sm-12">
-                        @Model.Content.BodyText
-                    </div>
+
+<section class="section">
+    <div class="container">
+        @if (Model.Content.BodyText != null) {
+            <div class="row">
+                <div class="col-sm-12">
+                    @Model.Content.BodyText
                 </div>
-                <div class="row service-wrapper-row">
-                    @foreach (ContentModels.Person person in Model.Content.Children)
-                    {
-                        if (person.IsCoach) {
-                            @Html.Partial("~/Views/Partials/Person/Coach.cshtml", person)
-                        } else {
-                            @Html.Partial("~/Views/Partials/Person/Person.cshtml", person)
-                        }
-                    }
-                </div>
+            </div>
+        }
+        <div class="row service-wrapper-row">
+            @foreach (ContentModels.Person person in Model.Content.Children)
+            {
+                if (person.IsCoach)
+                {
+                    @Html.Partial("~/Views/Partials/Person/Coach.cshtml", person)
+                }
+                else
+                {
+                    @Html.Partial("~/Views/Partials/Person/Person.cshtml", person)
+                }
+            }
         </div>
-    </section>
-}
+    </div>
+</section>
+
 
 @if (Model.Content.SecondaryContent != null)
 {

@@ -14,11 +14,11 @@
 {
     if (string.IsNullOrEmpty(filterBy))
     {
-        @(url + "?page" + page);
+        @(url + "?page=" + page);
     }
     else
     {
-        @(url + "?page" + page + "&filterBy=" + filterBy);
+        @(url + "?page=" + page + "&filterBy=" + filterBy);
     }
 }
 
