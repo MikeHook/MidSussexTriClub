@@ -1956,6 +1956,7 @@
     <Content Include="Views\MemberRenewUpgrade.cshtml" />
     <Content Include="Views\MemberAdmin.cshtml" />
     <Content Include="Views\MemberList.cshtml" />
+    <Content Include="Views\MemberServices.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -49,11 +49,10 @@ MSTC Mandate Request
 MSTC Member Renewal / Upgrade
 MSTC Member Admin
 MSTC Member ICE Details
+MSTC Athletes
 
 To Do
 -----
-MSTC Athletes
-
 MSTC Member Services
 
 Event Booking / Buy Credits (New feature)
