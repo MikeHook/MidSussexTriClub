@@ -48,15 +48,16 @@
 					<div class="service-image">
 						@if (string.IsNullOrEmpty(profileImageId) == false)
 						{
-							<img class="member-directory-image" src="@Umbraco.TypedMedia(profileImageId).Url" alt="@member.Name" />
+							<a href="@Umbraco.TypedMedia(profileImageId).Url" target="_blank">
+								<img class="member-directory-image" src="@Umbraco.TypedMedia(profileImageId).Url" alt="@member.Name" />
+							</a>
 						}
 						else
 						{
 							<img class="member-directory-image" src="/images/mstc/headshot-placeholder.jpg" alt="@member.Name" />
-
 						}
 						<h3>@member.Name</h3>
-					</div>
+						</div>
 				</div>
 			}
 		</div>

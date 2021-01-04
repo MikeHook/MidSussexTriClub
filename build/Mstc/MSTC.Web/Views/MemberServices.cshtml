@@ -1,0 +1,93 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage<ContentModels.MemberServices>
+@using ContentModels = Umbraco.Web.PublishedContentModels;
+@using Umbraco.Core.Persistence.DatabaseModelDefinitions;
+@using Mstc.Core.Domain
+@{
+	Layout = "Master.cshtml";
+	long totalMembers = 0;
+	var members = ApplicationContext.Services.MemberService.GetAll(0, 9999, out totalMembers, "Name", Direction.Ascending)
+		.Where(m => m.GetValue<bool>(MemberProperty.ShowService) == true);
+}
+
+@Html.Partial("~/Views/Partials/SectionHeader.cshtml")
+
+
+<section class="section">
+	<div class="container">
+		@if (Model.Content.BodyText != null)
+		{
+			<div class="row">
+				<div class="col-sm-12">
+					@Model.Content.BodyText
+				</div>
+			</div>
+		}
+		<div class="section">
+			<div class="container">
+				@{
+					int row = 0;
+					int skip = row * 3;
+					int numberOfmembers = members.Count();
+					while (skip < numberOfmembers)
+					{
+						var memberRow = members.Skip(skip).Take(3);
+						<div class="row">
+							@foreach (var member in memberRow)
+							{
+								@renderService(member);
+							}
+						</div>
+						row++;
+						skip = row * 3;
+					}
+				}
+			</div>
+		</div>
+	</div>
+</section>
+
+@helper renderService(IMember member)
+{
+	var serviceImage =  member.GetValue<string>(MemberProperty.ServiceImage);
+	var serviceUrl =  member.GetValue<string>(MemberProperty.ServiceLinkAddress);
+	var serviceName =  member.GetValue<string>(MemberProperty.ServiceLinkText);
+	var serviceDescription =  member.GetValue<string>(MemberProperty.ServiceDescription);
+
+	<div class="col-md-4 col-sm-6">
+		<div class="team-member">
+			@if (string.IsNullOrEmpty(serviceImage) == false)
+			{
+				<!-- Team Member Photo -->
+				<div class="team-member-image">
+					@if (string.IsNullOrWhiteSpace(serviceUrl) == false)
+					{
+						<a href="@serviceUrl" title="@member.Name">
+							<img src="@Umbraco.TypedMedia(serviceImage).Url" alt="@member.Name" />
+						</a>
+					}
+					else
+					{
+						<img src="@Umbraco.TypedMedia(serviceImage).Url" alt="@member.Name" />
+					}
+				</div>
+			}
+			<div class="team-member-info">
+				<ul>
+					<!-- Team Member Info & Social Links -->
+					<li class="team-member-name">@member.Name</li>
+					<li>
+						@if (string.IsNullOrWhiteSpace(serviceUrl) == false)
+						{
+							<a class="member-service-link" href="@serviceUrl">@serviceName</a>
+						}
+						else
+						{
+							@serviceName
+						}
+					</li>
+					<li>@serviceDescription</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+}
