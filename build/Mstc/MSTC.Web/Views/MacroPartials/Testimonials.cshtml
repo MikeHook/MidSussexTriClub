@@ -4,10 +4,10 @@
 @{
     string memberQuote1 = Model.MacroParameters["MemberQuote1"].ToString();
     string memberAuthor1 = Model.MacroParameters["MemberAuthor1"].ToString();
-    var memberImage1 = Model.MacroParameters["MemberImage1"];
+    var memberImage1 = Model.MacroParameters["MemberImage1"].ToString();;
     string memberQuote2 = Model.MacroParameters["MemberQuote2"].ToString();
     string memberAuthor2 = Model.MacroParameters["MemberAuthor2"].ToString();
-    var memberImage2 = Model.MacroParameters["MemberImage2"];
+    var memberImage2 = Model.MacroParameters["MemberImage2"].ToString();;
 }
 <h2>What do our members think?</h2>
 <div class="row">
@@ -15,7 +15,7 @@
     {
         <div class="testimonial col-md-6 col-sm-6">
             <div class="author-photo">
-                @if (memberImage1 != null)
+                @if (!string.IsNullOrEmpty(memberImage1))
                 {<img src="@Umbraco.TypedMedia(memberImage1).Url" alt="@memberAuthor1">}
             </div>
             <div class="testimonial-bubble">
@@ -35,7 +35,7 @@
     {
         <div class="testimonial col-md-6 col-sm-6">
             <div class="author-photo">
-                @if (memberImage2 != null)
+                @if (!string.IsNullOrEmpty(memberImage2))
                 {<img src="@Umbraco.TypedMedia(memberImage2).Url" alt="@memberAuthor2">}
             </div>
             <div class="testimonial-bubble">

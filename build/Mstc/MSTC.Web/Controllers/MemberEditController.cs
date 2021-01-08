@@ -203,7 +203,28 @@ namespace MSTC.Web.Controllers
             return RedirectToCurrentUmbracoUrl();
         }
 
-        
+        [HttpPost]
+        public ActionResult RepublishBlog()
+        {
+            var currentMember = _memberProvider.GetLoggedInMember();
+            if (!ModelState.IsValid || currentMember == null)
+            {
+                return CurrentUmbracoPage();
+            }
+
+            var blogPostContentType = Services.ContentTypeService.GetContentType("blogpost");
+            var blogPosts = Services.ContentService.GetContentOfContentType(blogPostContentType.Id);
+
+            foreach (var blogPost in blogPosts)
+            {
+                Services.ContentService.Save(blogPost);
+                Services.ContentService.Publish(blogPost);
+            }
+
+            return RedirectToCurrentUmbracoUrl();
+        }
+
+
 
         public MemberDetailsModel MapMemberDetails(IMember member)
         {

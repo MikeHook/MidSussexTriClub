@@ -18,6 +18,8 @@ namespace MSTC.Web.Model
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
+        public string RedirectUrl { get; set; }
+
         public IPublishedContent CurrentPage { get; set; }
     }
 }

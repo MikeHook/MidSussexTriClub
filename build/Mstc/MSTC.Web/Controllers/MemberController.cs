@@ -40,22 +40,14 @@ namespace MSTC.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult SubmitLogin(LoginModel model, string returnUrl)
+        public ActionResult SubmitLogin(LoginModel model)
         {
             if (ModelState.IsValid)
             {
                 if (Membership.ValidateUser(model.Username, model.Password))
                 {
-                    FormsAuthentication.SetAuthCookie(model.Username, false);
-                    UrlHelper myHelper = new UrlHelper(HttpContext.Request.RequestContext);
-                    if (myHelper.IsLocalUrl(returnUrl))
-                    {
-                        return Redirect(returnUrl);
-                    }
-                    else
-                    {
-                        return Redirect("/login/");
-                    }
+                    FormsAuthentication.SetAuthCookie(model.Username, false);                    
+                    return Redirect(model.RedirectUrl ?? "/login/");                    
                 }
                 else
                 {
