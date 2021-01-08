@@ -9,18 +9,13 @@ server=.\SQLEXPRESS2019;database=mstc_live;user id=mstcuser;password=Mult1M4dn35
 Templates
 ---------
 
-Functionality to do
-- Move Awards post out of blog
-- Investigate tag counts bug eg. LEJOG count wrong
-- Improve Section Header styling
+Functionality to do:
 - Move member costs into Umbraco
-- Fix login page not redirecting
+
+
+Post migration:
 - Remove extra swim credits properties
-
-Testing
--------
-- Member renewal / upgrade
-
+- Move Awards post out of blog
 
 
 Done
@@ -50,11 +45,10 @@ MSTC Member Renewal / Upgrade
 MSTC Member Admin
 MSTC Member ICE Details
 MSTC Athletes
+MSTC Member Services
 
 To Do
 -----
-MSTC Member Services
-
 Event Booking / Buy Credits (New feature)
 
 MSTC OWS Taster Registration (Can defer)

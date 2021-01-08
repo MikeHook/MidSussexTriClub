@@ -1,17 +1,19 @@
 ﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<MSTC.Web.Model.LoginModel>
 @using Umbraco.Web
-@{ 
+@{
     Umbraco.Web.PublishedContentModels.Login loginPageModel = null;
     if (Model.CurrentPage != null)
     {
         loginPageModel = Model.CurrentPage.TryConvertTo<Umbraco.Web.PublishedContentModels.Login>().Result;
-    }    
+    }
+    Model.RedirectUrl = HttpContext.Current.Request.Url.AbsolutePath;
 }
 @if (!Umbraco.MemberIsLoggedOn())
 {
     using (Html.BeginUmbracoForm("SubmitLogin", "Member", FormMethod.Post, new { id = "login", @class = "form-horizontal" }))
     {
         @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.RedirectUrl)
         <div class="form-group">
             @Html.LabelFor(m => m.Username, new { @class = "col-sm-3 control-label" })
             <div class="col-sm-7">
@@ -25,7 +27,7 @@
                 @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Password" })
                 @if (loginPageModel != null)
                 {
-                <a href="@loginPageModel.ForgotPasswordPage.Url">Forgot your password?</a>
+                    <a href="@loginPageModel.ForgotPasswordPage.Url">Forgot your password?</a>
                 }
             </div>
             <div class="col-sm-2"></div>
