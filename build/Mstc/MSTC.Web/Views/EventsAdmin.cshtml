@@ -1,0 +1,15 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage<ContentModels.EventsAdmin>
+@using ContentModels = Umbraco.Web.PublishedContentModels;
+@{
+	Layout = "Master.cshtml";
+}
+@section Header {
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs/jszip-2.5.0/dt-1.10.20/b-1.6.1/b-colvis-1.6.1/b-flash-1.6.1/b-html5-1.6.1/b-print-1.6.1/datatables.min.css" />
+}
+
+@{ Html.RenderPartial("~/Views/Partials/SectionHeader.cshtml"); }
+
+<div class="section">
+	<div class="container-member-table">
+	</div>
+</div>

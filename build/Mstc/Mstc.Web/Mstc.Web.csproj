@@ -1957,6 +1957,9 @@
     <Content Include="Views\MemberAdmin.cshtml" />
     <Content Include="Views\MemberList.cshtml" />
     <Content Include="Views\MemberServices.cshtml" />
+    <Content Include="Views\Event.cshtml" />
+    <Content Include="Views\EventBooking.cshtml" />
+    <Content Include="Views\EventsAdmin.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

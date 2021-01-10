@@ -1,0 +1,21 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage<ContentModels.Event>
+@using ContentModels = Umbraco.Web.PublishedContentModels;
+@{
+Layout = "Master.cshtml";
+}
+@Html.Partial("~/Views/Partials/SectionHeader.cshtml")
+
+@if (Model.Content.BodyText != null)
+{
+<section class="section">
+	<div class="container">
+		<div class="blog-post blog-single-post">
+			<div class="row">
+				<div class="col-sm-12">
+					@Model.Content.BodyText
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+}
