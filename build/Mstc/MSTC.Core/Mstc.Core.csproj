@@ -241,6 +241,8 @@
     <Compile Include="Domain\PaymentStates.cs" />
     <Compile Include="Domain\PersonalDetails.cs" />
     <Compile Include="Domain\RegistrationDetails.cs" />
+    <Compile Include="Dto\EventSlot.cs" />
+    <Compile Include="Dto\BookableEvent.cs" />
     <Compile Include="Dto\PaymentResponseDto.cs" />
     <Compile Include="Dto\RedirectResponseDto.cs" />
     <Compile Include="Dto\CustomerDto.cs" />

@@ -18,6 +18,16 @@ namespace Mstc.Core.Providers
             _dataTypeService = dataTypeService;
         }
 
+        public PreValueCollection GetDataTypeOptions(string dataTypeName)
+        {
+            var dataType = _dataTypeService.GetDataTypeDefinitionByName(dataTypeName);
+            if (dataType == null)
+            {
+                return null;
+            }
+            return _dataTypeService.GetPreValuesCollectionByDataTypeId(dataType.Id);
+        }
+
         public int? GetDropDownId(string dataTypeName, string val)
         {
             var dataType = _dataTypeService.GetDataTypeDefinitionByName(dataTypeName);
