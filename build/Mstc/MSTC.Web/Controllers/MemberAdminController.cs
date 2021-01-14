@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Web.Http;
 using Mstc.Core.Dto;
 using Mstc.Core.Providers;
 using Umbraco.Web.WebApi;
@@ -16,6 +17,7 @@ namespace MSTC.Web.Controllers
 			_memberProvider = new MemberProvider(Services);
 		}
 
+		[HttpGet]
         public IEnumerable<MemberDetailsDto> Get()
         {
 			try

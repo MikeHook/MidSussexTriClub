@@ -362,6 +362,7 @@
     <Content Include="scripts\mstc\bootstrap.min.js" />
     <Content Include="scripts\mstc\datatables.js" />
     <Content Include="scripts\mstc\datatables.min.js" />
+    <Content Include="scripts\mstc\event-booking.js" />
     <Content Include="scripts\mstc\home-slider.js" />
     <Content Include="scripts\mstc\jquery-1.9.1.min.js" />
     <Content Include="scripts\mstc\jquery.bxslider.js" />
@@ -1669,6 +1670,7 @@
   <ItemGroup>
     <Compile Include="ApplicationEventHandler.cs" />
     <Compile Include="Controllers\ContactController.cs" />
+    <Compile Include="Controllers\EventController.cs" />
     <Compile Include="Controllers\MemberAdminController.cs" />
     <Compile Include="Controllers\MemberEditController.cs" />
     <Compile Include="Controllers\MandateController.cs" />
