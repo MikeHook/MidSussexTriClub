@@ -231,6 +231,9 @@
   <ItemGroup>
     <Compile Include="configuration\GmailSmtpClient.cs" />
     <Compile Include="DataAccess\DataConnection.cs" />
+    <Compile Include="Domain\EventType.cs" />
+    <Compile Include="Domain\EventParticipant.cs" />
+    <Compile Include="Domain\EventSlot.cs" />
     <Compile Include="Domain\TopicEnum.cs" />
     <Compile Include="Domain\MemberProperty.cs" />
     <Compile Include="Domain\MembershipExtras.cs" />
@@ -259,6 +262,7 @@
     <Compile Include="Providers\MemberProvider.cs" />
     <Compile Include="Providers\MembershipCostCalculator.cs" />
     <Compile Include="Providers\PasswordObfuscator.cs" />
+    <Compile Include="Providers\ContentEventHandler.cs" />
     <Compile Include="Providers\SessionProvider.cs" />
     <Compile Include="Validation\DateOver16Validator.cs" />
   </ItemGroup>
