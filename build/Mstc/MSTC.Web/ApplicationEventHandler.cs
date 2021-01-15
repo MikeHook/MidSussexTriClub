@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using Mstc.Core.Providers;
 using Umbraco.Core;
 
 namespace MSTC.Web
@@ -13,7 +14,11 @@ namespace MSTC.Web
         public void OnApplicationStarted(UmbracoApplicationBase umbracoApplication, ApplicationContext applicationContext)
         {
             RegisterCustomRoutes();
-        }
+
+            var contentEventHandler = new ContentEventHandler();
+            Umbraco.Core.Services.ContentService.Saving += contentEventHandler.ContentService_Saving;
+            Umbraco.Core.Services.ContentService.Deleting += contentEventHandler.ContentService_Deleting;
+        }       
 
         private static void RegisterCustomRoutes()
         {
@@ -34,6 +39,6 @@ namespace MSTC.Web
         public void OnApplicationStarting(UmbracoApplicationBase umbracoApplication, ApplicationContext applicationContext)
         {
             
-        }
+        }     
     }
 }
