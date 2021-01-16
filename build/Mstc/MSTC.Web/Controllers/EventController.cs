@@ -6,6 +6,8 @@ using Mstc.Core.Providers;
 using Umbraco.Web.WebApi;
 using Umbraco.Web.PublishedContentModels;
 using System.Web.Http;
+using Mstc.Core.DataAccess;
+using Mstc.Core.Domain;
 
 namespace MSTC.Web.Controllers
 {
@@ -13,39 +15,35 @@ namespace MSTC.Web.Controllers
 	public class EventController : UmbracoApiController
     {
 		DataTypeProvider _dataTypeProvider;
+		IEventSlotRepository _eventSlotRepository;
 
 		public EventController()
 		{
 			_dataTypeProvider = new DataTypeProvider(Services.DataTypeService);
+			_eventSlotRepository = new EventSlotRepository(new DataConnection());
 		}
 
 		[HttpGet]
-		public IEnumerable<BookableEvent> BookableEvents()
+		public IEnumerable<EventType> BookableEvents(bool futureEventsOnly, bool withSlotsOnly)
         {
 			try
 			{
-				//TODO - Return Domain EventTypes instead
-				var events = Umbraco.TypedContentAtXPath("//event").Cast<Event>();
-				var eventTypeNames = events.Select(e => e.EventType).Distinct();
+				List<EventType> eventTypes = _dataTypeProvider.GetEventTypes();
+				var eventSlots = _eventSlotRepository.GetAll(futureEventsOnly);
+				foreach(var eventType in eventTypes)
+				{
+					eventType.EventSlots = eventSlots.Where(es => es.EventTypeId == eventType.Id).ToList();
+				}
 
-				var eventTypesCollection = _dataTypeProvider.GetDataTypeOptions("Event - Event Type - Dropdown");				
-				var eventTypes = eventTypesCollection.PreValuesAsDictionary.Where(p => eventTypeNames.Contains(p.Value.Value));
-				return eventTypes.Select(e => new BookableEvent() {
-					eventTypeId = e.Value.Id,
-					eventTypeName = e.Value.Value,
-					eventSlots = GetEventSlots()					
-					});			
+				return withSlotsOnly ?  eventTypes.Where(e => e.EventSlots.Any()) : eventTypes;			
 			}
 			catch (Exception ex)
 			{
 				Logger.Error(typeof(EventController), string.Format("Exception calling GetEventTypes: {0}", ex.ToString()), ex);
-				return new List<BookableEvent>();
+				return new List<EventType>();
 			}
         }
 		
-		private List<EventSlot> GetEventSlots()
-		{
-			return new List<EventSlot>();
-		}
+		
 	}
 }

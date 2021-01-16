@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Mstc.Core.Providers;
+using Newtonsoft.Json.Serialization;
 using Umbraco.Core;
 
-namespace MSTC.Web
+namespace MSTC.Web.EventHandlers
 {
     public class ApplicationEventHandler : IApplicationEventHandler
     {
@@ -38,7 +40,9 @@ namespace MSTC.Web
 
         public void OnApplicationStarting(UmbracoApplicationBase umbracoApplication, ApplicationContext applicationContext)
         {
-            
+            HttpConfiguration config = GlobalConfiguration.Configuration;
+            config.Formatters.JsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            config.Formatters.JsonFormatter.UseDataContractJsonSerializer = false;
         }     
     }
 }
