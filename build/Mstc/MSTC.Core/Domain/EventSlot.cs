@@ -14,6 +14,7 @@ namespace Mstc.Core.Domain
         }
 
         public int Id { get; set; }
+        public int EventTypeId { get; set; }
         public DateTime Date { get; set; }
         public decimal Cost { get; set; }
         public int MaxParticipants { get; set; }

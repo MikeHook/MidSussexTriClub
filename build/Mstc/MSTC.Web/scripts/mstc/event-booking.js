@@ -1,15 +1,22 @@
 ﻿var eventBooking = (function() {
-	var bookableEvents = [];
+	var eventTypes = [];
 
 	var eventTypeChanged = function (field) {
+		$("#eventDate").empty();
+
 		if (!field.value) {
 			return;
 		}
+		
 		var eventTypeId = parseInt(field.value, 10);
-		var event = bookableEvents.find(b => b.eventTypeId === eventTypeId);
-		var eventDates = event.eventSlots.map(es => es.eventDate);
+		var eventType = eventTypes.find(b => b.id === eventTypeId);
+		if (!eventType) {
+			return;
+		}
+		var eventDates = eventType.eventSlots.map(es => es.date);	
 		var eventDateDropDown = document.getElementById('eventDate');
 		eventDates.forEach(item => {
+			//TODO - Parse date into better format
 			eventDateDropDown.options[eventDateDropDown.options.length] = new Option(item, item);
 		});		
 		
@@ -17,15 +24,15 @@
 
 	var getEvents = function() {
 		$.ajax({
-			url: '/umbraco/api/event/BookableEvents',
+			url: '/umbraco/api/event/BookableEvents?futureEventsOnly=true&withSlotsOnly=false',
 			method: 'GET',// jQuery > 1.9
 			type: 'GET', //jQuery < 1.9
 			success: function (response) {
-				bookableEvents = response;
+				eventTypes = response;
 				var eventTypeDropDown = document.getElementById('eventType');
 
-				bookableEvents.forEach(item => {
-					eventTypeDropDown.options[eventTypeDropDown.options.length] = new Option(item.eventTypeName, item.eventTypeId);
+				eventTypes.forEach(item => {
+					eventTypeDropDown.options[eventTypeDropDown.options.length] = new Option(item.name, item.id);
 				});
 			},
 			error: function() { }

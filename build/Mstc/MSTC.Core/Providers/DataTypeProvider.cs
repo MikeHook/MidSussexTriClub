@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Mstc.Core.Domain;
 using Umbraco.Core;
 using Umbraco.Core.Models;
 using Umbraco.Core.Services;
@@ -16,6 +17,13 @@ namespace Mstc.Core.Providers
         public DataTypeProvider(IDataTypeService dataTypeService)
         {
             _dataTypeService = dataTypeService;
+        }
+
+        public List<EventType> GetEventTypes()
+        {
+            var eventTypesCollection = GetDataTypeOptions("Event - Event Type - Dropdown");
+            return eventTypesCollection.PreValuesAsDictionary.Where(e => e.Value.Value != "0")
+                .Select(e => new EventType() { Id = e.Value.Id, Name = e.Value.Value }).ToList();
         }
 
         public PreValueCollection GetDataTypeOptions(string dataTypeName)
