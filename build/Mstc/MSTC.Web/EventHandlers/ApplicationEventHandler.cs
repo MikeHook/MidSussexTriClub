@@ -23,8 +23,7 @@ namespace MSTC.Web.EventHandlers
         }       
 
         private static void RegisterCustomRoutes()
-        {
-            // this is just an example, modify to suit your controllers and actions
+        {            
             RouteTable.Routes.MapRoute(name: "PaymentController",
                                        url: "Payment/{action}/{id}",
                                        defaults: new { controller = "Payment", action = "Index", id = UrlParameter.Optional });
