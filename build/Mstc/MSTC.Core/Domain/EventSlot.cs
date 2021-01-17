@@ -21,6 +21,7 @@ namespace Mstc.Core.Domain
 
         public bool IsFutureEvent => Date.Date > DateTime.Now.Date;
         public bool HasSpace => EventParticipants.Count < MaxParticipants;
+        public int SpacesRemaining => MaxParticipants - EventParticipants.Count;
 
         public List<EventParticipant> EventParticipants { get; set; }
     }

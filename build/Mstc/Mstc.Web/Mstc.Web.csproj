@@ -369,6 +369,7 @@
     <Content Include="scripts\mstc\jquery.fitvids.js" />
     <Content Include="scripts\mstc\jquery.sequence-min.js" />
     <Content Include="scripts\mstc\jquery.sequence.js" />
+    <Content Include="scripts\mstc\luxon.min.js" />
     <Content Include="scripts\mstc\main-menu.js" />
     <Content Include="scripts\mstc\modernizr-2.6.2-respond-1.1.0.min.js" />
     <Content Include="scripts\mstc\moment.js" />
