@@ -1,5 +1,7 @@
-When Event deleted
--	Remove all future slots and bookings for date / frequency
+When Event deleting
+-	Check if any slots should be removed
+	- If slots have participants then cancel deleting with message
+	- If slots are empty then remove the slots
 
 When Event Saving
 -	Add any slots which do not exist
