@@ -1,5 +1,6 @@
 CREATE TABLE [dbo].[EventSlot](
 	[Id] int IDENTITY(1,1) NOT NULL,
+	[EventPageId] INT NOT NULL,
 	[EventTypeId] INT NOT NULL,
 	[Date] datetime NOT NULL,
 	[Cost] decimal NOT NULL,
