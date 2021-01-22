@@ -107,6 +107,19 @@ namespace MSTC.Web.Controllers
             return PartialView("Member/EditMemberOptions", model);
         }
 
+        [HttpGet]
+        public ActionResult TrainingCredits()
+        {
+            var member = _memberProvider.GetLoggedInMember();
+            var model = new TrainingCreditsModel();
+            if (member!= null)
+            {
+                model.CurrentTrainingCredits = member.GetValue<int>(MemberProperty.TrainingCredits);
+            }
+
+            return PartialView("Member/TrainingCredits", model);
+        }
+
         [HttpPost]
         public ActionResult PaymentRedirect(PaymentStates state)
         {
@@ -118,6 +131,21 @@ namespace MSTC.Web.Controllers
 
             _sessionProvider.CanProcessPaymentCompletion = true;
             var redirectUrl = $"/Payment?state={state}";
+            return Redirect(redirectUrl);
+        }
+
+        [HttpPost]
+        public ActionResult CreditsPaymentRedirect(TrainingCreditsModel model)
+        {
+            var member = _memberProvider.GetLoggedInMember();
+            if (!ModelState.IsValid || member == null)
+            {
+                return CurrentUmbracoPage();
+            }        
+
+            _sessionProvider.TrainingCreditsInPence = (model.TrainingCreditsToBuy * 100);
+            _sessionProvider.CanProcessPaymentCompletion = true;
+            var redirectUrl = $"/Payment?state={PaymentStates.TrainingCredits}";
             return Redirect(redirectUrl);
         }
 
