@@ -1686,6 +1686,7 @@
     <Compile Include="Model\ForgotPasswordModel.cs" />
     <Compile Include="Model\ContactModel.cs" />
     <Compile Include="Model\Partials\MemberImageModel.cs" />
+    <Compile Include="Model\Partials\TrainingCreditsModel.cs" />
     <Compile Include="Model\Partials\MemberOptionsModel.cs" />
     <Compile Include="Model\Partials\MemberDetailsModel.cs" />
     <Compile Include="Model\PaymentModel.cs" />
@@ -1965,6 +1966,7 @@
     <Content Include="Views\Event.cshtml" />
     <Content Include="Views\EventBooking.cshtml" />
     <Content Include="Views\EventsAdmin.cshtml" />
+    <Content Include="Views\Partials\Member\TrainingCredits.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

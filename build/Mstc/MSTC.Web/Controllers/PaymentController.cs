@@ -121,9 +121,7 @@ namespace MSTC.Web.Controllers
             string mandateId = member.GetValue<string>(MemberProperty.directDebitMandateId);
             string email = member.Email;
 
-            int costInPence = (paymentState == PaymentStates.MemberRenewal || paymentState == PaymentStates.MemberUpgrade)
-                ? MembershipCostCalculator.Calculate(_sessionProvider.RenewalOptions, DateTime.Now)
-                : MembershipCostCalculator.PaymentStateCost(paymentState, membershipType);
+            int costInPence = GetCostInPence(member, paymentState);   
             string description = paymentState.GetAttributeOfType<DescriptionAttribute>().Description;
 
             return _goCardlessProvider.CreatePayment(_logger, mandateId, email, costInPence, description);
@@ -132,14 +130,30 @@ namespace MSTC.Web.Controllers
         private void MapPaymentStateToModel(PaymentModel model, IMember member, PaymentStates paymentState)
         {
             model.HasPaymentDetails = true;
-            model.PaymentDescription = paymentState.GetAttributeOfType<DescriptionAttribute>().Description;
+            model.PaymentDescription = paymentState.GetAttributeOfType<DescriptionAttribute>().Description;           
 
-            var membershipType = member.GetValue<MembershipTypeEnum>(MemberProperty.membershipType);
-            int costInPence = (paymentState == PaymentStates.MemberRenewal || paymentState == PaymentStates.MemberUpgrade)
-                ? MembershipCostCalculator.Calculate(_sessionProvider.RenewalOptions, DateTime.Now)
-                : MembershipCostCalculator.PaymentStateCost(paymentState, membershipType);
-
+            int costInPence = GetCostInPence(member, paymentState);
             model.Cost = (costInPence / 100m);
+        }
+
+        private int GetCostInPence(IMember member, PaymentStates paymentState)
+        {
+            int costInPence = 0;
+            var membershipType = member.GetValue<MembershipTypeEnum>(MemberProperty.membershipType);
+            switch (paymentState)
+            {
+                case PaymentStates.MemberRenewal:
+                case PaymentStates.MemberUpgrade:
+                    costInPence = MembershipCostCalculator.Calculate(_sessionProvider.RenewalOptions, DateTime.Now);
+                    break;
+                case PaymentStates.TrainingCredits:
+                    costInPence = _sessionProvider.TrainingCreditsInPence;
+                    break;
+                default:
+                    costInPence = MembershipCostCalculator.PaymentStateCost(paymentState, membershipType);
+                    break;
+            }
+            return costInPence;
         }
 
         private void ProcessPaymentState(PaymentModel model, IMember member, PaymentStates paymentState)
@@ -165,6 +179,14 @@ namespace MSTC.Web.Controllers
                     {
                         _memberProvider.UpdateMemberOptions(member, _sessionProvider.RenewalOptions, isUpgrade: paymentState == PaymentStates.MemberUpgrade);
                         model.ShowRenewed = true;
+                        break;
+                    }
+                case PaymentStates.TrainingCredits:
+                    {
+                        var credits = member.GetValue<int>(MemberProperty.TrainingCredits);
+                        credits = credits + (_sessionProvider.TrainingCreditsInPence / 100);
+                        member.SetValue(MemberProperty.TrainingCredits, credits);
+                        model.ShowCreditsConfirmation = true;
                         break;
                     }
             }

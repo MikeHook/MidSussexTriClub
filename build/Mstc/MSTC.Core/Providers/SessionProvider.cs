@@ -16,8 +16,9 @@ namespace Mstc.Core.Providers
 		private const string _canProcessPaymentCompletion = "CanProcessPaymentCompletion";
         private const string _goCardlessRedirectFlowId = "GoCardlessRedirectFlowId";
 	    private const string _mandateSuccessPage = "MandateSuccessPage";
+	    private const string _trainingCredits = "TrainingCredits";
 
-        public MemberOptions RenewalOptions
+		public MemberOptions RenewalOptions
 		{
 			get { return (MemberOptions) CurrentSession[_renewalOptionsKey]; }
 			set { CurrentSession[_renewalOptionsKey] = value; }
@@ -47,6 +48,12 @@ namespace Mstc.Core.Providers
             set { CurrentSession[_mandateSuccessPage] = value; }
         }
 
-        public string SessionId => CurrentSession.SessionID;
+		public int TrainingCreditsInPence
+		{
+			get { return (int)CurrentSession[_trainingCredits]; }
+			set { CurrentSession[_trainingCredits] = value; }
+		}
+
+		public string SessionId => CurrentSession.SessionID;
     }
 }

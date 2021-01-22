@@ -30,7 +30,7 @@
                         {
                             @Html.AntiForgeryToken()
 
-                            <p>Please confirm that you would like to purchase <strong>@Html.Raw(Model.PaymentDescription)</strong> for <strong>£@Html.Raw(Model.Cost.ToString("N2"))</strong></p>                         
+                            <p>Please confirm that you would like to purchase <strong>@Html.Raw(Model.PaymentDescription)</strong> for <strong>£@Html.Raw(Model.Cost.ToString("N2"))</strong></p>
                             <button name="confirm" type="submit" class="btn btn-yellow">Confirm Payment</button>
                         }
                     }
@@ -55,6 +55,13 @@
                             <div class="col-sm-12">
                                 <p>Thank you for updating your membership for @DateTime.Now.Year</p>
                                 <p>Please go to <a href="/members-area/my-details">your details page</a> to make sure your information is up to date and retrieve your open water swim authorisation number.</p>
+                            </div>
+                        }
+                        else if (Model.ShowCreditsConfirmation)
+                        {
+                            <div class="col-sm-12">
+                                <p>Thank you for purchasing additional training credits.</p>
+                                <p>Please go to the <a href="/club-events/book-an-event">events booking page</a> to review your credits and make bookings.</p>
                             </div>
                         }
                     }

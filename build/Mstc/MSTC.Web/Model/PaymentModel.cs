@@ -23,5 +23,6 @@ namespace MSTC.Web.Model
         public bool ShowPaymentFailed { get; set; }
         public bool ShowSwimSubsConfirmation { get; set; }
         public bool ShowRenewed { get; set; }
+        public bool ShowCreditsConfirmation { get; set; }
     }
 }
