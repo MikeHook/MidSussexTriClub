@@ -49,8 +49,15 @@ MSTC Member Services
 
 To Do
 -----
-Event Booking / Buy Credits (New feature)
-
+Buy Credits (New feature)
+Event Booking (New feature)
+	- Validate: member has credits, member is not already booked
+	- Wire up text in confirm dialog
+	- Sort out styling and layout
+Event Calendar (New feature)
+Event Admin (New feature)
+	- Print a register for each session
+	
 MSTC OWS Taster Registration (Can defer)
 MSTC OWS Taster Registration Complete (Can defer)
 MSTC Swim Admin (Not needed?)

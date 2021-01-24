@@ -8,6 +8,7 @@ using Umbraco.Web.PublishedContentModels;
 using System.Web.Http;
 using Mstc.Core.DataAccess;
 using Mstc.Core.Domain;
+using MSTC.Web.Model;
 
 namespace MSTC.Web.Controllers
 {
@@ -16,11 +17,16 @@ namespace MSTC.Web.Controllers
     {
 		DataTypeProvider _dataTypeProvider;
 		IEventSlotRepository _eventSlotRepository;
+		IEventParticipantRepository _eventParticipantRepository;
+		MemberProvider _memberProvider;
 
 		public EventController()
 		{
 			_dataTypeProvider = new DataTypeProvider(Services.DataTypeService);
-			_eventSlotRepository = new EventSlotRepository(new DataConnection());
+			var dataConnection = new DataConnection();
+			_eventSlotRepository = new EventSlotRepository(dataConnection);
+			_eventParticipantRepository = new EventParticipantRepository(dataConnection);
+			_memberProvider = new MemberProvider(Services);
 		}
 
 		[HttpGet]
@@ -43,6 +49,27 @@ namespace MSTC.Web.Controllers
 				return new List<EventType>();
 			}
         }
+
+		[HttpPost]
+		public bool BookEvent(BookEventModel model)
+		{
+			var member = _memberProvider.GetLoggedInMember();
+			if (member == null)
+			{
+				return false;
+			}
+
+			var eventParticipant = new EventParticipant()
+			{
+				EventSlotId = model.EventSlotId,
+				AmountPaid = model.Cost,
+				MemberId = member.Id
+			};
+
+			eventParticipant = _eventParticipantRepository.Create(eventParticipant);
+
+			return true;
+		}
 		
 		
 	}

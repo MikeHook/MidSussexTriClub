@@ -1682,6 +1682,7 @@
     <Compile Include="Controllers\RegistrationController.cs" />
     <Compile Include="Controllers\MemberController.cs" />
     <Compile Include="EventHandlers\UpdateEventSlotResponse.cs" />
+    <Compile Include="Model\BookEventModel.cs" />
     <Compile Include="Model\ChangePasswordModel.cs" />
     <Compile Include="Model\ForgotPasswordModel.cs" />
     <Compile Include="Model\ContactModel.cs" />
