@@ -4,7 +4,7 @@
 	Layout = "Master.cshtml";
 }
 @section Header {
-
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 }
 
 @{ Html.RenderPartial("~/Views/Partials/SectionHeader.cshtml"); }
@@ -24,7 +24,7 @@
 
 		@{ Html.RenderAction("TrainingCredits", "MemberEdit"); }
 
-		<form class="form-horizontal">
+		<form role="form" id="eventBookingForm" class="form-horizontal">
 			<div class="row">
 				<div class="col-sm-12">
 					<div class="form-group">
@@ -67,11 +67,13 @@
 
 </section>
 
+<div id="dialog-confirm" title="Confirm event booking">
+	<p>Do you want to book event xxx on yyy for £xxx?</p>
+</div>
+
 @section FooterScripts {
+	<script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	<script src="~/scripts/mstc/luxon.min.js"></script>
 	<script type="text/javascript" src="~/scripts/mstc/event-booking.js"></script>
+
 }
-
-
-
-

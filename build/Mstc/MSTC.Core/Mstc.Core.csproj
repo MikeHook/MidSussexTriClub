@@ -232,6 +232,7 @@
     <Compile Include="configuration\GmailSmtpClient.cs" />
     <Compile Include="ContentExtensions.cs" />
     <Compile Include="DataAccess\DataConnection.cs" />
+    <Compile Include="DataAccess\EventParticipantRepository.cs" />
     <Compile Include="DataAccess\EventSlotRepository.cs" />
     <Compile Include="Domain\RecurringFrequencyEnum.cs" />
     <Compile Include="Domain\EventType.cs" />

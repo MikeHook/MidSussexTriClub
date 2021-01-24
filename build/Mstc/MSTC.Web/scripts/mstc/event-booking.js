@@ -5,6 +5,7 @@
 
 	var eventTypes = [];
 	var eventType = undefined;
+	var eventSlot = undefined;
 
 	var eventTypeChanged = function (field) {
 		$("#eventDate").empty();
@@ -33,7 +34,7 @@
 		}
 
 		var eventSlotId = parseInt(field.value, 10);
-		var eventSlot = eventType.eventSlots.find(es => es.id === eventSlotId);
+		eventSlot = eventType.eventSlots.find(es => es.id === eventSlotId);
 		eventSlotChanged(eventSlot);
 	};
 
@@ -66,6 +67,33 @@
 		});
 	};
 
+	var bookEvent = function () {
+
+		var bookingModel = {
+			eventSlotId: eventSlot.id,
+			cost: eventSlot.cost,
+		};
+
+		$.ajax({
+			url: '/umbraco/api/event/BookEvent',
+			data: bookingModel,
+			method: 'POST',// jQuery > 1.9
+			type: 'POST', //jQuery < 1.9
+			success: function (isEntered) {
+				
+		
+			},
+			error: function (message) {
+		
+				//$('#entry-container').addClass('hidden');
+				//$('#entry-error').removeClass('hidden');
+
+				//JL().error('Call to /umbraco/api/entry/init returned error');
+				//JL().error(message);
+			}
+		});
+
+	};
 
 	var bindFunctions = function() {
 		$('#eventType').off('change');
@@ -77,12 +105,39 @@
 		$('#eventDate').on('change', function () {
 			eventDateChanged(this);
 		});
+
+		$("#eventBookingForm").on("submit", function (event) {
+			if (!event.isDefaultPrevented()) {
+				event.preventDefault();
+
+				$("#dialog-confirm").dialog("open");	
+			}
+		});
+
+		
 	};
 
 	var init = function() {
 		bindFunctions();
 		getEvents();
 		eventSlotChanged(undefined);
+
+		$("#dialog-confirm").dialog({
+			autoOpen: false,
+			resizable: false,
+			height: "auto",
+			width: 400,
+			modal: true,
+			buttons: {
+				Yes: function () {
+					bookEvent();
+					$(this).dialog("close");
+				},
+				Cancel: function () {
+					$(this).dialog("close");
+				}
+			}
+		});
 	};
 
 	return {		

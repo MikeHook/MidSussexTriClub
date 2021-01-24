@@ -4,7 +4,7 @@
 	Layout = "Master.cshtml";
 }
 @section Header {
-	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.0/themes/base/jquery-ui.css">
 }
 
 @{ Html.RenderPartial("~/Views/Partials/SectionHeader.cshtml"); }
@@ -41,7 +41,7 @@
 </div>
 
 @section FooterScripts {
-	<script src="//code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
+	<script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	<script>
 		$(document).ready(function () {
 			$("input[name*='PersonalDetails.DateOfBirth']").datepicker({
