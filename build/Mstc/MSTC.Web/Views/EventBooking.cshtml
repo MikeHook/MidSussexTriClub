@@ -5,6 +5,7 @@
 }
 @section Header {
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<link href="~/css/mstc/toastr.min.css" rel="stylesheet" />
 }
 
 @{ Html.RenderPartial("~/Views/Partials/SectionHeader.cshtml"); }
@@ -67,13 +68,14 @@
 
 </section>
 
-<div id="dialog-confirm" title="Confirm event booking">
-	<p>Do you want to book event xxx on yyy for £xxx?</p>
+<div id="dialog-confirm" title="Event Booking Confirmation">
+	<p>Do you want to book event <span id="eventTypeConfirm"></span> on <span id="eventDateConfirm"></span> for £<span id="eventCostConfirm"></span>?</p>
 </div>
 
 @section FooterScripts {
 	<script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	<script src="~/scripts/mstc/luxon.min.js"></script>
+	<script src="~/scripts/mstc/toastr.min.js"></script>
 	<script type="text/javascript" src="~/scripts/mstc/event-booking.js"></script>
 
 }

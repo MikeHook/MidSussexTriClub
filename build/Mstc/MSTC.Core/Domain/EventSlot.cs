@@ -17,7 +17,7 @@ namespace Mstc.Core.Domain
         public int EventPageId { get; set; }
         public int EventTypeId { get; set; }
         public DateTime Date { get; set; }
-        public decimal Cost { get; set; }
+        public int Cost { get; set; }
         public int MaxParticipants { get; set; }
 
         public bool IsFutureEvent => Date.Date > DateTime.Now.Date;

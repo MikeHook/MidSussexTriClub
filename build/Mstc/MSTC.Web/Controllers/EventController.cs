@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Mstc.Core.Dto;
 using Mstc.Core.Providers;
 using Umbraco.Web.WebApi;
-using Umbraco.Web.PublishedContentModels;
 using System.Web.Http;
 using Mstc.Core.DataAccess;
 using Mstc.Core.Domain;
@@ -51,12 +49,27 @@ namespace MSTC.Web.Controllers
         }
 
 		[HttpPost]
-		public bool BookEvent(BookEventModel model)
+		public BookEventResponse BookEvent(BookEventRequest model)
 		{
+			var response = new BookEventResponse();			
 			var member = _memberProvider.GetLoggedInMember();
 			if (member == null)
 			{
-				return false;
+				response.Error = "Unable to find logged in member record.";
+				return response;
+			}
+			
+			if (member.GetValue<int>(MemberProperty.TrainingCredits) < model.Cost)
+			{
+				response.Error = "You do not have enough training credits to book that event.";
+				return response;
+			}
+
+			var eventSlot = _eventSlotRepository.GetById(model.EventSlotId);
+			if (!eventSlot.HasSpace)
+			{
+				response.Error = "There is no space remaining on that training slot.";
+				return response;
 			}
 
 			var eventParticipant = new EventParticipant()
@@ -66,9 +79,16 @@ namespace MSTC.Web.Controllers
 				MemberId = member.Id
 			};
 
-			eventParticipant = _eventParticipantRepository.Create(eventParticipant);
+			//Debit cost from members credits
+			var credits = member.GetValue<int>(MemberProperty.TrainingCredits);
+			credits = credits - model.Cost;
+			member.SetValue(MemberProperty.TrainingCredits, credits);
+			Services.MemberService.Save(member);
 
-			return true;
+			eventParticipant = _eventParticipantRepository.Create(eventParticipant);
+			Logger.Info(typeof(EventController), $"New event slot booking - Member: {member.Name} , Event: {model.EventTypeName} on {eventSlot.Date.ToString("dd/MM/yyyy")} for £{model.Cost}.");
+
+			return response;
 		}
 		
 		

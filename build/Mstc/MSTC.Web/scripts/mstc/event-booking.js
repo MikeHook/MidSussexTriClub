@@ -2,6 +2,9 @@
 	var eventDateDropDown = document.getElementById('eventDate');
 	var spacesEl = document.getElementById('spaces');
 	var bookEventButton$ = $('#bookEventButton');
+	var eventTypeConfirm$ = $('#eventTypeConfirm');
+	var eventDateConfirm$ = $('#eventDateConfirm');
+	var eventCostConfirm$ = $('#eventCostConfirm');	
 
 	var eventTypes = [];
 	var eventType = undefined;
@@ -19,7 +22,9 @@
 		eventType = eventTypes.find(b => b.id === eventTypeId);
 		if (eventType === undefined) {
 			return;
-		}		
+		}
+
+		eventTypeConfirm$.html(eventType.name);
 		
 		eventDateDropDown.options[eventDateDropDown.options.length] = new Option('Select a date', '-1');
 		eventType.eventSlots.forEach(eventSlot => {			
@@ -44,9 +49,13 @@
 			bookEventButton$.prop('disabled', true);
 			bookEventButton$.html('Book Event - No slots available');
 		} else {
-			bookEventButton$.prop('disabled', false);
+			bookEventButton$.prop('disabled', false);			
 			var buttonText = eventSlot.cost > 0 ? 'Book Event for £' + eventSlot.cost : 'Book Event - No Cost';
 			bookEventButton$.html(buttonText);
+
+			var eventDate = luxon.DateTime.fromISO(eventSlot.date);			
+			eventDateConfirm$.html(eventDate.toLocaleString(luxon.DateTime.DATE_MED_WITH_WEEKDAY));
+			eventCostConfirm$.html(eventSlot.cost);
 		}
 	};
 
@@ -63,15 +72,20 @@
 					eventTypeDropDown.options[eventTypeDropDown.options.length] = new Option(item.name, item.id);
 				});
 			},
-			error: function() { }
+			error: function (message) {
+				//Log error
+				JL().error('Call to /umbraco/api/event/BookableEvents?futureEventsOnly=true&withSlotsOnly=true returned error');
+				JL().error(message);
+			}
 		});
 	};
 
 	var bookEvent = function () {
 
 		var bookingModel = {
+			eventTypeName: eventType.name,
 			eventSlotId: eventSlot.id,
-			cost: eventSlot.cost,
+			cost: eventSlot.cost
 		};
 
 		$.ajax({
@@ -79,17 +93,18 @@
 			data: bookingModel,
 			method: 'POST',// jQuery > 1.9
 			type: 'POST', //jQuery < 1.9
-			success: function (isEntered) {
-				
-		
+			success: function (bookingResponse) {
+				if (bookingResponse.hasError) {
+					toastr.error(bookingResponse.error);
+				} else {
+					toastr.success('Event slot booking complete.');
+				}		
 			},
 			error: function (message) {
-		
-				//$('#entry-container').addClass('hidden');
-				//$('#entry-error').removeClass('hidden');
-
-				//JL().error('Call to /umbraco/api/entry/init returned error');
-				//JL().error(message);
+				toastr.error(message);
+				//Log error
+				JL().error('Call to /umbraco/api/event/BookEvent returned error');
+				JL().error(message);
 			}
 		});
 
@@ -138,6 +153,10 @@
 				}
 			}
 		});
+
+		toastr.options = {
+			"positionClass": "toast-top-center"
+		};
 	};
 
 	return {		
