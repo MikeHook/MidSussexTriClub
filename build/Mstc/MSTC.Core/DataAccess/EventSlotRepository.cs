@@ -12,6 +12,7 @@ namespace Mstc.Core.DataAccess
     public interface IEventSlotRepository
     {
         EventSlot Create(EventSlot eventSlot);
+        EventSlot GetById(int id);
         IEnumerable<EventSlot> GetAll(bool futureEventsOnly);
         void Delete(int id);
         void Update(EventSlot slot);
@@ -32,6 +33,16 @@ namespace Mstc.Core.DataAccess
         public EventSlotRepository(IDataConnection dataConnection)
         {
             _dataConnection = dataConnection;
+        }
+
+        public EventSlot GetById(int id)
+        {
+            string query = $"{_baseGet} Where [Id] = @id";
+
+            using (IDbConnection connection = _dataConnection.SqlConnection)
+            {
+                return connection.QueryFirstOrDefault<EventSlot>(query, new { @id = id });
+            }
         }
 
         public IEnumerable<EventSlot> GetAll(bool futureEventsOnly)

@@ -51,8 +51,6 @@ To Do
 -----
 Buy Credits (New feature)
 Event Booking (New feature)
-	- Validate: member has credits, member is not already booked
-	- Wire up text in confirm dialog
 	- Sort out styling and layout
 Event Calendar (New feature)
 Event Admin (New feature)

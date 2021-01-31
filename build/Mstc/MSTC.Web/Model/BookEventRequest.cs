@@ -5,9 +5,10 @@ using System.Web;
 
 namespace MSTC.Web.Model
 {
-    public class BookEventModel
+    public class BookEventRequest
     {
+        public string EventTypeName { get; set; }
         public int EventSlotId { get; set; }
-        public decimal Cost { get; set; }
+        public int Cost { get; set; }
     }
 }
