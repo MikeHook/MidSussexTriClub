@@ -10,7 +10,7 @@ namespace MSTC.Web.Model.Partials
     {
         public int CurrentTrainingCredits { get; set; }
 
-        [Required, Display(Name = "Additional credits required*"), Range(1, 30)]
+        [Required, Display(Name = "Buy credits"), Range(1, 30)]
         public int TrainingCreditsToBuy { get; set; }
     }
 }

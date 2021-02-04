@@ -113,13 +113,16 @@
     <div class="contact-form-wrapper col-sm-12">
         @if (Model.OwsIndemnityAccepted)
         {
-            <div class="form-group">
-                <label class="control-label"><b>O/W swim auth number</b></label>
-                <p class="form-control-static">
-                    <a data-toggle="tooltip" data-placement="bottom"
-                       title="Take this number with you to open water swim sessions. You can't get in the water unless you have your number!">@Model.OWSNumber</a>
-                </p>
-            </div>
+        <div class="form-group">
+            
+                <label class="col-sm-5 control-label"><b>O/W swim auth number</b></label>
+                <div class="col-sm-7">
+                    <p class="form-control-static">
+                        <a data-toggle="tooltip" data-placement="bottom"
+                           title="Take this number with you to open water swim sessions. You can't get in the water unless you have your number!">@Model.OWSNumber</a>
+                    </p>
+                </div>
+        </div>
         }
         else
         {
@@ -136,10 +139,13 @@
 </div>
 }
 
-<div id="training-section">
+<div id="training-section" class="form-horizontal">
     <h2>Training and Events</h2>
+    @{ Html.RenderAction("TrainingCredits", "MemberEdit"); }
     <div class="form-group">
-        <p>If you would like to take part in training sessions or events please pre-book on the below page.</p>
-        <p><a href="@Model.EventBookingPageUrl">Training & Event Booking</a></p>
+        <div class="col-sm-12">
+            <p>If you would like to take part in training sessions or events please pre-book on the below page.</p>
+            <p><a href="@Model.EventBookingPageUrl">Training & Event Booking</a></p>
+        </div>
     </div>
 </div>
