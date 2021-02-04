@@ -1,36 +1,29 @@
 ﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<MSTC.Web.Model.Partials.TrainingCreditsModel>
 
-<div class="form-horizontal">
+
 
     @using (Html.BeginUmbracoForm("CreditsPaymentRedirect", "MemberEdit", FormMethod.Post))
     {
         @Html.AntiForgeryToken()
         <div class="row">
-            <div class="col-sm-12">
+            <div class="col-sm-12">                
                 <div class="form-group">
-                    <h3 class="col-sm-12">Training Credits</h3>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label"><b>Current credits</b></label>
+                    <label class="col-sm-5 control-label"><b>Training credits</b></label>
                     <div class="col-sm-7">                       
                         <p id="credits" class="form-control-static">£@Model.CurrentTrainingCredits</p>
                     </div>
                 </div>
                 <div class="form-group">
-                    @Html.LabelFor(m => m.TrainingCreditsToBuy, new { @class = "col-sm-2 control-label" })                 
-                    <div class="col-sm-7">
+                    @Html.LabelFor(m => m.TrainingCreditsToBuy, new { @class = "col-sm-5 control-label" })
+                    <div class="col-sm-4">
                         @Html.TextBoxFor(m => m.TrainingCreditsToBuy, new { @type = "number", @class = "form-control", @min = "1", @max = "30" })
                         @Html.ValidationMessageFor(m => m.TrainingCreditsToBuy, "Please enter the number of credits to buy, between 1 and 30", new { @class = "help-block alert-danger" })
                     </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="col-sm-2"></div>
-                    <div class="col-sm-10">        
-                        <button name="buyCredits" id="buyCreditsButton" type="submit" class="btn btn-yellow">Buy Training Credits</button>
+                    <div class="col-sm-3">
+                        <button name="buyCredits" id="buyCreditsButton" type="submit" class="btn btn-yellow">Buy now</button>
                     </div>
-                </div>
+                </div>              
             </div>
         </div>        
     }
-</div>
+
