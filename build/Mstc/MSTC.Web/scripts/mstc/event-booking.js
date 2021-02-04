@@ -9,6 +9,7 @@
 	var eventTypes = [];
 	var eventType = undefined;
 	var eventSlot = undefined;
+	var bookedEventSlots = [];
 
 	var eventTypeChanged = function (field) {
 		$("#eventDate").empty();
@@ -27,9 +28,8 @@
 		eventTypeConfirm$.html(eventType.name);
 		
 		eventDateDropDown.options[eventDateDropDown.options.length] = new Option('Select a date', '-1');
-		eventType.eventSlots.forEach(eventSlot => {			
-			var eventDate = luxon.DateTime.fromISO(eventSlot.date);
-			eventDateDropDown.options[eventDateDropDown.options.length] = new Option(eventDate.toLocaleString(luxon.DateTime.DATE_MED_WITH_WEEKDAY), eventSlot.id);			
+		eventType.eventSlots.forEach(eventSlot => {
+			eventDateDropDown.options[eventDateDropDown.options.length] = new Option(eventSlot.dateDisplay, eventSlot.id);			
 		});		
 	};
 
@@ -52,9 +52,8 @@
 			bookEventButton$.prop('disabled', false);			
 			var buttonText = eventSlot.cost > 0 ? 'Book Event for £' + eventSlot.cost : 'Book Event - No Cost';
 			bookEventButton$.html(buttonText);
-
-			var eventDate = luxon.DateTime.fromISO(eventSlot.date);			
-			eventDateConfirm$.html(eventDate.toLocaleString(luxon.DateTime.DATE_MED_WITH_WEEKDAY));
+		
+			eventDateConfirm$.html(eventSlot.dateDisplay);
 			eventCostConfirm$.html(eventSlot.cost);
 		}
 	};
@@ -80,6 +79,30 @@
 		});
 	};
 
+	var getBookedEventSlots = function () {
+		$.ajax({
+			url: '/umbraco/api/event/EventSlots?futureEventsOnly=true&onlyBookedByCurrentMember=true',
+			method: 'GET',// jQuery > 1.9
+			type: 'GET', //jQuery < 1.9
+			success: function (response) {		
+				bookedEventSlots = response;
+				$("#upcomingEvents").empty();
+				if (bookedEventSlots.length > 0) {
+					for (i = 0; i < bookedEventSlots.length; i++) {
+						var html = '<tr><td>' + bookedEventSlots[i].eventTypeName + '</td><td>' + bookedEventSlots[i].dateDisplay + '</td><td><button name="cancelEvent" type="submit" class="btn btn-grey">Cancel event</button></td></tr>';
+						$("#upcomingEvents").append(html);
+					}
+				}  
+
+			},
+			error: function (message) {
+				//Log error
+				JL().error('Call to /umbraco/api/event/EventSlots?futureEventsOnly=true&onlyBookedByCurrentMember=true returned error');
+				JL().error(message);
+			}
+		});
+	};
+
 	var bookEvent = function () {
 
 		var bookingModel = {
@@ -98,6 +121,7 @@
 					toastr.error(bookingResponse.error);
 				} else {
 					toastr.success('Event slot booking complete.');
+					getBookedEventSlots();
 				}		
 			},
 			error: function (message) {
@@ -136,6 +160,7 @@
 		bindFunctions();
 		getEvents();
 		eventSlotChanged(undefined);
+		getBookedEventSlots();
 
 		$("#dialog-confirm").dialog({
 			autoOpen: false,

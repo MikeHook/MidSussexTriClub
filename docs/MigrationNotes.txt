@@ -46,21 +46,19 @@ MSTC Member Admin
 MSTC Member ICE Details
 MSTC Athletes
 MSTC Member Services
+Buy Credits (New feature)
+Event Booking (New feature)
 
 To Do
 -----
-Buy Credits (New feature)
-Event Booking (New feature)
-	- Sort out styling and layout
-Event Calendar (New feature)
-Event Admin (New feature)
-	- Print a register for each session
+- Fix Member admin page
+- Cancel Event  (New feature)
+- Event Admin (New feature)
+- Print a register for each session
+- Add info about Club subsidised events on website
 	
 MSTC OWS Taster Registration (Can defer)
 MSTC OWS Taster Registration Complete (Can defer)
 MSTC Swim Admin (Not needed?)
 MSTC Guest Renewal (Not needed?)
 
-
-
-Add info about Club subsidised events on website

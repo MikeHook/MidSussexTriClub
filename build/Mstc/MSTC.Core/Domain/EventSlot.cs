@@ -16,10 +16,12 @@ namespace Mstc.Core.Domain
         public int Id { get; set; }
         public int EventPageId { get; set; }
         public int EventTypeId { get; set; }
+        public string EventTypeName { get; set; }
         public DateTime Date { get; set; }
         public int Cost { get; set; }
         public int MaxParticipants { get; set; }
 
+        public string DateDisplay => Date.ToString("dddd, dd MMMM yyyy");
         public bool IsFutureEvent => Date.Date > DateTime.Now.Date;
         public bool HasSpace => EventParticipants.Count < MaxParticipants;
         public int SpacesRemaining => MaxParticipants - EventParticipants.Count;

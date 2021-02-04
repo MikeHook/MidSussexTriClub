@@ -48,6 +48,36 @@ namespace MSTC.Web.Controllers
 			}
         }
 
+		[HttpGet]
+		public IEnumerable<EventSlot> EventSlots(bool futureEventsOnly, bool onlyBookedByCurrentMember)
+		{
+			try
+			{
+				List<EventType> eventTypes = _dataTypeProvider.GetEventTypes();
+
+				var eventSlots = _eventSlotRepository.GetAll(futureEventsOnly).ToList();
+				if (onlyBookedByCurrentMember)
+				{
+					var member = _memberProvider.GetLoggedInMember();
+					if (member == null)
+					{
+						Logger.Warn(typeof(EventController), "Unable to find logged in member record.");				
+						return new List<EventSlot>();
+					}
+
+					eventSlots = eventSlots.Where(es => es.EventParticipants.Any(ep => ep.MemberId == member.Id)).ToList();
+				}
+				eventSlots.ForEach(es => es.EventTypeName = eventTypes.SingleOrDefault(et => et.Id == es.EventTypeId)?.Name);
+
+				return eventSlots;
+			}
+			catch (Exception ex)
+			{
+				Logger.Error(typeof(EventController), string.Format("Exception calling EventSlots: {0}", ex.ToString()), ex);
+				return new List<EventSlot>();
+			}
+		}
+
 		[HttpPost]
 		public BookEventResponse BookEvent(BookEventRequest model)
 		{
@@ -69,6 +99,12 @@ namespace MSTC.Web.Controllers
 			if (!eventSlot.HasSpace)
 			{
 				response.Error = "There is no space remaining on that training slot.";
+				return response;
+			}
+
+			if (eventSlot.EventParticipants.Any(ep => ep.MemberId == member.Id))
+			{
+				response.Error = "You are already booked onto that event.";
 				return response;
 			}
 
