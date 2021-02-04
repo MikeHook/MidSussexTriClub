@@ -11,6 +11,8 @@ namespace Mstc.Core.DataAccess
 {
     public interface IEventParticipantRepository
     {
+        IEnumerable<EventParticipant> GetByEventSlot(IDbConnection connection, int eventSlotId);
+        IEnumerable<EventParticipant> GetAll(IDbConnection connection);
         EventParticipant Create(EventParticipant eventParticipant);    
         void Delete(int id);
     }
@@ -22,7 +24,25 @@ namespace Mstc.Core.DataAccess
         public EventParticipantRepository(IDataConnection dataConnection)
         {
             _dataConnection = dataConnection;
-        }      
+        }
+
+        string _baseQuery = @"SELECT  [Id]
+                                      ,[EventSlotId]
+                                      ,[MemberId]
+                                      ,[AmountPaid]
+                                  FROM [dbo].[EventParticipant] ";
+
+        public IEnumerable<EventParticipant> GetByEventSlot(IDbConnection connection, int eventSlotId)
+        {
+            string query = $"{_baseQuery} Where EventSlotId = @EventSlotId";
+
+            return connection.Query<EventParticipant>(query, new { EventSlotId = eventSlotId });
+        }
+
+        public IEnumerable<EventParticipant> GetAll(IDbConnection connection)
+        {
+            return connection.Query<EventParticipant>(_baseQuery);         
+        }
 
         public EventParticipant Create(EventParticipant eventParticipant)
         {

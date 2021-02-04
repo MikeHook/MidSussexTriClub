@@ -20,6 +20,8 @@ namespace Mstc.Core.DataAccess
 
     public class EventSlotRepository : IEventSlotRepository
     {
+        
+
         string _baseGet = @"SELECT [Id]
                                       ,[EventPageId]
                                       ,[EventTypeId]
@@ -29,10 +31,12 @@ namespace Mstc.Core.DataAccess
                                   FROM [dbo].[EventSlot] ";
 
         private readonly IDataConnection _dataConnection;
+        private readonly IEventParticipantRepository _eventParticipantRepository;
 
         public EventSlotRepository(IDataConnection dataConnection)
         {
             _dataConnection = dataConnection;
+            _eventParticipantRepository = new EventParticipantRepository(_dataConnection);
         }
 
         public EventSlot GetById(int id)
@@ -41,7 +45,12 @@ namespace Mstc.Core.DataAccess
 
             using (IDbConnection connection = _dataConnection.SqlConnection)
             {
-                return connection.QueryFirstOrDefault<EventSlot>(query, new { @id = id });
+                var eventSlot = connection.QueryFirstOrDefault<EventSlot>(query, new { @id = id });
+                if (eventSlot != null)
+                {
+                    eventSlot.EventParticipants = _eventParticipantRepository.GetByEventSlot(connection, eventSlot.Id).ToList();
+                }
+                return eventSlot;
             }
         }
 
@@ -51,7 +60,13 @@ namespace Mstc.Core.DataAccess
 
             using (IDbConnection connection = _dataConnection.SqlConnection)
             {
-                return connection.Query<EventSlot>(query, new { now = DateTime.Now });
+                var eventSlots = connection.Query<EventSlot>(query, new { now = DateTime.Now }).ToList();
+                var eventParticipants = _eventParticipantRepository.GetAll(connection).ToList();
+                foreach(var eventSlot in eventSlots)
+                {
+                    eventSlot.EventParticipants = eventParticipants.Where(ep => ep.EventSlotId == eventSlot.Id).ToList();
+                }
+                return eventSlots;
             }
         }
 
