@@ -120,12 +120,12 @@
 					dataSrc: ''
 				},
 				columns: [					
-					{ data: 'Name' },
-					{ data: 'Email' },
-					{ data: 'Phone' },
-					{ data: 'Gender' },
+					{ data: 'name' },
+					{ data: 'email' },
+					{ data: 'phone' },
+					{ data: 'gender' },
 					{
-						data: 'DateOfBirth',
+						data: 'dateOfBirth',
 						render: function (data, type, row) {
 							if (type === "sort" || type === "type") {
 								return data;
@@ -133,15 +133,15 @@
 							return moment(data).format("DD MMM YYYY");
 						}
 					},
-					{ data: 'Address1', visible: false },
-					{ data: 'City', visible: false },			
-					{ data: 'Postcode', visible: false },
+					{ data: 'address1', visible: false },
+					{ data: 'city', visible: false },			
+					{ data: 'postcode', visible: false },
 					{
-						name: 'MembershipTypeString',
-						data: 'MembershipTypeString'
+						name: 'membershipTypeString',
+						data: 'membershipTypeString'
 					},
 					{
-						data: 'MembershipExpiry',
+						data: 'membershipExpiry',
 						render: function (data, type, row) {
 							if (type === "sort" || type === "type") {
 								return data;
@@ -150,30 +150,30 @@
 						}
 					},
 					{
-						name: 'EnglandAthleticsMembership',
-						data: 'EnglandAthleticsMembership',
+						name: 'englandAthleticsMembership',
+						data: 'englandAthleticsMembership',
 						visible: false
 					},
-					{ data: 'SwimSubs1' },
-					{ data: 'SwimSubs2' },				
-					{ data: 'BtfNumber' },				
+					{ data: 'swimSubs1' },
+					{ data: 'swimSubs2' },				
+					{ data: 'btfNumber' },				
 					{
-						name: 'OpenWaterIndemnityAcceptance',
-						data: 'OpenWaterIndemnityAcceptance',
+						name: 'openWaterIndemnityAcceptance',
+						data: 'openWaterIndemnityAcceptance',
 						visible: false
 					},
-					{ data: 'SwimAuthNumber' },
-					{ data: 'SwimBalanceLastYear', visible: false },
-					{ data: 'SwimCreditsBought', visible: false },
-					{ data: 'SwimCreditsUsed', visible: false },
-					{ data: 'TrainingCredits' },
-					{ data: 'MedicalConditions', visible: false },
-					{ data: 'EmergencyContactName', visible: false  },
-					{ data: 'EmergencyContactNumber', visible: false  },
+					{ data: 'swimAuthNumber' },
+					{ data: 'swimBalanceLastYear', visible: false },
+					{ data: 'swimCreditsBought', visible: false },
+					{ data: 'swimCreditsUsed', visible: false },
+					{ data: 'trainingCredits' },
+					{ data: 'medicalConditions', visible: false },
+					{ data: 'emergencyContactName', visible: false  },
+					{ data: 'emergencyContactNumber', visible: false  },
 				],
 				'order': [[0, 'desc']],
 				initComplete: function () {
-					this.api().columns(['MembershipTypeString:name', 'EnglandAthleticsMembership:name', 'OpenWaterIndemnityAcceptance:name']).every(function () {
+					this.api().columns(['membershipTypeString:name', 'englandAthleticsMembership:name', 'openWaterIndemnityAcceptance:name']).every(function () {
 						var column = this;
 
 						var select = $('<select><option value="">Select to filter</option></select>')
