@@ -51,8 +51,8 @@ Event Booking (New feature)
 
 To Do
 -----
-- Fix Member admin page
-- Cancel Event  (New feature)
+
+- Prevent cancellation on same day as booking
 - Event Admin (New feature)
 - Print a register for each session
 - Add info about Club subsidised events on website

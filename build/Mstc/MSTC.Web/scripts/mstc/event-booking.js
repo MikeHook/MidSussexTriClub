@@ -6,10 +6,14 @@
 	var eventDateConfirm$ = $('#eventDateConfirm');
 	var eventCostConfirm$ = $('#eventCostConfirm');	
 
+	var eventTypeCancel$ = $('#eventTypeCancel');
+	var eventDateCancel$ = $('#eventDateCancel');
+
 	var eventTypes = [];
 	var eventType = undefined;
 	var eventSlot = undefined;
 	var bookedEventSlots = [];
+	var cancelSlotId = null;
 
 	var eventTypeChanged = function (field) {
 		$("#eventDate").empty();
@@ -79,6 +83,35 @@
 		});
 	};
 
+	var cancelEvent = function () {
+		var cancelModel = {			
+			eventSlotId: cancelSlotId		
+		};
+
+		$.ajax({
+			url: '/umbraco/api/event/CancelEvent',
+			data: cancelModel,
+			method: 'POST',// jQuery > 1.9
+			type: 'POST', //jQuery < 1.9
+			success: function (bookingResponse) {
+				if (bookingResponse.hasError) {
+					toastr.error(bookingResponse.error);
+				} else {
+					toastr.success('Event slot cancelation complete.');
+					getBookedEventSlots();
+				}
+				cancelSlotId = null;
+			},
+			error: function (message) {
+				toastr.error(message);
+				//Log error
+				JL().error('Call to /umbraco/api/event/CancelEvent returned error');
+				JL().error(message);
+				cancelSlotId = null;
+			}
+		});
+	};
+
 	var getBookedEventSlots = function () {
 		$.ajax({
 			url: '/umbraco/api/event/EventSlots?futureEventsOnly=true&onlyBookedByCurrentMember=true',
@@ -89,8 +122,22 @@
 				$("#upcomingEvents").empty();
 				if (bookedEventSlots.length > 0) {
 					for (i = 0; i < bookedEventSlots.length; i++) {
-						var html = '<tr><td>' + bookedEventSlots[i].eventTypeName + '</td><td>' + bookedEventSlots[i].dateDisplay + '</td><td><button name="cancelEvent" type="submit" class="btn btn-grey">Cancel event</button></td></tr>';
+						var html = `<tr data-id="${bookedEventSlots[i].id}"><td>${bookedEventSlots[i].eventTypeName}</td><td>${bookedEventSlots[i].dateDisplay}</td>` +							
+							'<td><button name="cancelEvent" class="cancel-button" type="button" class="btn btn-grey">Cancel event</button></td></tr>';
+
 						$("#upcomingEvents").append(html);
+						$(".cancel-button").off('click');
+						$(".cancel-button").on('click', function () {
+
+							var tr = $(this).closest("tr");   // Finds the closest row <tr> 
+							var slotId = tr.data("id");     // Gets a descendent with class="slot-id"
+							cancelSlotId = slotId;
+							console.log(slotId);
+							var eventSlot = bookedEventSlots.find(es => es.id === slotId);
+							eventTypeCancel$.html(eventSlot.eventTypeName);
+							eventDateCancel$.html(eventSlot.dateDisplay);
+							$("#dialog-cancel").dialog("open");
+						});								
 					}
 				}  
 
@@ -171,6 +218,23 @@
 			buttons: {
 				Yes: function () {
 					bookEvent();
+					$(this).dialog("close");
+				},
+				Cancel: function () {
+					$(this).dialog("close");
+				}
+			}
+		});
+
+		$("#dialog-cancel").dialog({
+			autoOpen: false,
+			resizable: false,
+			height: "auto",
+			width: 400,
+			modal: true,
+			buttons: {
+				Yes: function () {
+					cancelEvent();
 					$(this).dialog("close");
 				},
 				Cancel: function () {

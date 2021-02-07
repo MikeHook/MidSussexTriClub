@@ -5,6 +5,6 @@
         public int Id { get; set; }
         public int EventSlotId { get; set; }
         public int MemberId { get; set; }
-        public decimal AmountPaid { get; set; }
+        public int AmountPaid { get; set; }
     }
 }
