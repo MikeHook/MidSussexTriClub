@@ -2053,7 +2053,8 @@
     <Compile Include="Controllers\RegistrationController.cs" />
     <Compile Include="Controllers\MemberController.cs" />
     <Compile Include="EventHandlers\UpdateEventSlotResponse.cs" />
-    <Compile Include="Model\BookEventResponse.cs" />
+    <Compile Include="Model\CancelEventRequest.cs" />
+    <Compile Include="Model\EventResponse.cs" />
     <Compile Include="Model\BookEventRequest.cs" />
     <Compile Include="Model\ChangePasswordModel.cs" />
     <Compile Include="Model\ForgotPasswordModel.cs" />
