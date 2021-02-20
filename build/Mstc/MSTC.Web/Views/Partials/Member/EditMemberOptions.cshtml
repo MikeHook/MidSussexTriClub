@@ -94,15 +94,7 @@
                 <label class="control-label"><b>Super secret admin page</b></label>
                 <p class="form-control-static"><a href="@Model.MemberAdminPageUrl">Members Admin Details</a></p>
             </div>
-        }
-
-        @if (Model.ShowIceLink)
-        {
-            <div class="form-group">
-                <label class="control-label"><b>In case of Emergency page</b></label>
-                <p class="form-control-static"><a href="@Model.ICEPageUrl">Members ICE Details</a></p>
-            </div>
-        }
+        }       
     </div>
 </div>
 
@@ -146,6 +138,10 @@
         <div class="col-sm-12">
             <p>If you would like to take part in training sessions or events please pre-book on the below page.</p>
             <p><a href="@Model.EventBookingPageUrl">Training & Event Booking</a></p>
+            @if (Model.ShowMemberAdminLink)
+            {
+                <p><a href="@Model.EventAdminPageUrl">Event Admin Page</a></p>
+            }
         </div>
     </div>
 </div>

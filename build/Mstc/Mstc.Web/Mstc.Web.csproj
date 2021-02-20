@@ -731,6 +731,7 @@
     <Content Include="scripts\mstc\bootstrap.min.js" />
     <Content Include="scripts\mstc\datatables.js" />
     <Content Include="scripts\mstc\datatables.min.js" />
+    <Content Include="scripts\mstc\event-admin.js" />
     <Content Include="scripts\mstc\event-booking.js" />
     <Content Include="scripts\mstc\home-slider.js" />
     <Content Include="scripts\mstc\jquery-1.9.1.min.js" />

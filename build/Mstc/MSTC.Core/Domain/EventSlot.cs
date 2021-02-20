@@ -23,8 +23,9 @@ namespace Mstc.Core.Domain
 
         public string DateDisplay => Date.ToString("dddd, dd MMMM yyyy");
         public bool IsFutureEvent => Date.Date > DateTime.Now.Date;
-        public bool HasSpace => EventParticipants.Count < MaxParticipants;
-        public int SpacesRemaining => MaxParticipants - EventParticipants.Count;
+        public bool HasSpace => Participants < MaxParticipants;
+        public int Participants => EventParticipants.Count;
+        public int SpacesRemaining => MaxParticipants - Participants;
 
         public List<EventParticipant> EventParticipants { get; set; }
     }
