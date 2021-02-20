@@ -97,9 +97,9 @@ namespace MSTC.Web.Controllers
                 model.OwsIndemnityDocLink = memberEditPage.IndemnityWaiverDoc?.Url;
 
                 model.RenewalPageUrl = memberEditPage.RenewalPage?.Url;
-                model.MemberAdminPageUrl = memberEditPage.MemberAdminPage?.Url;
-                model.ICEPageUrl = memberEditPage.ICepage?.Url;
+                model.MemberAdminPageUrl = memberEditPage.MemberAdminPage?.Url;                
                 model.EventBookingPageUrl = memberEditPage.EventBookingPage?.Url;
+                model.EventAdminPageUrl = memberEditPage.EventAdminPage?.Url;
                 model.UnlinkBankPageUrl = memberEditPage.UnlinkBankPage?.Url;
                 
             }         
