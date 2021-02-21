@@ -34,7 +34,7 @@ namespace MSTC.Web.Controllers
 			try
 			{
 				List<EventType> eventTypes = _dataTypeProvider.GetEventTypes();
-				var eventSlots = _eventSlotRepository.GetAll(futureEventsOnly);
+				var eventSlots = _eventSlotRepository.GetAll(futureEventsOnly, eventTypes);
 				foreach(var eventType in eventTypes)
 				{
 					eventType.EventSlots = eventSlots.Where(es => es.EventTypeId == eventType.Id).ToList();
@@ -55,8 +55,7 @@ namespace MSTC.Web.Controllers
 			try
 			{
 				List<EventType> eventTypes = _dataTypeProvider.GetEventTypes();
-
-				var eventSlots = _eventSlotRepository.GetAll(futureEventsOnly).ToList();
+				var eventSlots = _eventSlotRepository.GetAll(futureEventsOnly, eventTypes).ToList();
 				if (onlyBookedByCurrentMember)
 				{
 					var member = _memberProvider.GetLoggedInMember();

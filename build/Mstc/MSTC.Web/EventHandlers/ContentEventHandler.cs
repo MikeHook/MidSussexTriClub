@@ -51,7 +51,7 @@ namespace MSTC.Web.EventHandlers
                     }              
 
                     var eventDates = GetEventDates(eventPage, true);                    
-                    List<EventSlot> existingEventSlots = _eventSlotRepository.GetAll(true).ToList();
+                    List<EventSlot> existingEventSlots = _eventSlotRepository.GetAll(true, eventTypes).ToList();
                     existingEventSlots = existingEventSlots.Where(es => es.EventPageId == eventPage.Id).ToList();
                     if (existingEventSlots.Any(es => eventDates.Contains(es.Date) == false && es.EventParticipants.Count > 0))
                     {
@@ -72,11 +72,13 @@ namespace MSTC.Web.EventHandlers
 
         public void ContentService_Deleting(Umbraco.Core.Services.IContentService sender, DeleteEventArgs<Umbraco.Core.Models.IContent> e)
         {
+            List<EventType> eventTypes = _dataTypeProvider.GetEventTypes();
+            
             /*
-             * -	Check if any slots should be removed
-	                - If slots have participants then cancel deleting with message
-	                - If slots are empty then remove the slots
-             */            
+             - Check if any slots should be removed
+	         - If slots have participants then cancel deleting with message
+	         - If slots are empty then remove the slots
+             */
             foreach (IContent entity in e.DeletedEntities)
             {
                 if (entity.ContentType.Alias == "event")
@@ -84,7 +86,7 @@ namespace MSTC.Web.EventHandlers
                     IPublishedContent eventPageContent = entity.ToPublishedContent();
                     var eventPage = new Event(eventPageContent);
                     
-                    List<EventSlot> existingEventSlots = _eventSlotRepository.GetAll(true).Where(es => es.EventPageId == eventPage.Id).ToList();
+                    List<EventSlot> existingEventSlots = _eventSlotRepository.GetAll(true, eventTypes).Where(es => es.EventPageId == eventPage.Id).ToList();
                     if (existingEventSlots.Any(es => es.EventParticipants.Count > 0))
                     {
                         //If any future slots have participants then cancel deleting with message                    

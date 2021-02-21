@@ -55,6 +55,7 @@ To Do
 - Prevent cancellation on same day as booking
 - Event Admin (New feature)
 - Print a register for each session
+- Club events work with event booking?
 - Add info about Club subsidised events on website
 	
 MSTC OWS Taster Registration (Can defer)
