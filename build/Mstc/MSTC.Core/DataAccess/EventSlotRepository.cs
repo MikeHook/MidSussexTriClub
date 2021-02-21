@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Dapper;
 using Mstc.Core.Domain;
+using Mstc.Core.Providers;
 
 namespace Mstc.Core.DataAccess
 {
@@ -13,7 +14,7 @@ namespace Mstc.Core.DataAccess
     {
         EventSlot Create(EventSlot eventSlot);
         EventSlot GetById(int id);
-        IEnumerable<EventSlot> GetAll(bool futureEventsOnly);
+        IEnumerable<EventSlot> GetAll(bool futureEventsOnly, List<EventType> eventTypes);
         void Delete(int id);
         void Update(EventSlot slot);
     }
@@ -31,12 +32,12 @@ namespace Mstc.Core.DataAccess
                                   FROM [dbo].[EventSlot] ";
 
         private readonly IDataConnection _dataConnection;
-        private readonly IEventParticipantRepository _eventParticipantRepository;
+        private readonly IEventParticipantRepository _eventParticipantRepository;  
 
         public EventSlotRepository(IDataConnection dataConnection)
         {
             _dataConnection = dataConnection;
-            _eventParticipantRepository = new EventParticipantRepository(_dataConnection);
+            _eventParticipantRepository = new EventParticipantRepository(_dataConnection);    
         }
 
         public EventSlot GetById(int id)
@@ -54,17 +55,18 @@ namespace Mstc.Core.DataAccess
             }
         }
 
-        public IEnumerable<EventSlot> GetAll(bool futureEventsOnly)
+        public IEnumerable<EventSlot> GetAll(bool futureEventsOnly, List<EventType> eventTypes)
         {
             string query = $"{_baseGet} {(futureEventsOnly ? "Where [Date] > @now" : "")} order By Date";
 
             using (IDbConnection connection = _dataConnection.SqlConnection)
             {
                 var eventSlots = connection.Query<EventSlot>(query, new { now = DateTime.Now }).ToList();
-                var eventParticipants = _eventParticipantRepository.GetAll(connection).ToList();
-                foreach(var eventSlot in eventSlots)
+                var eventParticipants = _eventParticipantRepository.GetAll(connection).ToList();                
+                foreach (var eventSlot in eventSlots)
                 {
                     eventSlot.EventParticipants = eventParticipants.Where(ep => ep.EventSlotId == eventSlot.Id).ToList();
+                    eventSlot.EventTypeName = eventTypes.SingleOrDefault(et => et.Id == eventSlot.EventTypeId)?.Name;
                 }
                 return eventSlots;
             }

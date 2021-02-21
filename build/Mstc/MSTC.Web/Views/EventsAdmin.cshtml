@@ -15,8 +15,7 @@
 		<form role="form" id="eventAdminForm" class="form-horizontal">
 			<div class="row">
 				<div class="col-sm-12">
-					<div class="form-group">
-						<label class="col-sm-2 control-label"><b>Event Type</b></label>
+					<div class="form-group">					
 						<div class="col-sm-7">
 							<select class="form-control" id="eventType" name="eventType">
 								<option value="-1">Select an event</option>
@@ -27,34 +26,39 @@
 			</div>
 		</form>
 
-		<hr />
 		<div class="blog-post blog-single-post">
-			<form role="form" id="eventSlotForm" class="form-horizontal">
-				<div class="row">
-					<div class="col-sm-12">
-						<div class="form-group">
-							<h3 class="col-sm-12">Event slots</h3>
-						</div>
-
-						<table id="event-slots-table" class="table table-condensed">
-							<thead>
-								<tr>
-									<th>Event Date</th>
-									<th>Participants</th>
-								</tr>
-							</thead>
-							<tbody></tbody>
-							<tfoot>
-								<tr>
-									<th></th>
-									<th></th>
-								</tr>
-							</tfoot>
-						</table>
-
-					</div>
+			<div class="row">
+				<div class="col-sm-12">
+					<h3>Event slots</h3>				
+					<table id="event-slots-table" class="table table-condensed">
+						<thead>
+							<tr>
+								<th>Event Date</th>
+								<th>Participants</th>
+							</tr>
+						</thead>
+						<tbody></tbody>	
+					</table>
 				</div>
-			</form>
+			</div>
+		</div>
+
+		<div class="blog-post blog-single-post">
+			<div class="row">
+				<div class="col-sm-12">
+					<h3 id="eventTitle"></h3>
+					<table id="event-participants-table" class="table table-condensed">
+						<thead>
+							<tr>
+								<th>Participant Name</th>
+								<th>Email</th>
+								<th>Phone number</th>
+							</tr>
+						</thead>
+						<tbody></tbody>						
+					</table>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>

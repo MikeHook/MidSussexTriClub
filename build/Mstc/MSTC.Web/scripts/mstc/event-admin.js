@@ -1,8 +1,6 @@
 ﻿var eventAdmin = (function () {
 	var eventTypes = [];
 	var eventType = undefined;
-	var eventSlots = [];
-
 
 	var eventTypeChanged = function (field) {
 		if (!field.value) {
@@ -15,17 +13,20 @@
 			return;
 		}
 
+		bindEventDetails(null);
+		bindEventSlots();
+		
+	};
+
+	var bindEventSlots = function () {
 		$('#event-slots-table').DataTable().clear().destroy();
 
-		$('#event-slots-table').DataTable({
-			//pageLength: 50,
+		var eventSlotsTable = $('#event-slots-table').DataTable({
 			"lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
 			data: eventType.eventSlots,
 			dom: 'Brtip',
 			select: true,
-			buttons: [
-				'csv', 'excel', 'print'
-			],		
+			buttons: ['csv', 'excel', 'print'],
 			columns: [
 				{
 					data: 'date',
@@ -36,34 +37,45 @@
 						return moment(data).format("dddd DD MMM YYYY");
 					}
 				},
-				{ data: 'participants' }	
+				{ data: 'participants' }
 			],
-			'order': [[0, 'asc']]			
+			'order': [[0, 'asc']]
 		});
 
-		/*
-		if (eventType.eventSlots.length > 0) {
-			for (i = 0; i < eventType.eventSlots.length; i++) {
-				var html = `<tr data-id="${eventType.eventSlots[i].id}"><td>${eventType.eventSlots[i].dateDisplay}</td><td>${eventType.eventSlots[i].participants}</td>` +
-					'<td><button name="cancelEvent" class="cancel-bookings-button" type="button" class="btn btn-grey">Cancel bookings</button></td></tr>';
-
-				$("#eventSlots").append(html);
-				$(".cancel-bookings-button").off('click');
-				$(".cancel-bookings-button").on('click', function () {
-
-					var tr = $(this).closest("tr");   // Finds the closest row <tr> 
-					var slotId = tr.data("id");     // Gets a descendent with class="slot-id"
-					cancelSlotId = slotId;
-					console.log(slotId);
-					var eventSlot = eventType.eventSlots.find(es => es.id === slotId);
-					eventTypeCancel$.html(eventSlot.eventTypeName);
-					eventDateCancel$.html(eventSlot.dateDisplay);
-					$("#dialog-cancel").dialog("open");
-				});
+		eventSlotsTable.off('select');
+		eventSlotsTable.on('select', function (e, dt, type, indexes) {
+			if (type === 'row') {
+				var eventSlotRow = eventSlotsTable.rows(indexes).data()[0];
+				//var eventSlot = eventType.eventSlots.find(es => es.id == eventSlotRow.id);
+				bindEventDetails(eventSlotRow);
 			}
-		}
-		*/
-	};	
+		});
+	};
+
+	var bindEventDetails = function (eventSlot) {
+		$('#event-participants-table').DataTable().clear().destroy();		
+
+		var title = !eventSlot ? '' : `Participants for ${eventSlot.eventTypeName} on ${eventSlot.dateDisplay}`;
+		$('#eventTitle').html(title);
+
+		var eventParticipantsTable = $('#event-participants-table').DataTable({
+			"lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+			data: !eventSlot ? [] : eventSlot.eventParticipants,
+			dom: 'Brtip',
+			select: true,
+			buttons: ['csv', 'excel', {
+				extend: 'print',
+				title: title,
+				autoPrint: false
+			}],
+			columns: [
+				{ data: 'name' },
+				{ data: 'email' },
+				{ data: 'phone' }
+			],
+			'order': [[0, 'asc']]
+		});
+	};
 
 	var getEvents = function() {
 		$.ajax({
