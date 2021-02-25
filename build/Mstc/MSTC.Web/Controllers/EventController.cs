@@ -128,7 +128,38 @@ namespace MSTC.Web.Controllers
 		}
 
 		[HttpPost]
-		public EventResponse CancelEvent(CancelEventRequest model)
+		public EventResponse CancelEventSlot(CancelEventRequest model)
+		{
+			var response = new EventResponse();
+			var loggedInmember = _memberProvider.GetLoggedInMember();
+			if (loggedInmember == null)
+			{
+				Logger.Warn(typeof(EventController), "Unable to find logged in member record.");
+				response.Error = "Unable to find logged in member record.";
+				return response;
+			}			
+
+			var eventSlot = _eventSlotRepository.GetById(model.EventSlotId);	
+			if (eventSlot.EventParticipants.Count == 0)
+			{		
+				response.Error = "There are now participants booked onto the event.";
+				return response;
+			}
+
+			foreach (var eventParticipant in eventSlot.EventParticipants)
+			{
+				var eventMember = Services.MemberService.GetById(eventParticipant.MemberId);
+				CancelEventParticipant(eventMember, eventParticipant);				
+			}
+
+			List<EventType> eventTypes = _dataTypeProvider.GetEventTypes();
+			Logger.Info(typeof(EventController), $"Event slot cancelled for all members - Event: {eventTypes.SingleOrDefault(et => et.Id == eventSlot.EventTypeId)?.Name} on {eventSlot.Date.ToString("dd/MM/yyyy")}.");
+
+			return response;
+		}
+
+		[HttpPost]
+		public EventResponse CancelEventParticipant(CancelEventRequest model)
 		{
 			var response = new EventResponse();
 			var loggedInmember = _memberProvider.GetLoggedInMember();
@@ -162,20 +193,26 @@ namespace MSTC.Web.Controllers
 				Logger.Warn(typeof(EventController), $"Member {eventMember.Name} is not currently booked onto event slot {model.EventSlotId}.");
 				response.Error = "You are not currently booked onto that event";
 				return response;
-			}			
+			}
 
+			CancelEventParticipant(eventMember, eventParticipant);
+
+			List<EventType> eventTypes = _dataTypeProvider.GetEventTypes();
+			Logger.Info(typeof(EventController), $"Event slot cancelled - Member: {eventMember.Name} , Event: {eventTypes.SingleOrDefault(et => et.Id == eventSlot.EventTypeId)?.Name} on {eventSlot.Date.ToString("dd/MM/yyyy")} for £{eventParticipant.AmountPaid}.");
+
+			return response;
+		}
+
+		private void CancelEventParticipant(IMember eventMember, EventParticipant eventParticipant)
+		{
 			//Credit cost to members credits
 			var credits = eventMember.GetValue<int>(MemberProperty.TrainingCredits);
 			credits = credits + eventParticipant.AmountPaid;
 			eventMember.SetValue(MemberProperty.TrainingCredits, credits);
 			Services.MemberService.Save(eventMember);
 
+			//Remove eventParticipant entry
 			_eventParticipantRepository.Delete(eventParticipant.Id);
-
-			List<EventType> eventTypes = _dataTypeProvider.GetEventTypes();
-			Logger.Info(typeof(EventController), $"Event slot cancelled - Member: {eventMember.Name} , Event: {eventTypes.SingleOrDefault(et => et.Id == eventSlot.EventTypeId)?.Name} on {eventSlot.Date.ToString("dd/MM/yyyy")} for £{eventParticipant.AmountPaid}.");
-
-			return response;
 		}
 
 
