@@ -1,6 +1,11 @@
 ﻿var eventAdmin = (function () {
 	var eventTypes = [];
 	var eventType = undefined;
+	var eventSlot = null;
+	var eventParticipant = null;
+
+	var eventMemberCancel$ = $('#eventMemberCancel');
+	var eventCancel$ = $('#eventCancel');
 
 	var eventTypeChanged = function (field) {
 		if (!field.value) {
@@ -13,7 +18,8 @@
 			return;
 		}
 
-		bindEventDetails(null);
+		eventSlot = null;
+		bindEventDetails();
 		bindEventSlots();
 		
 	};
@@ -45,14 +51,13 @@
 		eventSlotsTable.off('select');
 		eventSlotsTable.on('select', function (e, dt, type, indexes) {
 			if (type === 'row') {
-				var eventSlotRow = eventSlotsTable.rows(indexes).data()[0];
-				//var eventSlot = eventType.eventSlots.find(es => es.id == eventSlotRow.id);
-				bindEventDetails(eventSlotRow);
+				eventSlot = eventSlotsTable.rows(indexes).data()[0];
+				bindEventDetails();
 			}
 		});
 	};
 
-	var bindEventDetails = function (eventSlot) {
+	var bindEventDetails = function () {
 		$('#event-participants-table').DataTable().clear().destroy();		
 
 		var title = !eventSlot ? '' : `Participants for ${eventSlot.eventTypeName} on ${eventSlot.dateDisplay}`;
@@ -63,11 +68,36 @@
 			data: !eventSlot ? [] : eventSlot.eventParticipants,
 			dom: 'Brtip',
 			select: true,
-			buttons: ['csv', 'excel', {
+			buttons: [
+				'csv',
+				'excel',
+				{
 				extend: 'print',
 				title: title,
 				autoPrint: false
-			}],
+				},
+				{
+					text: 'Cancel Member Booking',
+					action: function (e, dt, node, config) {
+						if (eventParticipant === null) {
+							toastr.warning('Please select a member in the below table first.');
+							return;
+						}
+						var msg = `${eventParticipant.name} for ${eventSlot.eventTypeName} on ${eventSlot.dateDisplay}`;
+						eventMemberCancel$.html(msg);					
+						$("#dialog-cancel").dialog("open");
+					}
+				},
+				{
+					text: 'Cancel All Bookings',
+					action: function (e, dt, node, config) {
+						var msg = `${eventSlot.eventTypeName} on ${eventSlot.dateDisplay}`;
+						eventCancel$.html(msg);
+						$("#dialog-cancel-all").dialog("open");
+					}
+				}
+
+			],
 			columns: [
 				{ data: 'name' },
 				{ data: 'email' },
@@ -75,9 +105,31 @@
 			],
 			'order': [[0, 'asc']]
 		});
+
+		eventParticipantsTable.off('select');
+		eventParticipantsTable.on('select', function (e, dt, type, indexes) {
+			if (type === 'row') {
+				eventParticipant = eventParticipantsTable.rows(indexes).data()[0];
+			}
+		});
+		eventParticipantsTable.off('deselect');
+		eventParticipantsTable.on('deselect', function (e, dt, type, indexes) {
+			eventParticipant = null;			
+		});
 	};
 
-	var getEvents = function() {
+	var refreshEventSlot = function () {
+		var eventTypeId = eventType.id;
+		var eventSlotId = eventSlot.id;
+		getEvents(() => {
+			eventType = eventTypes.find(et => et.id === eventTypeId);
+			bindEventSlots();
+			eventSlot = eventType.eventSlots.find(es => es.id === eventSlotId);
+			bindEventDetails();
+		});
+	};
+
+	var getEvents = function(callback) {
 		$.ajax({
 			url: '/umbraco/api/event/BookableEvents?futureEventsOnly=false&withSlotsOnly=false',
 			method: 'GET',// jQuery > 1.9
@@ -89,6 +141,9 @@
 				eventTypes.forEach(item => {
 					eventTypeDropDown.options[eventTypeDropDown.options.length] = new Option(item.name, item.id);
 				});
+				if (callback) {
+					callback();
+				}
 			},
 			error: function (message) {
 				//Log error
@@ -98,13 +153,14 @@
 		});
 	};
 
-	var cancelEvent = function () {
+	var cancelEventParticipant = function () {
 		var cancelModel = {			
-			eventSlotId: cancelSlotId		
+			eventSlotId: eventSlot.id,
+			memberId: eventParticipant.memberId
 		};
 
 		$.ajax({
-			url: '/umbraco/api/event/CancelEvent',
+			url: '/umbraco/api/event/CancelEventParticipant',
 			data: cancelModel,
 			method: 'POST',// jQuery > 1.9
 			type: 'POST', //jQuery < 1.9
@@ -112,20 +168,45 @@
 				if (bookingResponse.hasError) {
 					toastr.error(bookingResponse.error);
 				} else {
-					toastr.success('Event slot cancelation complete.');
-					getBookedEventSlots();
+					toastr.success('Event booking cancelation complete.');
+					refreshEventSlot();
 				}
-				cancelSlotId = null;
 			},
 			error: function (message) {
 				toastr.error(message);
 				//Log error
-				JL().error('Call to /umbraco/api/event/CancelEvent returned error');
+				JL().error('Call to /umbraco/api/event/CancelEventParticipant returned error');
 				JL().error(message);
-				cancelSlotId = null;
 			}
 		});
 	};	
+
+	var cancelEventSlot = function () {
+		var cancelModel = {
+			eventSlotId: eventSlot.id
+		};
+
+		$.ajax({
+			url: '/umbraco/api/event/CancelEventSlot',
+			data: cancelModel,
+			method: 'POST',// jQuery > 1.9
+			type: 'POST', //jQuery < 1.9
+			success: function (bookingResponse) {
+				if (bookingResponse.hasError) {
+					toastr.error(bookingResponse.error);
+				} else {
+					toastr.success('Event booking cancelations complete.');
+					refreshEventSlot();
+				}
+			},
+			error: function (message) {
+				toastr.error(message);
+				//Log error
+				JL().error('Call to /umbraco/api/event/CancelEventSlot returned error');
+				JL().error(message);
+			}
+		});
+	};
 
 	var bindFunctions = function() {
 		$('#eventType').off('change');
@@ -138,6 +219,23 @@
 		bindFunctions();
 		getEvents();
 
+		$("#dialog-cancel-all").dialog({
+			autoOpen: false,
+			resizable: false,
+			height: "auto",
+			width: 400,
+			modal: true,
+			buttons: {
+				Yes: function () {
+					cancelEventSlot();
+					$(this).dialog("close");
+				},
+				Cancel: function () {
+					$(this).dialog("close");
+				}
+			}
+		});
+
 		$("#dialog-cancel").dialog({
 			autoOpen: false,
 			resizable: false,
@@ -146,7 +244,7 @@
 			modal: true,
 			buttons: {
 				Yes: function () {
-					cancelEvent();
+					cancelEventParticipant();
 					$(this).dialog("close");
 				},
 				Cancel: function () {
@@ -162,9 +260,7 @@
 
 	return {		
 		init: init
-		//anything else you want available
-		//through eventBooking.function()
-		//or expose variables here too
+		//anything else you want available through eventAdmin.function() or expose variables here too
 	};
 })();
 

@@ -89,7 +89,7 @@
 		};
 
 		$.ajax({
-			url: '/umbraco/api/event/CancelEvent',
+			url: '/umbraco/api/event/CancelEventParticipant',
 			data: cancelModel,
 			method: 'POST',// jQuery > 1.9
 			type: 'POST', //jQuery < 1.9
@@ -105,7 +105,7 @@
 			error: function (message) {
 				toastr.error(message);
 				//Log error
-				JL().error('Call to /umbraco/api/event/CancelEvent returned error');
+				JL().error('Call to /umbraco/api/event/CancelEventParticipant returned error');
 				JL().error(message);
 				cancelSlotId = null;
 			}
@@ -132,7 +132,6 @@
 							var tr = $(this).closest("tr");   // Finds the closest row <tr> 
 							var slotId = tr.data("id");     // Gets a descendent with class="slot-id"
 							cancelSlotId = slotId;
-							console.log(slotId);
 							var eventSlot = bookedEventSlots.find(es => es.id === slotId);
 							eventTypeCancel$.html(eventSlot.eventTypeName);
 							eventDateCancel$.html(eventSlot.dateDisplay);

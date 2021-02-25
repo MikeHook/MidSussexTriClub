@@ -2344,6 +2344,7 @@
     <Content Include="Views\EventsAdmin.cshtml" />
     <Content Include="Views\Partials\Member\TrainingCredits.cshtml" />
     <Content Include="scripts\jsnlog.js.map" />
+    <Content Include="scripts\mstc\toastr.js.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
