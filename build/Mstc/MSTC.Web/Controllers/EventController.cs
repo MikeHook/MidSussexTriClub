@@ -142,7 +142,13 @@ namespace MSTC.Web.Controllers
 			var eventSlot = _eventSlotRepository.GetById(model.EventSlotId);	
 			if (eventSlot.EventParticipants.Count == 0)
 			{		
-				response.Error = "There are now participants booked onto the event.";
+				response.Error = "There are no participants booked onto the event.";
+				return response;
+			}
+		
+			if (eventSlot.Date.Date < DateTime.Now.Date)
+			{
+				response.Error = $"You can not cancel an event which is in the past.";
 				return response;
 			}
 
@@ -170,6 +176,13 @@ namespace MSTC.Web.Controllers
 				return response;
 			}
 
+			var eventSlot = _eventSlotRepository.GetById(model.EventSlotId);
+			if (eventSlot.Date.Date < DateTime.Now.Date)
+			{
+				response.Error = $"You can not cancel an event which is in the past.";
+				return response;
+			}
+
 			IMember eventMember;
 			if (model.MemberId.HasValue)
 			{
@@ -184,9 +197,14 @@ namespace MSTC.Web.Controllers
 			else
 			{
 				eventMember = loggedInmember;
+				if (eventSlot.Date.Date <= DateTime.Now.Date)
+				{
+					response.Error = $"You can not cancel an event on the same day as the event is running.";
+					return response;
+				}
 			}
 
-			var eventSlot = _eventSlotRepository.GetById(model.EventSlotId);
+			
 			EventParticipant eventParticipant = eventSlot.EventParticipants.FirstOrDefault(ep => ep.MemberId == eventMember.Id);
 			if (eventParticipant == null)
 			{
