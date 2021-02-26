@@ -55,7 +55,10 @@ Prevent cancellation on same day as booking
 To Do
 -----
 
-- Club events work with event booking?
+- Club events work with event booking? 
+	- Add race distance options, 
+	- Indemnity Waiver form
+	- Covid Health Declaration
 - Add info about Club subsidised events on website
 	
 MSTC OWS Taster Registration (Can defer)

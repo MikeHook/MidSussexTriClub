@@ -20,6 +20,10 @@ namespace Mstc.Core.Domain
         public DateTime Date { get; set; }
         public int Cost { get; set; }
         public int MaxParticipants { get; set; }
+        public string Distances { get; set; }
+        public string IndemnityWaiverDocumentLink { get; set; }
+        public string CovidDocumentLink { get; set; }
+        public List<string> RaceDistances => Distances?.Split(';').ToList();
 
         public string DateDisplay => Date.ToString("dddd, dd MMMM yyyy");
         public bool IsFutureEvent => Date.Date > DateTime.Now.Date;
@@ -28,5 +32,10 @@ namespace Mstc.Core.Domain
         public int SpacesRemaining => MaxParticipants - Participants;
 
         public List<EventParticipant> EventParticipants { get; set; }
+
+        public void SetDisances(IEnumerable<string> eventRaceDistances)
+        {
+            Distances = eventRaceDistances != null && eventRaceDistances.Any() ? string.Join(";", eventRaceDistances) : null;
+        }
     }
 }

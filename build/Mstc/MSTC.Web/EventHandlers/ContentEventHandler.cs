@@ -62,7 +62,7 @@ namespace MSTC.Web.EventHandlers
                         return;
                     }
 
-                    var response = UpdateEventSlots(existingEventSlots, eventType.Id, eventPage); 
+                    var response = CreateUpdateEventSlots(existingEventSlots, eventType.Id, eventPage); 
                     _logger.Info(typeof(ContentEventHandler), 
                         $"Updated event slots for event type '{eventPage.EventType}'. Created {response.SlotsCreated}, updated {response.SlotsUpdated} and deleted {response.SlotsDeleted} slots.");
 
@@ -107,7 +107,7 @@ namespace MSTC.Web.EventHandlers
             }
         }
 
-        private UpdateEventSlotResponse UpdateEventSlots(List<EventSlot> existingFutureEventSlots, int eventTypeId, Event eventPage)
+        private UpdateEventSlotResponse CreateUpdateEventSlots(List<EventSlot> existingFutureEventSlots, int eventTypeId, Event eventPage)
         {
             var response = new UpdateEventSlotResponse();
             var eventDates = GetEventDates(eventPage, true);
@@ -131,6 +131,11 @@ namespace MSTC.Web.EventHandlers
             var existingEventSlots = existingFutureEventSlots.Where(es => eventDates.Contains(es.Date)).ToList();
             foreach (var slot in existingEventSlots)
             {
+                slot.MaxParticipants = eventPage.MaximumParticipants;
+                slot.Cost = eventPage.Cost;
+                slot.IndemnityWaiverDocumentLink = eventPage.IndemnityWaiver?.Url;
+                slot.CovidDocumentLink = eventPage.CovidHealthDeclaration?.Url;
+                slot.SetDisances(eventPage.RaceDistances);
                 _eventSlotRepository.Update(slot);
             }   
             response.SlotsUpdated = existingEventSlots.Count;
@@ -171,8 +176,11 @@ namespace MSTC.Web.EventHandlers
                 EventPageId = eventPage.Id,
                 Date = eventDate,
                 Cost = eventPage.Cost,
-                MaxParticipants = eventPage.MaximumParticipants
+                MaxParticipants = eventPage.MaximumParticipants,
+                IndemnityWaiverDocumentLink = eventPage.IndemnityWaiver?.Url,
+                CovidDocumentLink = eventPage.CovidHealthDeclaration?.Url
             };
+            eventSlot.SetDisances(eventPage.RaceDistances);
             _eventSlotRepository.Create(eventSlot);            
         }        
     }
