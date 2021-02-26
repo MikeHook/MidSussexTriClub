@@ -4,7 +4,10 @@ CREATE TABLE [dbo].[EventSlot](
 	[EventTypeId] INT NOT NULL,
 	[Date] datetime NOT NULL,
 	[Cost] decimal NOT NULL,
-	[MaxParticipants] int NOT NULL	
+	[MaxParticipants] int NOT NULL,
+	[Distances] nvarchar(500) NULL,
+	[IndemnityWaiverDocumentLink] nvarchar(500) NULL,	
+	[CovidDocumentLink] nvarchar(500) NULL	
  CONSTRAINT [PK_EventSlot] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC

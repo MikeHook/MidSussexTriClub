@@ -531,6 +531,11 @@ namespace Mstc.Core
         {
             get
             {
+                if (!HasValue)
+                {
+                    return null;
+                }
+
                 var source = this.PropertyType.ConvertDataToSource(this.dataValue, this.isPreviewing);
                 return this.PropertyType.ConvertSourceToObject(source, this.isPreviewing);
             }
@@ -543,6 +548,11 @@ namespace Mstc.Core
         {
             get
             {
+                if (!HasValue)
+                {
+                    return null;
+                }
+
                 var source = this.PropertyType.ConvertDataToSource(this.dataValue, this.isPreviewing);
                 return this.PropertyType.ConvertSourceToXPath(source, this.isPreviewing);
             }

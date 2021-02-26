@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Dapper;
 using Mstc.Core.Domain;
 using Mstc.Core.Providers;
+using Umbraco.Web;
 
 namespace Mstc.Core.DataAccess
 {
@@ -21,14 +22,15 @@ namespace Mstc.Core.DataAccess
 
     public class EventSlotRepository : IEventSlotRepository
     {
-        
-
         string _baseGet = @"SELECT [Id]
                                       ,[EventPageId]
                                       ,[EventTypeId]
                                       ,[Date]
                                       ,[Cost]
-                                      ,[MaxParticipants]                                    
+                                      ,[MaxParticipants]
+                                      ,[Distances]
+                                      ,[IndemnityWaiverDocumentLink]
+                                      ,[CovidDocumentLink]
                                   FROM [dbo].[EventSlot] ";
 
         private readonly IDataConnection _dataConnection;
@@ -36,7 +38,7 @@ namespace Mstc.Core.DataAccess
 
         public EventSlotRepository(IDataConnection dataConnection)
         {
-            _dataConnection = dataConnection;
+            _dataConnection = dataConnection; 
             _eventParticipantRepository = new EventParticipantRepository(_dataConnection);    
         }
 
@@ -79,14 +81,20 @@ namespace Mstc.Core.DataAccess
                                            ,[EventPageId]
                                            ,[Date]
                                            ,[Cost]
-                                           ,[MaxParticipants])
+                                           ,[MaxParticipants]
+                                           ,[Distances]
+                                           ,[IndemnityWaiverDocumentLink]
+                                           ,[CovidDocumentLink])
                                         OUTPUT Inserted.Id
                                         VALUES
                                            (@EventTypeId
                                            ,@EventPageId
                                            ,@Date
                                            ,@Cost
-                                           ,@MaxParticipants)";
+                                           ,@MaxParticipants
+                                           ,@Distances
+                                           ,@IndemnityWaiverDocumentLink
+                                           ,@CovidDocumentLink)";
 
 
             using (IDbConnection connection = _dataConnection.SqlConnection)
@@ -102,10 +110,21 @@ namespace Mstc.Core.DataAccess
             string query = @"UPDATE [dbo].[EventSlot]
                                     SET  [Cost] = @Cost
                                         ,[MaxParticipants] = @MaxParticipants
+                                        ,[Distances] = @Distances
+                                        ,[IndemnityWaiverDocumentLink] = @IndemnityWaiverDocumentLink
+                                        ,[CovidDocumentLink] = @CovidDocumentLink
                                     WHERE Id = @Id";
             using (IDbConnection connection = _dataConnection.SqlConnection)
             {
-                connection.Execute(query, new { Id = slot.Id, Cost = slot.Cost, MaxParticipants = slot.MaxParticipants });
+                connection.Execute(query, new
+                {
+                    Id = slot.Id,
+                    Cost = slot.Cost,
+                    MaxParticipants = slot.MaxParticipants,
+                    Distances = slot.Distances,
+                    IndemnityWaiverDocumentLink = slot.IndemnityWaiverDocumentLink,
+                    CovidDocumentLink = slot.CovidDocumentLink
+                });
             }
         }
 
