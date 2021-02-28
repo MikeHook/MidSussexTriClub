@@ -19,26 +19,22 @@
     using (Html.BeginUmbracoForm("SubmitLogout", "Member", System.Web.Mvc.FormMethod.Post, new { id = "logout" }))
     {
         @Html.AntiForgeryToken()
-        <input class="btn-yellow" name="logout" type="submit" value="Log out" />    
+        <input class="btn-yellow" name="logout" type="submit" value="Log out" />
+
     }
 }
 
-<div class="mainmenu-header">
-    <div class="container">
-        <div class="menuextras">
-            <div class="extras">
-                <div class="login-status">
-                    @if (currentUser != null)
-                    {
-                        <p><em>Welcome back @currentUser.Name</em> @ChangePasswordLink(homepage) @LogoutForm()</p>
-                    }
+@if (currentUser != null)
+{
+    <div class="mainmenu-header">
+        <div class="container">
+            <div class="menuextras">
+                <div class="extras">
+                    <div class="login-status">            
+                            <p><em>Welcome back @currentUser.Name</em> @ChangePasswordLink(homepage) @LogoutForm()</p>               
+                    </div>                    
                 </div>
-
-                <ul>
-                    <li class="active"><a href="@homepage.Url">Club Site</a> | </li>
-                    <li><a href="https://midsussextriathlon.com/" target="_blank">The Mid Sussex Triathlon</a></li>
-                </ul>
             </div>
         </div>
     </div>
-</div>
+}
