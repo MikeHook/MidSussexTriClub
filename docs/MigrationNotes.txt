@@ -51,14 +51,14 @@ Event Booking (New feature)
 Event Admin (New feature)
 Print a register for each session
 Prevent cancellation on same day as booking
+Club events work with event booking? 
+	- Add race distance options, 
+	- Indemnity Waiver form
+	- Covid Health Declaration
 
 To Do
 -----
 
-- Club events work with event booking? 
-	- Add race distance options, 
-	- Indemnity Waiver form
-	- Covid Health Declaration
 - Add info about Club subsidised events on website
 	
 MSTC OWS Taster Registration (Can defer)
