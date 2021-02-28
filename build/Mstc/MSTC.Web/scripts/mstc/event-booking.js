@@ -1,5 +1,6 @@
 ﻿var eventBooking = (function () {
 	var eventDateDropDown = document.getElementById('eventDate');
+	var raceDistanceDropDown = document.getElementById('raceDistance');
 	var spacesEl = document.getElementById('spaces');
 	var bookEventButton$ = $('#bookEventButton');
 	var eventTypeConfirm$ = $('#eventTypeConfirm');
@@ -9,9 +10,14 @@
 	var eventTypeCancel$ = $('#eventTypeCancel');
 	var eventDateCancel$ = $('#eventDateCancel');
 
+	var raceDistanceDiv$ = $('#raceDistanceDiv');
+	var waiverDiv$ = $('#waiverDiv');
+	var covidDiv$ = $('#covidDiv');
+
 	var eventTypes = [];
 	var eventType = undefined;
 	var eventSlot = undefined;
+	var raceDistance = '';
 	var bookedEventSlots = [];
 	var cancelSlotId = null;
 
@@ -41,10 +47,16 @@
 		if (!field.value || eventType === undefined) {
 			return;
 		}
-
 		var eventSlotId = parseInt(field.value, 10);
 		eventSlot = eventType.eventSlots.find(es => es.id === eventSlotId);
 		eventSlotChanged(eventSlot);
+	};
+
+	var raceDistanceChanged = function (field) {
+		if (!field.value || eventType === undefined) {
+			return;
+		}
+		raceDistance = field.value;
 	};
 
 	var eventSlotChanged = function (eventSlot) {		
@@ -52,6 +64,11 @@
 		if (eventSlot === undefined || !eventSlot.hasSpace) {
 			bookEventButton$.prop('disabled', true);
 			bookEventButton$.html('Book Event - No slots available');
+			raceDistanceDiv$.addClass('hide');
+			waiverDiv$.addClass('hide');
+			covidDiv$.addClass('hide');
+			$('#checkboxWaiver').prop('checked', false);
+			$('#checkboxCovid').prop('checked', false);
 		} else {
 			bookEventButton$.prop('disabled', false);			
 			var buttonText = eventSlot.cost > 0 ? 'Book Event for £' + eventSlot.cost : 'Book Event - No Cost';
@@ -59,6 +76,30 @@
 		
 			eventDateConfirm$.html(eventSlot.dateDisplay);
 			eventCostConfirm$.html(eventSlot.cost);
+
+			if (eventSlot.raceDistances.length > 0) {
+				raceDistanceDiv$.removeClass('hide');
+				$("#raceDistance").empty();
+				raceDistanceDropDown.options[raceDistanceDropDown.options.length] = new Option('Select a race distance', '');
+				eventSlot.raceDistances.forEach(raceDistance => {
+					raceDistanceDropDown.options[raceDistanceDropDown.options.length] = new Option(raceDistance, raceDistance);
+				});		
+			} else {
+				raceDistanceDiv$.addClass('hide');
+			}
+
+			if (eventSlot.indemnityWaiverDocumentLink) {
+				waiverDiv$.removeClass('hide');
+				$('#waiverLink').attr('href', eventSlot.indemnityWaiverDocumentLink);
+			} else {
+				waiverDiv$.addClass('hide');
+			}
+			if (eventSlot.covidDocumentLink) {
+				covidDiv$.removeClass('hide');
+				$('#covidLink').attr('href', eventSlot.covidDocumentLink);
+			} else {
+				covidDiv$.addClass('hide');
+			}
 		}
 	};
 
@@ -69,8 +110,10 @@
 			type: 'GET', //jQuery < 1.9
 			success: function (response) {
 				eventTypes = response;
-				var eventTypeDropDown = document.getElementById('eventType');
 
+				$("#eventType").empty();
+				var eventTypeDropDown = document.getElementById('eventType');
+				eventTypeDropDown.options[eventTypeDropDown.options.length] = new Option('Select an event', null);
 				eventTypes.forEach(item => {
 					eventTypeDropDown.options[eventTypeDropDown.options.length] = new Option(item.name, item.id);
 				});
@@ -99,6 +142,7 @@
 				} else {
 					toastr.success('Event slot cancelation complete.');
 					getBookedEventSlots();
+					getEvents();
 				}
 				cancelSlotId = null;
 			},
@@ -154,7 +198,8 @@
 		var bookingModel = {
 			eventTypeName: eventType.name,
 			eventSlotId: eventSlot.id,
-			cost: eventSlot.cost
+			cost: eventSlot.cost,
+			raceDistance: raceDistance
 		};
 
 		$.ajax({
@@ -168,6 +213,8 @@
 				} else {
 					toastr.success('Event slot booking complete.');
 					getBookedEventSlots();
+					getEvents();
+					$("#eventBookingForm")[0].reset();					
 				}		
 			},
 			error: function (message) {
@@ -178,6 +225,24 @@
 			}
 		});
 
+	};
+
+	var validateForm = function () {
+		if (eventSlot.raceDistances.length > 0 && raceDistance === '') {
+			toastr.error('Please select a race distance');
+			return false;
+		} 
+
+		if (eventSlot.indemnityWaiverDocumentLink && $('#checkboxWaiver').is(":checked") === false) {
+			toastr.error('Please acccept the indemnity waiver document.');
+			return false;
+		}
+		if (eventSlot.covidDocumentLink && $('#checkboxCovid').is(":checked") === false) {
+			toastr.error('Please acccept the covid health declaration.');
+			return false;
+		} 
+
+		return true;
 	};
 
 	var bindFunctions = function() {
@@ -191,11 +256,18 @@
 			eventDateChanged(this);
 		});
 
+		$('#raceDistance').off('change');
+		$('#raceDistance').on('change', function () {
+			raceDistanceChanged(this);
+		});
+
 		$("#eventBookingForm").on("submit", function (event) {
 			if (!event.isDefaultPrevented()) {
 				event.preventDefault();
 
-				$("#dialog-confirm").dialog("open");	
+				if (validateForm()) {
+					$("#dialog-confirm").dialog("open");
+				}
 			}
 		});
 

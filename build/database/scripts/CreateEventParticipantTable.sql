@@ -3,6 +3,7 @@ CREATE TABLE [dbo].[EventParticipant](
 	[EventSlotId] INT NOT NULL CONSTRAINT [FK_EventParticipant_EventSlotId] FOREIGN KEY([EventSlotId]) REFERENCES [dbo].[EventSlot] ([Id]),
 	[MemberId] INT,
 	[AmountPaid] decimal NOT NULL,
+	[RaceDistance] nvarchar(80) NULL
  CONSTRAINT [PK_EventParticipant] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC

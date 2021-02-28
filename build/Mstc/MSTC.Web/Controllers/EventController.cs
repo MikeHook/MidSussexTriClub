@@ -61,13 +61,29 @@ namespace MSTC.Web.Controllers
 					var member = _memberProvider.GetLoggedInMember();
 					if (member == null)
 					{
-						Logger.Warn(typeof(EventController), "Unable to find logged in member record.");				
+						Logger.Warn(typeof(EventController), "Unable to find logged in member record.");
 						return new List<EventSlot>();
 					}
 
 					eventSlots = eventSlots.Where(es => es.EventParticipants.Any(ep => ep.MemberId == member.Id)).ToList();
+
+					eventSlots.ForEach(es =>
+					{
+						var currentEventParticipant = es.EventParticipants.First(ep => ep.MemberId == member.Id);
+						if (string.IsNullOrEmpty(currentEventParticipant.RaceDistance))
+						{
+							es.EventTypeName = eventTypes.SingleOrDefault(et => et.Id == es.EventTypeId)?.Name;
+						}
+						else
+						{
+							es.EventTypeName = $"{eventTypes.SingleOrDefault(et => et.Id == es.EventTypeId)?.Name} - {currentEventParticipant.RaceDistance}";
+						}
+					});
 				}
-				eventSlots.ForEach(es => es.EventTypeName = eventTypes.SingleOrDefault(et => et.Id == es.EventTypeId)?.Name);
+				else
+				{
+					eventSlots.ForEach(es => es.EventTypeName = eventTypes.SingleOrDefault(et => et.Id == es.EventTypeId)?.Name);
+				}
 
 				return eventSlots;
 			}
@@ -112,7 +128,8 @@ namespace MSTC.Web.Controllers
 			{
 				EventSlotId = model.EventSlotId,
 				AmountPaid = model.Cost,
-				MemberId = member.Id
+				MemberId = member.Id,
+				RaceDistance = string.IsNullOrEmpty(model.RaceDistance) ? null : model.RaceDistance
 			};
 
 			//Debit cost from members credits
