@@ -4,8 +4,8 @@
 Write-Host 'Running before build script'
 
 #$root = 'D:\Temp'
-#$root = 'D:\dev\MidSussexTriathlon\build\MidSussexTriClub.Web'
-$root =  $env:APPVEYOR_BUILD_FOLDER + '\build\MidSussexTriClub.Web'
+#$root = 'D:\dev\MidSussexTriathlon\build\Mstc\MSTC.Web'
+$root =  $env:APPVEYOR_BUILD_FOLDER + '\build\Mstc\MSTC.Web'
 Write-Host $root
 
 $configPath = $root + '\Web.config'
