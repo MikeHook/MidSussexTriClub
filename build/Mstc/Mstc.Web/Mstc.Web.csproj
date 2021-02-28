@@ -857,7 +857,6 @@
     <Content Include="css\mstc\less\main.less" />
     <Content Include="css\mstc\less\variables.less" />
     <Content Include="App_Plugins\DiploTraceLogViewer\package.manifest" />
-    <Content Include="App_Data\Models\ood.flag" />
     <None Include="packages.config" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\Partials\Grid\Editors\Textstring.cshtml" />
