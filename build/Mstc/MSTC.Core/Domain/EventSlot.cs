@@ -23,7 +23,7 @@ namespace Mstc.Core.Domain
         public string Distances { get; set; }
         public string IndemnityWaiverDocumentLink { get; set; }
         public string CovidDocumentLink { get; set; }
-        public List<string> RaceDistances => Distances?.Split(';').ToList();
+        public List<string> RaceDistances => Distances?.Split(';').ToList() ?? new List<string>();
 
         public string DateDisplay => Date.ToString("dddd, dd MMMM yyyy");
         public bool IsFutureEvent => Date.Date > DateTime.Now.Date;

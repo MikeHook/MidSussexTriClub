@@ -69,6 +69,7 @@
 			dom: 'Brtip',
 			select: true,
 			buttons: [
+				'colvis',
 				'csv',
 				'excel',
 				{
@@ -100,6 +101,7 @@
 			],
 			columns: [
 				{ data: 'name' },
+				{ data: 'raceDistance', visible: false },
 				{ data: 'email' },
 				{ data: 'phone' }
 			],

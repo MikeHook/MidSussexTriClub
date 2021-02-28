@@ -30,6 +30,7 @@ namespace Mstc.Core.DataAccess
                                     ,ep.[EventSlotId]
                                     ,ep.[MemberId]
                                     ,ep.[AmountPaid]
+                                    ,ep.[RaceDistance]
 		                            ,uNode.[text] as [Name]
 		                            ,m.[Email]
 		                            ,cData.dataNvarchar as [Phone]
@@ -55,12 +56,14 @@ namespace Mstc.Core.DataAccess
             string query = @"INSERT INTO [dbo].[EventParticipant]            
                                            ([EventSlotId]                                       
                                            ,[MemberId]
-                                           ,[AmountPaid])
+                                           ,[AmountPaid]
+                                           ,[RaceDistance])
                                         OUTPUT Inserted.Id
                                         VALUES
                                            (@EventSlotId
                                            ,@MemberId
-                                           ,@AmountPaid)";
+                                           ,@AmountPaid
+                                           ,@RaceDistance)";
 
 
             using (IDbConnection connection = _dataConnection.SqlConnection)
