@@ -892,7 +892,6 @@
     <Content Include="Views\Article.cshtml" />
     <Content Include="Views\ArticleListing.cshtml" />
     <Content Include="Views\Partials\Navigation\SideNavigation.cshtml" />
-    <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Partials\Login.cshtml" />
     <Content Include="Views\Partials\Logout.cshtml" />
