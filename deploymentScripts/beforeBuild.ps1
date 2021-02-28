@@ -20,6 +20,7 @@ $webconfig = $webconfig -replace "connectionString=`"([^`"]+)`"","connectionStri
 $webconfig = ReplaceAppSetting $webconfig "gmailUserName" $env:gmailUserName
 $webconfig = ReplaceAppSetting $webconfig "gmailPassword" $env:gmailPassword
 $webconfig = ReplaceAppSetting $webconfig "gocardlessEnvironment" $env:gocardlessEnvironment
+$webconfig = ReplaceAppSetting $webconfig "gocardlessAccessToken" $env:gocardlessAccessToken
 $webconfig = ReplaceAppSetting $webconfig "environment" $env:gocardlessEnvironment
 
 [System.IO.File]::WriteAllLines($configPath, $webconfig)
