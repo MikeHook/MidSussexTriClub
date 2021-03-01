@@ -58,7 +58,9 @@ Club events work with event booking?
 
 To Do
 -----
-
+- Running 2 sessions on same day, need a start time?
+- Booking reminder emails
+- Pictures on Event booking page
 - Add info about Club subsidised events on website
 	
 MSTC OWS Taster Registration (Can defer)
