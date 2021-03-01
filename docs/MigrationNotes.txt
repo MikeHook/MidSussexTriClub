@@ -61,7 +61,7 @@ To Do
 - Running 2 sessions on same day, need a start time?
 - Booking reminder emails
 - Pictures on Event booking page
-- Add info about Club subsidised events on website
+- Add info about Club subsidised events on website 
 	
 MSTC OWS Taster Registration (Can defer)
 MSTC OWS Taster Registration Complete (Can defer)
