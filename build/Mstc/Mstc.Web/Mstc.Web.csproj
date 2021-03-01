@@ -711,6 +711,8 @@
     <Content Include="config\Lang\ru-RU.user.xml" />
     <Content Include="config\Lang\sv-SE.user.xml" />
     <Content Include="config\Lang\zh-CN.user.xml" />
+    <Content Include="config\splashes\booting.aspx" />
+    <Content Include="config\splashes\noNodes.aspx" />
     <Content Include="css\Designit.Gallery\jquery.lightbox-0.5.css" />
     <Content Include="css\fonts\font-awesome.min.css" />
     <Content Include="css\fonts\fontawesome-webfont.svg" />
@@ -897,6 +899,9 @@
     <Content Include="App_Plugins\StarterKit\package.manifest" />
     <Content Include="App_Plugins\Terratype\package.manifest" />
     <Content Include="App_Plugins\Terratype\Views\grid.cshtml" />
+    <Content Include="App_Data\packages\installed\installedPackages.config" />
+    <Content Include="App_Browsers\Form.browser" />
+    <Content Include="App_Browsers\w3cvalidator.browser" />
     <None Include="packages.config" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\Partials\Grid\Editors\Textstring.cshtml" />
