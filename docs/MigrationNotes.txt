@@ -20,6 +20,10 @@ Post migration:
 
 Done
 ----
+MSTC OWS Taster Registration (Deferred)
+MSTC OWS Taster Registration Complete (Deferred)
+MSTC Swim Admin (Not needed?)
+MSTC Guest Renewal (Not needed?)
 MSTC Home / Master
 MSTC Generic Content
 Testimonials (macro)
@@ -61,10 +65,13 @@ To Do
 - Running 2 sessions on same day, need a start time?
 - Booking reminder emails
 - Pictures on Event booking page
-- Add info about Club subsidised events on website 
-	
-MSTC OWS Taster Registration (Can defer)
-MSTC OWS Taster Registration Complete (Can defer)
-MSTC Swim Admin (Not needed?)
-MSTC Guest Renewal (Not needed?)
+- Add info about Club subsidised events on website
+
+Membership changes
+- 25% off member prices
+- Remove first half pool subs?
+- £50 cap instead of £30
+- Some explanation event booking: cancellation refunds, cutoff time, etc
+- £10 OWS admin charge add to reg form add to OWS indemnity waiver.
+- ical download for events?
 

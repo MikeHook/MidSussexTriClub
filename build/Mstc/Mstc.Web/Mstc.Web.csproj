@@ -809,7 +809,6 @@
     <Compile Include="App_Data\Models\MemberAdmin.generated.cs" />
     <Compile Include="App_Data\Models\MemberEdit.generated.cs" />
     <Compile Include="App_Data\Models\MemberList.generated.cs" />
-    <Compile Include="App_Data\Models\MemberPayment.generated.cs" />
     <Compile Include="App_Data\Models\MemberRegistration.generated.cs" />
     <Compile Include="App_Data\Models\MemberRenewUpgrade.generated.cs" />
     <Compile Include="App_Data\Models\MembersArea.generated.cs" />
@@ -818,7 +817,6 @@
     <Compile Include="App_Data\Models\People.generated.cs" />
     <Compile Include="App_Data\Models\Person.generated.cs" />
     <Compile Include="App_Data\Models\RegistrationComplete.generated.cs" />
-    <Compile Include="App_Data\Models\RenewDdmandate.generated.cs" />
     <Compile Include="App_Data\Models\Section.generated.cs" />
     <Compile Include="App_Data\Models\UnlinkBank.generated.cs" />
     <Compile Include="App_Start\JSNLogConfig.cs" />
@@ -958,8 +956,6 @@
     <Content Include="Views\Partials\Member\EditMemberOptions.cshtml" />
     <Content Include="Views\Partials\Payment\UnlinkBank.cshtml" />
     <Content Include="Views\UnlinkBank.cshtml" />
-    <Content Include="Views\MemberPayment.cshtml" />
-    <Content Include="Views\RenewDDMandate.cshtml" />
     <Content Include="Views\Payment\Index.cshtml" />
     <Content Include="Views\Mandate\Index.cshtml" />
     <Content Include="Views\MemberRenewUpgrade.cshtml" />
