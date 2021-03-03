@@ -14,6 +14,8 @@ using Umbraco.Core.Services;
 using Umbraco.Web.Models;
 using Umbraco.Web.Mvc;
 using Umbraco.Core.Logging;
+using Umbraco.Web;
+using MSTC.Web.Services;
 
 namespace MSTC.Web.Controllers
 {
@@ -26,6 +28,7 @@ namespace MSTC.Web.Controllers
         protected EmailProvider _emailProvider;
         protected MemberProvider _memberProvider;
         protected ILogger _logger;
+        protected MembershipCostCalculator _membershipCostCalculator;
 
         public PaymentController()
         {
@@ -35,6 +38,7 @@ namespace MSTC.Web.Controllers
             _memberService = ApplicationContext.Current.Services.MemberService;
             _memberProvider = new MemberProvider(_memberService);
             _logger = ApplicationContext.Current.ProfilingLogger.Logger;
+            _membershipCostCalculator = new MembershipCostCalculator();
         }       
 
         [HttpGet]
@@ -144,13 +148,13 @@ namespace MSTC.Web.Controllers
             {
                 case PaymentStates.MemberRenewal:
                 case PaymentStates.MemberUpgrade:
-                    costInPence = MembershipCostCalculator.Calculate(_sessionProvider.RenewalOptions, DateTime.Now);
+                    costInPence = _membershipCostCalculator.Calculate(_sessionProvider.RenewalOptions, DateTime.Now);
                     break;
                 case PaymentStates.TrainingCredits:
                     costInPence = _sessionProvider.TrainingCreditsInPence;
                     break;
                 default:
-                    costInPence = MembershipCostCalculator.PaymentStateCost(paymentState, membershipType);
+                    costInPence = _membershipCostCalculator.PaymentStateCost(paymentState, membershipType);
                     break;
             }
             return costInPence;

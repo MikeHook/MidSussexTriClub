@@ -1,6 +1,9 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Collections.Generic;
+using System.Web.Mvc;
 using Mstc.Core.Domain;
 using Mstc.Core.Providers;
+using MSTC.Web.Services;
 using Newtonsoft.Json;
 using Umbraco.Web.Mvc;
 
@@ -10,15 +13,16 @@ namespace MSTC.Web.Controllers
     {
         protected SessionProvider _sessionProvider;
         MemberProvider _memberProvider;
-
+        MembershipCostCalculator _membershipCostCalculator;
 
         public RenewController( )
         {
             _sessionProvider = new SessionProvider();
             _memberProvider = new MemberProvider(Services);
+            _membershipCostCalculator = new MembershipCostCalculator();
         }
 
-        [HttpGet]
+        [AcceptVerbs(HttpVerbs.Post | HttpVerbs.Get)]
         public ActionResult RenewOptions()
         {
             var member = _memberProvider.GetLoggedInMember();
@@ -28,7 +32,9 @@ namespace MSTC.Web.Controllers
             }
 
             var membershipType = member.GetValue<MembershipTypeEnum>(MemberProperty.membershipType);
-            var model = new RegistrationDetails();            
+             
+            bool isDiscounted = _membershipCostCalculator.DiscountedMonths.Contains(DateTime.Now.Month);
+            var model = new RegistrationDetails(_membershipCostCalculator.MembershipTypes, isDiscounted);            
             model.MemberOptions.IsRenewing = membershipType != MembershipTypeEnum.Guest;
             model.MemberOptions.IsUpgrading = membershipType == MembershipTypeEnum.Guest;            
 

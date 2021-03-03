@@ -850,6 +850,7 @@
     <Compile Include="Model\Partials\BlogMiniModel.cs" />
     <Compile Include="Model\Partials\SliderModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\MembershipCostCalculator.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="config\imageprocessor\security.config" />

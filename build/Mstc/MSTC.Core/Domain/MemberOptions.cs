@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using Mstc.Core.Providers;
 
 namespace Mstc.Core.Domain
 {
@@ -10,19 +9,13 @@ namespace Mstc.Core.Domain
 	{
 		public MemberOptions()
 		{
-			MembershipTypes = new List<Tuple<MembershipTypeEnum, string>>()
-			{
-				new Tuple<MembershipTypeEnum, string>(
-					MembershipTypeEnum.Individual,
-					$"Individual membership - &pound;{(decimal)MembershipCostCalculator.GetTypeCostPence(MembershipTypeEnum.Individual, DateTime.Now)/100}"),
-				new Tuple<MembershipTypeEnum, string>(
-					MembershipTypeEnum.Couple,
-					$"Couple membership - &pound;{(decimal)MembershipCostCalculator.GetTypeCostPence(MembershipTypeEnum.Couple, DateTime.Now)/100}<br /> <i>Only select this option if your partner will also be renewing their membership - The membership secretary will be checking!</i>"),
-								new Tuple<MembershipTypeEnum, string>(
-					MembershipTypeEnum.Concession,
-					$"Concession: Youth (16-17) / Student / Unemployed - &pound;{(decimal)MembershipCostCalculator.GetTypeCostPence(MembershipTypeEnum.Concession, DateTime.Now)/100}"),
-			};
+			MembershipTypes = new List<Tuple<MembershipTypeEnum, string>>();
+			IndemnityOptions = new List<Tuple<bool, string>>();
+		}
 
+		public MemberOptions(List<Tuple<MembershipTypeEnum, string>> membershipTypes)
+		{
+			MembershipTypes = membershipTypes;
 			IndemnityOptions = new List<Tuple<bool, string>>()
 			{
 				new Tuple<bool, string>(

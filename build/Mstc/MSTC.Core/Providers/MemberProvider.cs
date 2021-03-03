@@ -49,11 +49,11 @@ namespace Mstc.Core.Providers
 			List<string> descriptionList = new List<string>() { membershipOptions.MembershipType.ToString() };
 			if (membershipOptions.SwimSubs1)
 			{
-				descriptionList.Add(GetSwimSub1Description(DateTime.Now, true));
+				descriptionList.Add(GetSwimSub1Description(DateTime.Now, false));
 			}
             if (membershipOptions.SwimSubs2)
             {
-				descriptionList.Add(GetSwimSub1Description(DateTime.Now, true));
+				descriptionList.Add(GetSwimSub2Description(DateTime.Now, false));
 			}
 		    if (membershipOptions.EnglandAthleticsMembership)
 		    {

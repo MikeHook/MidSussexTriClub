@@ -10,9 +10,17 @@ namespace Mstc.Core.Domain
 		{
 			PersonalDetails = new PersonalDetails();
 			MemberOptions = new MemberOptions();
+		}
+
+		public RegistrationDetails(List<Tuple<MembershipTypeEnum, string>> membershipTypes, bool isDiscounted)
+		{
+			PersonalDetails = new PersonalDetails();
+			MemberOptions = new MemberOptions(membershipTypes);
+			IsDiscounted = isDiscounted;
 		}		
 
 		public PersonalDetails PersonalDetails { get; set; }
 		public MemberOptions MemberOptions { get; set; }
+		public bool IsDiscounted { get; set; }
 	}
 }

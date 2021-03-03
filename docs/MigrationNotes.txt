@@ -68,9 +68,8 @@ To Do
 - Add info about Club subsidised events on website
 
 Membership changes
-- 25% off member prices
 - Remove first half pool subs?
-- £50 cap instead of £30
+- Move other registration costs into umbraco
 - Some explanation event booking: cancellation refunds, cutoff time, etc
 - £10 OWS admin charge add to reg form add to OWS indemnity waiver.
 - ical download for events?

@@ -4,7 +4,7 @@
 	Layout = "Master.cshtml";
 }
 @section Header {
-	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.0/themes/base/jquery-ui.css">
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 }
 
 @{ Html.RenderPartial("~/Views/Partials/SectionHeader.cshtml"); }
@@ -19,14 +19,13 @@
 		<div class="row">
 			<div class="col-sm-12">
 				@using (Html.BeginUmbracoForm("Register", "Registration", FormMethod.Post, new { id = "register", @class = "form-horizontal" }))
-				{
-					var model = new Mstc.Core.Domain.RegistrationDetails();
+                {
 
-					@Html.AntiForgeryToken()
+					@Html.AntiForgeryToken();
+		
+					Html.RenderAction("PersonalDetails", "Registration");
 
-					Html.RenderPartial("~/Views/Partials/Registration/PersonalDetails.cshtml", model);
-
-					Html.RenderPartial("~/Views/Partials/Registration/MemberOptions.cshtml", model);
+					Html.RenderAction("MemberOptions", "Registration");
 
 				<div class="form-group">
 					<div class="col-sm-2"></div>

@@ -28,7 +28,7 @@
                 }
             </span>
             @Html.ValidationMessageFor(m => m.MemberOptions.MembershipType, "Please select your membership type", new { @class = "help-block alert-danger" })
-            @if (Mstc.Core.Providers.MembershipCostCalculator.DiscountedMonths.Contains(DateTime.Now.Month))
+            @if (Model.IsDiscounted)
             {
                 <span class="help-block alert-success">Good news! The 50% second half season discount has been applied!</span>
             }
@@ -41,7 +41,7 @@
             <span class="checkbox">
                 @if (Model.MemberOptions.ShowSwimSubs1)
                 {
-                    Html.CheckBoxFor(m => m.MemberOptions.SwimSubs1, new { id = "cb-swimsubs1" });
+                    @Html.CheckBoxFor(m => m.MemberOptions.SwimSubs1, new { id = "cb-swimsubs1" });
                     <label for="cb-swimsubs1">@Html.Raw(Mstc.Core.Providers.MemberProvider.GetSwimSub1Description(DateTime.Now, true))</label><br />
                 }
 
