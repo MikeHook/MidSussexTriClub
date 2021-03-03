@@ -46,6 +46,33 @@ namespace Umbraco.Web.PublishedContentModels
 		}
 
 		///<summary>
+		/// Concession Member Cost: Concession Member Cost in Pounds
+		///</summary>
+		[ImplementPropertyType("concessionMemberCost")]
+		public decimal ConcessionMemberCost
+		{
+			get { return this.GetPropertyValue<decimal>("concessionMemberCost"); }
+		}
+
+		///<summary>
+		/// Couple Member Cost: Couples Member Cost in Pounds
+		///</summary>
+		[ImplementPropertyType("coupleMemberCost")]
+		public decimal CoupleMemberCost
+		{
+			get { return this.GetPropertyValue<decimal>("coupleMemberCost"); }
+		}
+
+		///<summary>
+		/// Individual Member Cost: Individual Member Cost in Pounds
+		///</summary>
+		[ImplementPropertyType("individualMemberCost")]
+		public decimal IndividualMemberCost
+		{
+			get { return this.GetPropertyValue<decimal>("individualMemberCost"); }
+		}
+
+		///<summary>
 		/// Is Guest
 		///</summary>
 		[ImplementPropertyType("isGuest")]

@@ -9,6 +9,7 @@ using System.Web.UI.WebControls;
 using Mstc.Core.Domain;
 using Mstc.Core.Providers;
 using MSTC.Web.Model.Partials;
+using MSTC.Web.Services;
 using Umbraco.Core;
 using Umbraco.Core.Models;
 using Umbraco.Core.Services;
@@ -26,7 +27,7 @@ namespace MSTC.Web.Controllers
         protected GoCardlessProvider _goCardlessProvider;
         EmailProvider _emailProvider;
         MemberProvider _memberProvider;
-
+        MembershipCostCalculator _membershipCostCalculator;
 
         public MemberEditController( )
         {
@@ -35,6 +36,7 @@ namespace MSTC.Web.Controllers
             _goCardlessProvider = new GoCardlessProvider();
             _emailProvider = new EmailProvider();
             _memberProvider = new MemberProvider(Services);
+            _membershipCostCalculator = new MembershipCostCalculator();
         }
 
         [HttpGet]
@@ -82,7 +84,7 @@ namespace MSTC.Web.Controllers
                 string swimSubs2 = member.GetValue<string>(MemberProperty.swimSubs2);
                 model.ShowBuySwimSubs2 = !model.EnableMemberRenewal && !isGuest && string.IsNullOrEmpty(swimSubs2);
                 model.OptionalExtras = GetOptionalExtras(member);
-                decimal swimSubsCost = MembershipCostCalculator.SwimsSubsCostInPence(memberType) / 100;
+                decimal swimSubsCost = _membershipCostCalculator.SwimsSubsCostInPence(memberType) / 100;
                 model.BuySwimSubs1Text = string.Format("Buy {0} @ £{1:N2}", MemberProvider.GetSwimSub1Description(DateTime.Now, false), swimSubsCost);
                 model.BuySwimSubs2Text = string.Format("Buy {0} @ £{1:N2}", MemberProvider.GetSwimSub2Description(DateTime.Now, false), swimSubsCost);
 

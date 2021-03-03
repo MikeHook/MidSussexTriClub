@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Configuration;
+using System.Linq;
 using System.Text;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -7,8 +8,11 @@ using Mstc.Core.Domain;
 using Mstc.Core.Dto;
 using Mstc.Core.Providers;
 using MSTC.Web.Model;
+using MSTC.Web.Services;
 using Newtonsoft.Json;
+using Umbraco.Web;
 using Umbraco.Web.Mvc;
+using Umbraco.Web.PublishedContentModels;
 
 namespace MSTC.Web.Controllers
 {
@@ -18,7 +22,9 @@ namespace MSTC.Web.Controllers
         protected GoCardlessProvider _goCardlessProvider;
         EmailProvider _emailProvider;
         MemberProvider _memberProvider;
+        MembershipCostCalculator _membershipCostCalculator;
 
+        RegistrationDetails _model;
 
         public RegistrationController( )
         {
@@ -27,7 +33,23 @@ namespace MSTC.Web.Controllers
             _goCardlessProvider = new GoCardlessProvider();
             _emailProvider = new EmailProvider();
             _memberProvider = new MemberProvider(Services);
+            _membershipCostCalculator = new MembershipCostCalculator();
+
+            bool isDiscounted = _membershipCostCalculator.DiscountedMonths.Contains(DateTime.Now.Month);
+            _model = new RegistrationDetails(_membershipCostCalculator.MembershipTypes, isDiscounted);
         }
+
+        [AcceptVerbs(HttpVerbs.Post | HttpVerbs.Get)]
+        public ActionResult PersonalDetails()
+        {
+            return PartialView("Registration/PersonalDetails", _model);
+        }
+
+        [AcceptVerbs(HttpVerbs.Post | HttpVerbs.Get)]
+        public ActionResult MemberOptions()
+        {
+            return PartialView("Registration/MemberOptions", _model);
+        }      
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -78,7 +100,7 @@ namespace MSTC.Web.Controllers
                   return PartialView("Registration/RegistrationComplete", new RegistrationCompleteModel());
             }
 
-            int costInPence = MembershipCostCalculator.Calculate(registrationDetails.MemberOptions, DateTime.Now);
+            int costInPence = _membershipCostCalculator.Calculate(registrationDetails.MemberOptions, DateTime.Now);
 
             var model = new RegistrationCompleteModel()
             {
@@ -106,7 +128,7 @@ namespace MSTC.Web.Controllers
             registrationDetails.PersonalDetails.DirectDebitMandateId = mandateId;
 
             var regDetails = registrationDetails.PersonalDetails;
-            int costInPence = MembershipCostCalculator.Calculate(registrationDetails.MemberOptions, DateTime.Now);
+            int costInPence = _membershipCostCalculator.Calculate(registrationDetails.MemberOptions, DateTime.Now);
             model.Cost = (costInPence / 100m).ToString("N2");
             var paymentDescription = MemberProvider.GetPaymentDescription(registrationDetails.MemberOptions);
             var paymentResponse = _goCardlessProvider.CreatePayment(Logger, regDetails.DirectDebitMandateId, regDetails.Email, costInPence, paymentDescription);

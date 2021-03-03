@@ -234,6 +234,7 @@
     <Compile Include="DataAccess\DataConnection.cs" />
     <Compile Include="DataAccess\EventParticipantRepository.cs" />
     <Compile Include="DataAccess\EventSlotRepository.cs" />
+    <Compile Include="Domain\MemberOptions.cs" />
     <Compile Include="Domain\RecurringFrequencyEnum.cs" />
     <Compile Include="Domain\EventType.cs" />
     <Compile Include="Domain\EventParticipant.cs" />
@@ -241,7 +242,6 @@
     <Compile Include="Domain\TopicEnum.cs" />
     <Compile Include="Domain\MemberProperty.cs" />
     <Compile Include="Domain\MembershipExtras.cs" />
-    <Compile Include="Domain\MemberOptions.cs" />
     <Compile Include="Domain\GenderEnum.cs" />
     <Compile Include="Domain\MembershipTypeEnum.cs" />
     <Compile Include="Domain\MSTCRoles.cs" />
@@ -264,7 +264,6 @@
     <Compile Include="Providers\EmailProvider.cs" />
     <Compile Include="Providers\GoCardlessProvider.cs" />
     <Compile Include="Providers\MemberProvider.cs" />
-    <Compile Include="Providers\MembershipCostCalculator.cs" />
     <Compile Include="Providers\PasswordObfuscator.cs" />
     <Compile Include="Providers\SessionProvider.cs" />
     <Compile Include="Validation\DateOver16Validator.cs" />
