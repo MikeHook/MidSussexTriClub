@@ -2,63 +2,17 @@ Member migration
 ----------------
 server=.\SQLEXPRESS2019;database=mstc_live;user id=mstcuser;password=Mult1M4dn355;
 
+Migration
+---------
 - Use the 'Member' import not MemberService
 - Tick the 'Store password as clear text' option on the password field
 - Add the extra MemberType fields into the new CMS first
 
-Templates
----------
-
-Functionality to do:
-- Move member costs into Umbraco
-
-
-Post migration:
+Post migration
+--------------
 - Remove extra swim credits properties
 - Move Awards post out of blog
 
-
-Done
-----
-MSTC OWS Taster Registration (Deferred)
-MSTC OWS Taster Registration Complete (Deferred)
-MSTC Swim Admin (Not needed?)
-MSTC Guest Renewal (Not needed?)
-MSTC Home / Master
-MSTC Generic Content
-Testimonials (macro)
-Blog
-Blog Post
-MSTC Person Listing
-MSTC Person
-MSTC Coach Listing
-MSTC Articles Home
-MSTC Article
-MSTC Login
-ForgotPassword
-ChangePassword
-MSTC Member Registration
-MSTC Member Registration Complete
-cFont Contact From (macro)
-404 page
-MSTC Unlink bank
-MSTC Member Edit
-MSTC Payment Complete
-MSTC Mandate Request
-MSTC Member Renewal / Upgrade
-MSTC Member Admin
-MSTC Member ICE Details
-MSTC Athletes
-MSTC Member Services
-Buy Credits (New feature)
-Event Booking (New feature)
-Event Admin (New feature)
-Print a register for each session
-Prevent cancellation on same day as booking
-Club events work with event booking? 
-	- Add race distance options, 
-	- Indemnity Waiver form
-	- Covid Health Declaration
 
 To Do
 -----
@@ -68,9 +22,9 @@ To Do
 - Add info about Club subsidised events on website
 
 Membership changes
+- £10 OWS admin charge add to reg form add to OWS indemnity waiver.
 - Remove first half pool subs?
 - Move other registration costs into umbraco
 - Some explanation event booking: cancellation refunds, cutoff time, etc
-- £10 OWS admin charge add to reg form add to OWS indemnity waiver.
 - ical download for events?
 
