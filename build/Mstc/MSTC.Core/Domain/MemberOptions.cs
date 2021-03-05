@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Mstc.Core.Providers;
 
 namespace Mstc.Core.Domain
 {
@@ -13,9 +14,9 @@ namespace Mstc.Core.Domain
 			IndemnityOptions = new List<Tuple<bool, string>>();
 		}
 
-		public MemberOptions(List<Tuple<MembershipTypeEnum, string>> membershipTypes)
+		public MemberOptions(MembershipCostCalculator membershipCostCalculator)
 		{
-			MembershipTypes = membershipTypes;
+			MembershipTypes = membershipCostCalculator.MembershipTypes;
 			IndemnityOptions = new List<Tuple<bool, string>>()
 			{
 				new Tuple<bool, string>(
@@ -27,6 +28,10 @@ namespace Mstc.Core.Domain
 			};
 
 			ShowSwimSubs1 = 2 < DateTime.Now.Month && DateTime.Now.Month < 10;
+
+			SwimSubsCost = membershipCostCalculator.SwimsSubsCostInPence(MembershipTypeEnum.Individual) / 100;
+			EnglandAthleticsCost = membershipCostCalculator.EnglandAthleticsCostInPence / 100;
+			OwsSignupCost = membershipCostCalculator.OwsSignupCostPence / 100;
 		}
 
 		public bool IsRenewing { get; set; }
@@ -56,5 +61,9 @@ namespace Mstc.Core.Domain
 		public string GuestCode { get; set; }
 
 		public string ReferredByMember { get; set; }
+
+		public decimal SwimSubsCost { get; set; }
+		public decimal EnglandAthleticsCost { get; set; }
+		public decimal OwsSignupCost { get; set; }
 	}
 }

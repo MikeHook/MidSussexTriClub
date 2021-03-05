@@ -1,5 +1,5 @@
-﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage<ContentModels.Blogarchive>
-@using ContentModels = Umbraco.Web.PublishedContentModels;
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage<Blogarchive>
+
 @{
 Layout = "Master.cshtml";
 	var blogHome = Model.Content.AncestorsOrSelf("blog").LastOrDefault();	

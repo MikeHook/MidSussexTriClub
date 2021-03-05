@@ -7,12 +7,12 @@ using Mstc.Core;
 using Mstc.Core.DataAccess;
 using Mstc.Core.Domain;
 using Mstc.Core.Providers;
+using Mstc.Core.ContentModels;
 using Umbraco.Core;
 using Umbraco.Core.Events;
 using Umbraco.Core.Logging;
 using Umbraco.Core.Models;
 using Umbraco.Web;
-using Umbraco.Web.PublishedContentModels;
 
 namespace MSTC.Web.EventHandlers
 {

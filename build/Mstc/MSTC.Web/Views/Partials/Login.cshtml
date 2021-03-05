@@ -1,10 +1,10 @@
 ﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<MSTC.Web.Model.LoginModel>
 @using Umbraco.Web
 @{
-    Umbraco.Web.PublishedContentModels.Login loginPageModel = null;
+    Login loginPageModel = null;
     if (Model.CurrentPage != null)
     {
-        loginPageModel = Model.CurrentPage.TryConvertTo<Umbraco.Web.PublishedContentModels.Login>().Result;
+        loginPageModel = Model.CurrentPage.TryConvertTo<Login>().Result;
     }
     Model.RedirectUrl = HttpContext.Current.Request.Url.AbsolutePath;
 }

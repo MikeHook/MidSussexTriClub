@@ -1,4 +1,4 @@
-﻿@using ContentModels = Umbraco.Web.PublishedContentModels;
+﻿
 @using Umbraco.Web;
 @inherits Umbraco.Web.Macros.PartialViewMacroPage
 @{
@@ -55,7 +55,7 @@
     {
         <div class="blogposts">
 
-            @foreach (ContentModels.Blogpost post in pagedBlogposts)
+            @foreach (Blogpost post in pagedBlogposts)
             {
                 @Html.Partial("~/Views/Partials/Blog/SingleBlogPost.cshtml", new MSTC.Web.Model.Partials.SingleBlogPostModel
                 {
