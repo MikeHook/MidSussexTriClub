@@ -24,24 +24,24 @@ namespace Mstc.Core.Providers
 			_memberService = memberService;
 		}
 
-		public static string GetSwimSub1Description(DateTime now, bool includePricing)
+		public static string GetSwimSub1Description(DateTime now)
         {
             int year = now.Year;
             if (now.Month == 1 || now.Month == 2)
             {
                 year--;
             }
-            return string.Format("Swim subs Apr to Sep {0}{1}", year, includePricing ? " - Standard &pound;30 / Concessions &pound;15" : "");
+            return string.Format("Swim subs Apr to Sep {0}", year);
         }
 
-        public static string GetSwimSub2Description(DateTime now, bool includePricing)
+        public static string GetSwimSub2Description(DateTime now)
         {
             int year = now.Year;
             if (now.Month == 1 || now.Month == 2)
             {
                 year--;
             }
-            return string.Format("Swim subs Oct {0} to Mar {1}{2}", year, (year + 1), includePricing ? " - Standard &pound;30 / Concessions &pound;15" : "");
+            return string.Format("Swim subs Oct {0} to Mar {1}", year, (year + 1));
         }
 
         public static string GetPaymentDescription(MemberOptions membershipOptions)
@@ -49,11 +49,11 @@ namespace Mstc.Core.Providers
 			List<string> descriptionList = new List<string>() { membershipOptions.MembershipType.ToString() };
 			if (membershipOptions.SwimSubs1)
 			{
-				descriptionList.Add(GetSwimSub1Description(DateTime.Now, false));
+				descriptionList.Add(GetSwimSub1Description(DateTime.Now));
 			}
             if (membershipOptions.SwimSubs2)
             {
-				descriptionList.Add(GetSwimSub2Description(DateTime.Now, false));
+				descriptionList.Add(GetSwimSub2Description(DateTime.Now));
 			}
 		    if (membershipOptions.EnglandAthleticsMembership)
 		    {
@@ -165,11 +165,11 @@ namespace Mstc.Core.Providers
 	
 			if (membershipOptions.SwimSubs1)
 			{
-				member.SetValue(MemberProperty.swimSubs1, GetSwimSub1Description(DateTime.Now, false));				
+				member.SetValue(MemberProperty.swimSubs1, GetSwimSub1Description(DateTime.Now));				
 			}
 			if (membershipOptions.SwimSubs2)
 			{
-				member.SetValue(MemberProperty.swimSubs2, GetSwimSub2Description(DateTime.Now, false));
+				member.SetValue(MemberProperty.swimSubs2, GetSwimSub2Description(DateTime.Now));
 			}
 
 			member.SetValue(MemberProperty.EnglandAthleticsMembership, membershipOptions.EnglandAthleticsMembership);

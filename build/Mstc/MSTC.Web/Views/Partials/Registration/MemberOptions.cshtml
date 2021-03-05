@@ -42,11 +42,13 @@
                 @if (Model.MemberOptions.ShowSwimSubs1)
                 {
                     @Html.CheckBoxFor(m => m.MemberOptions.SwimSubs1, new { id = "cb-swimsubs1" });
-                    <label for="cb-swimsubs1">@Html.Raw(Mstc.Core.Providers.MemberProvider.GetSwimSub1Description(DateTime.Now, true))</label><br />
+                <label for="cb-swimsubs1">@Html.Raw(Mstc.Core.Providers.MemberProvider.GetSwimSub1Description(DateTime.Now))
+                    @($" - Standard £{Model.MemberOptions.SwimSubsCost} / Concessions £{Model.MemberOptions.SwimSubsCost/2}")</label><br />
                 }
 
                 @Html.CheckBoxFor(m => m.MemberOptions.SwimSubs2, new { id = "cb-swimsubs2" })
-                <label for="cb-swimsubs2">@Html.Raw(Mstc.Core.Providers.MemberProvider.GetSwimSub2Description(DateTime.Now, true))</label><br />
+                <label for="cb-swimsubs2">@Html.Raw(Mstc.Core.Providers.MemberProvider.GetSwimSub2Description(DateTime.Now))
+                    @($" - Standard £{Model.MemberOptions.SwimSubsCost} / Concessions £{Model.MemberOptions.SwimSubsCost/2}")</label><br />
 
                 @Html.CheckBoxFor(m => m.MemberOptions.EnglandAthleticsMembership, new { id = "cb-athletics" })
                 <label for="cb-athletics">England Athletics Membership* - &pound;@Model.MemberOptions.EnglandAthleticsCost</label><br />
