@@ -175,8 +175,8 @@ namespace MSTC.Web.Controllers
             stringBuilder.AppendFormat("{0}: <strong>{1}</strong><br/>", "Date of Birth", $"{personalDets.DateOfBirth.Value.ToString("dd MMM yyyy")}");
             stringBuilder.AppendFormat("{0}: <strong>{1}</strong><br/>", "Membership Type", $"{memberOptions.MembershipType.ToString()}");
             stringBuilder.AppendFormat("{0}: <strong>{1}</strong><br/>", "England Athletics Membership", memberOptions.EnglandAthleticsMembership ? "Yes" : "No");
-            stringBuilder.AppendFormat("{0}: <strong>{1}</strong><br/>", MemberProvider.GetSwimSub1Description(DateTime.Now, false), memberOptions.SwimSubs1 ? "Yes" : "No");
-            stringBuilder.AppendFormat("{0}: <strong>{1}</strong><br/>", MemberProvider.GetSwimSub2Description(DateTime.Now, false), memberOptions.SwimSubs2 ? "Yes" : "No");
+            stringBuilder.AppendFormat("{0}: <strong>{1}</strong><br/>", MemberProvider.GetSwimSub1Description(DateTime.Now), memberOptions.SwimSubs1 ? "Yes" : "No");
+            stringBuilder.AppendFormat("{0}: <strong>{1}</strong><br/>", MemberProvider.GetSwimSub2Description(DateTime.Now), memberOptions.SwimSubs2 ? "Yes" : "No");
             stringBuilder.AppendFormat("{0}: <strong>{1}</strong><br/>", "Open water swimming?", memberOptions.OpenWaterIndemnityAcceptance.Value ? "Yes" : "No");
 
             return stringBuilder.ToString();
