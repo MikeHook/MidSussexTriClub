@@ -22,6 +22,7 @@ $webconfig = ReplaceAppSetting $webconfig "gmailPassword" $env:gmailPassword
 $webconfig = ReplaceAppSetting $webconfig "gocardlessEnvironment" $env:gocardlessEnvironment
 $webconfig = ReplaceAppSetting $webconfig "gocardlessAccessToken" $env:gocardlessAccessToken
 $webconfig = ReplaceAppSetting $webconfig "environment" $env:gocardlessEnvironment
+$webconfig = ReplaceAppSetting $webconfig "Umbraco.ModelsBuilder.ModelsMode" $env:modelsBuilderModelsMode
 
 [System.IO.File]::WriteAllLines($configPath, $webconfig)
 
