@@ -783,6 +783,46 @@
     <Content Include="scripts\mstc\moment.min.js" />
     <Content Include="scripts\mstc\shared.js" />
     <Content Include="scripts\mstc\toastr.min.js" />
+    <Content Include="Umbraco\Plugins\cmsimport\dashboardcontrols\CMSImportDashboardControl.ascx" />
+    <Content Include="Umbraco\Plugins\cmsimport\images\add.png" />
+    <Content Include="Umbraco\Plugins\cmsimport\images\cancel.png" />
+    <Content Include="Umbraco\Plugins\cmsimport\images\cmsimport-bw.png" />
+    <Content Include="Umbraco\Plugins\cmsimport\images\cmsimport.png" />
+    <Content Include="Umbraco\Plugins\cmsimport\images\cmsimportlogo.png" />
+    <Content Include="Umbraco\Plugins\cmsimport\images\database_edit.png" />
+    <Content Include="Umbraco\Plugins\cmsimport\images\dictionary.png" />
+    <Content Include="Umbraco\Plugins\cmsimport\images\email_edit.png" />
+    <Content Include="Umbraco\Plugins\cmsimport\images\folder.png" />
+    <Content Include="Umbraco\Plugins\cmsimport\images\folder_open.png" />
+    <Content Include="Umbraco\Plugins\cmsimport\images\FormRunHS.png" />
+    <Content Include="Umbraco\Plugins\cmsimport\images\minus_math.svg" />
+    <Content Include="Umbraco\Plugins\cmsimport\images\NewCardHS.png" />
+    <Content Include="Umbraco\Plugins\cmsimport\images\page.png" />
+    <Content Include="Umbraco\Plugins\cmsimport\images\page_recursive.png" />
+    <Content Include="Umbraco\Plugins\cmsimport\images\picture_edit.png" />
+    <Content Include="Umbraco\Plugins\cmsimport\images\plus_math.svg" />
+    <Content Include="Umbraco\Plugins\cmsimport\images\refresh-bw.png" />
+    <Content Include="Umbraco\Plugins\cmsimport\images\refresh.png" />
+    <Content Include="Umbraco\Plugins\cmsimport\images\user.png" />
+    <Content Include="Umbraco\Plugins\cmsimport\images\user_edit.png" />
+    <Content Include="Umbraco\Plugins\cmsimport\pages\LastRunInfo.aspx" />
+    <Content Include="Umbraco\Plugins\cmsimport\pages\License.aspx" />
+    <Content Include="Umbraco\Plugins\cmsimport\pages\MediaSettings.aspx" />
+    <Content Include="Umbraco\Plugins\cmsimport\pages\ScheduleSettings.aspx" />
+    <Content Include="Umbraco\Plugins\cmsimport\pages\ScheduleTask.aspx" />
+    <Content Include="Umbraco\Plugins\cmsimport\pages\Settings.aspx" />
+    <Content Include="Umbraco\Plugins\cmsimport\pages\Usersettings.aspx" />
+    <Content Include="Umbraco\Plugins\cmsimport\pages\Wizard.aspx" />
+    <Content Include="Umbraco\Plugins\cmsimport\usercontrols\CMSImport.ascx" />
+    <Content Include="Umbraco\Plugins\cmsimport\usercontrols\CMSImportInstaller.ascx" />
+    <Content Include="Umbraco\Plugins\cmsimport\usercontrols\importsteps\ConfirmSelectedOptions.ascx" />
+    <Content Include="Umbraco\Plugins\cmsimport\usercontrols\importsteps\Importing.ascx" />
+    <Content Include="Umbraco\Plugins\cmsimport\usercontrols\importsteps\Intro.ascx" />
+    <Content Include="Umbraco\Plugins\cmsimport\usercontrols\importsteps\MapProperties.ascx" />
+    <Content Include="Umbraco\Plugins\cmsimport\usercontrols\importsteps\SelectDataSource.ascx" />
+    <Content Include="Umbraco\Plugins\cmsimport\usercontrols\importsteps\SelectDataSourceType.ascx" />
+    <Content Include="Umbraco\Plugins\cmsimport\usercontrols\importsteps\SelectImportProviderOptions.ascx" />
+    <Content Include="Umbraco\Plugins\cmsimport\usercontrols\StateError.ascx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -935,6 +975,8 @@
     <Content Include="Views\Partials\Member\TrainingCredits.cshtml" />
     <Content Include="scripts\jsnlog.js.map" />
     <Content Include="scripts\mstc\toastr.js.map" />
+    <Content Include="Umbraco\Plugins\cmsimport\config\cmsImport.config" />
+    <Content Include="Umbraco\Plugins\cmsimport\config\CMSImportScheduler.Config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
