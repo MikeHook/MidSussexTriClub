@@ -105,6 +105,12 @@
     <Reference Include="Microsoft.AspNet.SignalR.Core, Version=2.4.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.SignalR.Core.2.4.1\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.CodeAnalysis, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeAnalysis.Common.1.0.0\lib\net45\Microsoft.CodeAnalysis.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeAnalysis.CSharp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeAnalysis.CSharp.1.0.0\lib\net45\Microsoft.CodeAnalysis.CSharp.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.IO.RecyclableMemoryStream, Version=1.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.IO.RecyclableMemoryStream.1.2.2\lib\net45\Microsoft.IO.RecyclableMemoryStream.dll</HintPath>
     </Reference>
@@ -145,6 +151,9 @@
       <HintPath>..\packages\UmbracoCms.Core.7.15.6\lib\net452\SQLCE4Umbraco.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Collections.Immutable, Version=1.1.36.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Collections.Immutable.1.1.36\lib\portable-net45+win8+wp8+wpa81\System.Collections.Immutable.dll</HintPath>
+    </Reference>
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
@@ -159,6 +168,9 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Net.Http.Formatting, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.7\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reflection.Metadata, Version=1.0.21.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Reflection.Metadata.1.0.21\lib\portable-net45+win8\System.Reflection.Metadata.dll</HintPath>
     </Reference>
     <Reference Include="System.Security" />
     <Reference Include="System.Threading.Tasks.Dataflow, Version=4.6.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -218,6 +230,9 @@
     <Reference Include="umbraco.MacroEngines, Version=1.0.7537.31676, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\UmbracoCms.Core.7.15.6\lib\net452\umbraco.MacroEngines.dll</HintPath>
     </Reference>
+    <Reference Include="Umbraco.ModelsBuilder, Version=3.0.10.102, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Umbraco.ModelsBuilder.3.0.10\lib\Umbraco.ModelsBuilder.dll</HintPath>
+    </Reference>
     <Reference Include="umbraco.providers, Version=1.0.7537.31672, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\UmbracoCms.Core.7.15.6\lib\net452\umbraco.providers.dll</HintPath>
     </Reference>
@@ -231,14 +246,49 @@
   <ItemGroup>
     <Compile Include="configuration\GmailSmtpClient.cs" />
     <Compile Include="ContentExtensions.cs" />
+    <Compile Include="ContentModels\Article.generated.cs" />
+    <Compile Include="ContentModels\ArticleListing.generated.cs" />
+    <Compile Include="ContentModels\Blog.generated.cs" />
+    <Compile Include="ContentModels\Blogarchive.generated.cs" />
+    <Compile Include="ContentModels\Blogpost.generated.cs" />
+    <Compile Include="ContentModels\ChangePassword.generated.cs" />
+    <Compile Include="ContentModels\ContactUs.generated.cs" />
+    <Compile Include="ContentModels\ContentBase.generated.cs" />
+    <Compile Include="ContentModels\ContentPage.generated.cs" />
+    <Compile Include="ContentModels\Event.generated.cs" />
+    <Compile Include="ContentModels\EventBooking.generated.cs" />
+    <Compile Include="ContentModels\EventsAdmin.generated.cs" />
+    <Compile Include="ContentModels\Feature.generated.cs" />
+    <Compile Include="ContentModels\File.generated.cs" />
+    <Compile Include="ContentModels\Folder.generated.cs" />
+    <Compile Include="ContentModels\ForgotPassword.generated.cs" />
+    <Compile Include="ContentModels\Home.generated.cs" />
+    <Compile Include="ContentModels\Image.generated.cs" />
+    <Compile Include="ContentModels\Login.generated.cs" />
+    <Compile Include="ContentModels\Member.generated.cs" />
+    <Compile Include="ContentModels\MemberAdmin.generated.cs" />
+    <Compile Include="ContentModels\MemberEdit.generated.cs" />
+    <Compile Include="ContentModels\MemberList.generated.cs" />
+    <Compile Include="ContentModels\MemberRegistration.generated.cs" />
+    <Compile Include="ContentModels\MemberRenewUpgrade.generated.cs" />
+    <Compile Include="ContentModels\MembersArea.generated.cs" />
+    <Compile Include="ContentModels\MemberServices.generated.cs" />
+    <Compile Include="ContentModels\NavigationBase.generated.cs" />
+    <Compile Include="ContentModels\People.generated.cs" />
+    <Compile Include="ContentModels\Person.generated.cs" />
+    <Compile Include="ContentModels\RegistrationComplete.generated.cs" />
+    <Compile Include="ContentModels\Section.generated.cs" />
+    <Compile Include="ContentModels\UnlinkBank.generated.cs" />
     <Compile Include="DataAccess\DataConnection.cs" />
     <Compile Include="DataAccess\EventParticipantRepository.cs" />
     <Compile Include="DataAccess\EventSlotRepository.cs" />
     <Compile Include="Domain\MemberOptions.cs" />
+    <Compile Include="Domain\PersonalDetails.cs" />
     <Compile Include="Domain\RecurringFrequencyEnum.cs" />
     <Compile Include="Domain\EventType.cs" />
     <Compile Include="Domain\EventParticipant.cs" />
     <Compile Include="Domain\EventSlot.cs" />
+    <Compile Include="Domain\RegistrationDetails.cs" />
     <Compile Include="Domain\TopicEnum.cs" />
     <Compile Include="Domain\MemberProperty.cs" />
     <Compile Include="Domain\MembershipExtras.cs" />
@@ -246,8 +296,6 @@
     <Compile Include="Domain\MembershipTypeEnum.cs" />
     <Compile Include="Domain\MSTCRoles.cs" />
     <Compile Include="Domain\PaymentStates.cs" />
-    <Compile Include="Domain\PersonalDetails.cs" />
-    <Compile Include="Domain\RegistrationDetails.cs" />
     <Compile Include="Dto\EventSlot.cs" />
     <Compile Include="Dto\BookableEvent.cs" />
     <Compile Include="Dto\PaymentResponseDto.cs" />
@@ -264,13 +312,24 @@
     <Compile Include="Providers\EmailProvider.cs" />
     <Compile Include="Providers\GoCardlessProvider.cs" />
     <Compile Include="Providers\MemberProvider.cs" />
+    <Compile Include="Providers\MembershipCostCalculator.cs" />
     <Compile Include="Providers\PasswordObfuscator.cs" />
     <Compile Include="Providers\SessionProvider.cs" />
     <Compile Include="Validation\DateOver16Validator.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="App_Plugins\ModelsBuilder\package.manifest" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.1.0.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.Analyzers.dll" />
+    <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.1.0.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_Plugins\ModelsBuilder\modelsbuilder.controller.js" />
+    <Content Include="App_Plugins\ModelsBuilder\modelsbuilder.htm" />
+    <Content Include="App_Plugins\ModelsBuilder\modelsbuilder.resource.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\AutoMapper.3.3.1\tools\AutoMapper.targets" Condition="Exists('..\packages\AutoMapper.3.3.1\tools\AutoMapper.targets')" />

@@ -1,4 +1,4 @@
-﻿using Umbraco.Web.PublishedContentModels;
+﻿using Mstc.Core.ContentModels;
 
 namespace MSTC.Web.Model.Partials
 {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Mstc.Core.Providers;
 
 namespace Mstc.Core.Domain
 {
@@ -12,11 +13,12 @@ namespace Mstc.Core.Domain
 			MemberOptions = new MemberOptions();
 		}
 
-		public RegistrationDetails(List<Tuple<MembershipTypeEnum, string>> membershipTypes, bool isDiscounted)
+		public RegistrationDetails(MembershipCostCalculator membershipCostCalculator)
 		{
 			PersonalDetails = new PersonalDetails();
-			MemberOptions = new MemberOptions(membershipTypes);
-			IsDiscounted = isDiscounted;
+			MemberOptions = new MemberOptions(membershipCostCalculator);
+
+			IsDiscounted = membershipCostCalculator.DiscountedMonths.Contains(DateTime.Now.Month); ;
 		}		
 
 		public PersonalDetails PersonalDetails { get; set; }

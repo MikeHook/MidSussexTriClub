@@ -8,7 +8,6 @@ using Mstc.Core.Domain;
 using Mstc.Core.Dto;
 using Mstc.Core.Providers;
 using MSTC.Web.Model;
-using MSTC.Web.Services;
 using Newtonsoft.Json;
 using Umbraco.Web;
 using Umbraco.Web.Mvc;
@@ -34,9 +33,8 @@ namespace MSTC.Web.Controllers
             _emailProvider = new EmailProvider();
             _memberProvider = new MemberProvider(Services);
             _membershipCostCalculator = new MembershipCostCalculator();
-
-            bool isDiscounted = _membershipCostCalculator.DiscountedMonths.Contains(DateTime.Now.Month);
-            _model = new RegistrationDetails(_membershipCostCalculator.MembershipTypes, isDiscounted);
+        
+            _model = new RegistrationDetails(_membershipCostCalculator);
         }
 
         [AcceptVerbs(HttpVerbs.Post | HttpVerbs.Get)]

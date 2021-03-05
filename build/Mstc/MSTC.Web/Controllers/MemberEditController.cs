@@ -8,13 +8,12 @@ using System.Web.Security;
 using System.Web.UI.WebControls;
 using Mstc.Core.Domain;
 using Mstc.Core.Providers;
+using Mstc.Core.ContentModels;
 using MSTC.Web.Model.Partials;
-using MSTC.Web.Services;
 using Umbraco.Core;
 using Umbraco.Core.Models;
 using Umbraco.Core.Services;
 using Umbraco.Web.Mvc;
-using Umbraco.Web.PublishedContentModels;
 
 namespace MSTC.Web.Controllers
 {
