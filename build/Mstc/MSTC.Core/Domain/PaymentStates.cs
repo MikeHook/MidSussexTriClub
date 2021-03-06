@@ -37,5 +37,8 @@ namespace Mstc.Core.Domain
         MemberUpgrade = 502,
 
         [Description("Training Credits")] TrainingCredits = 601,
+
+        [Description("Open water swim signup")] OwsSignup = 701,
+
     }
 }

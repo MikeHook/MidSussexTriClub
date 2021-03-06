@@ -17,14 +17,15 @@ namespace Mstc.Core.Domain
 		public MemberOptions(MembershipCostCalculator membershipCostCalculator)
 		{
 			MembershipTypes = membershipCostCalculator.MembershipTypes;
+			string owsSignupText = $"I wish to take part in open water swimming - " +
+				$"£{membershipCostCalculator.OwsSignupCostPence / 100} signup fee.<br />" +
+				$"I have reviewed the safety video, read and understand the spotter/kayak guidelines and the " +
+				$"open water swimming indemnity document.<br />I agree to and accept the terms without qualification " +
+				$"and agree to be included in the duty rota for the safety team by attending sessions as a spotter or kayaker.";
 			IndemnityOptions = new List<Tuple<bool, string>>()
 			{
-				new Tuple<bool, string>(
-					true,
-					@"I wish to take part in open water swimming.<br />I have reviewed the safety video, read and understand the spotter/kayak guidelines and the open water swimming indemnity document.<br />I agree to and accept the terms without qualification and agree to be included in the duty rota for the safety team by attending sessions as a spotter or kayaker."),
-								new Tuple<bool, string>(
-					false,
-					@"I do not wish to take part in open water swimming this season."),
+				new Tuple<bool, string>(true, owsSignupText	),
+				new Tuple<bool, string>(false, "I do not wish to take part in open water swimming this season."),
 			};
 
 			ShowSwimSubs1 = 2 < DateTime.Now.Month && DateTime.Now.Month < 10;

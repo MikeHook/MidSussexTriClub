@@ -94,7 +94,10 @@ namespace Mstc.Core.Providers
 			{
 				cost += EnglandAthleticsCostInPence;
 			}
-
+			if (membershipOptions.OpenWaterIndemnityAcceptance.HasValue && membershipOptions.OpenWaterIndemnityAcceptance.Value == true)
+			{
+				cost += OwsSignupCostPence;
+			}
 			return cost;
 		}
 
