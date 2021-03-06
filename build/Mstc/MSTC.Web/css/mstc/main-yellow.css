@@ -2918,6 +2918,11 @@ ul.footer-navigate-section {
   background: none repeat scroll 0 0 #3b3c41;
   color: #FFF;
 }
+.swim-subs-btn {
+    max-width: 300px;
+    white-space: normal;
+}
+
 .dropdown.open a.dropdown-toggle .caret {
   border-top: 4px solid #FFF;
 }

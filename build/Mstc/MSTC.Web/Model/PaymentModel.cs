@@ -24,5 +24,6 @@ namespace MSTC.Web.Model
         public bool ShowSwimSubsConfirmation { get; set; }
         public bool ShowRenewed { get; set; }
         public bool ShowCreditsConfirmation { get; set; }
+        public bool ShowOwsSignupConfirmation { get; set; }
     }
 }

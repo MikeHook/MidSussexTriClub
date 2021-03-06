@@ -41,7 +41,7 @@
                 <div class="form-group">
                     <div>
                         @Html.Hidden("state", Mstc.Core.Domain.PaymentStates.SS05991)
-                        <button name="btnSwimSubs1" type="submit" class="btn btn-yellow pull-left">@Model.BuySwimSubs1Text</button>
+                        <button name="btnSwimSubs1" type="submit" class="btn btn-yellow pull-left swim-subs-btn">@Model.BuySwimSubs1Text</button>
                     </div>
                 </div>
             }            
@@ -53,7 +53,7 @@
                 <div class="form-group">
                     <div>
                         @Html.Hidden("state", Mstc.Core.Domain.PaymentStates.SS05992)
-                        <button name="btnSwimSubs2" type="submit" class="btn btn-yellow pull-left">@Model.BuySwimSubs2Text</button>
+                        <button name="btnSwimSubs2" type="submit" class="btn btn-yellow pull-left swim-subs-btn">@Model.BuySwimSubs2Text</button>
                     </div>
                 </div>
             }
@@ -118,12 +118,16 @@
         }
         else
         {
-            using (Html.BeginUmbracoForm("AcceptOWSIndemnity", "MemberEdit", FormMethod.Post))
+            using (Html.BeginUmbracoForm("PaymentRedirect", "MemberEdit", FormMethod.Post))
             {
             <div class="form-group">
-                <p>If you would like to take part in open water swimming please read the waiver and indicate your acceptance.</p>
+                @Html.Hidden("state", Mstc.Core.Domain.PaymentStates.OwsSignup)
+                <p>
+                    If you would like to take part in open water swimming please read the waiver and indicate your acceptance.
+                    There is a £@Model.OwsSignupFee Signup fee.
+                </p>
                 <p><a href="@Model.OwsIndemnityDocLink" target="_blank">Open water swim indemnity waiver</a></p>
-                <button name="acceptOWS" type="submit" class="btn btn-yellow pull-left">Accept Indemnity Waiver</button>
+                <button name="acceptOWS" type="submit" class="btn btn-yellow pull-left">Accept Waiver & Signup</button>
             </div>
             }
         }

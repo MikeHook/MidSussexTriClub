@@ -31,6 +31,7 @@ namespace MSTC.Web.Model.Partials
         //OWS Props
         public bool EnableOpenWater { get; set; }
         public string OWSNumber { get; set; }
+        public decimal OwsSignupFee { get; set; }
         public bool OwsIndemnityAccepted { get; set; }
         public string OwsIndemnityDocLink { get; set; }
 

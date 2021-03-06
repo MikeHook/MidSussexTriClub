@@ -54,7 +54,7 @@
                         {
                             <div class="col-sm-12">
                                 <p>Thank you for updating your membership for @DateTime.Now.Year</p>
-                                <p>Please go to <a href="/members-area/my-details">your details page</a> to make sure your information is up to date and retrieve your open water swim authorisation number.</p>
+                                <p>Please go to to make sure your information is up to date and retrieve your open water swim authorisation number.</p>
                             </div>
                         }
                         else if (Model.ShowCreditsConfirmation)
@@ -62,6 +62,13 @@
                             <div class="col-sm-12">
                                 <p>Thank you for purchasing additional training credits.</p>
                                 <p>Please go to the <a href="/club-events/book-an-event">events booking page</a> to make bookings.</p>
+                            </div>
+                        }
+                        else if (Model.ShowOwsSignupConfirmation)
+                        {
+                            <div class="col-sm-12">
+                                <p>You are now signed up for open water swimming.</p>
+                                <p>You can retrieve your swim auth number from <a href="/members-area/my-details">your details page</a> and book onto open water swim training sessions.</p>
                             </div>
                         }
                     }

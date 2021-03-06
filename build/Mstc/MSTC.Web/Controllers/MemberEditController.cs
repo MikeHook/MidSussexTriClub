@@ -96,6 +96,7 @@ namespace MSTC.Web.Controllers
                 model.OWSNumber = member.GetValue<string>(MemberProperty.SwimAuthNumber);
                 model.OwsIndemnityAccepted = member.GetValue<bool>(MemberProperty.OpenWaterIndemnityAcceptance);
                 model.OwsIndemnityDocLink = memberEditPage.IndemnityWaiverDoc?.Url;
+                model.OwsSignupFee = (decimal) _membershipCostCalculator.OwsSignupCostPence / 100;
 
                 model.RenewalPageUrl = memberEditPage.RenewalPage?.Url;
                 model.MemberAdminPageUrl = memberEditPage.MemberAdminPage?.Url;                
@@ -148,20 +149,6 @@ namespace MSTC.Web.Controllers
             _sessionProvider.CanProcessPaymentCompletion = true;
             var redirectUrl = $"/Payment?state={PaymentStates.TrainingCredits}";
             return Redirect(redirectUrl);
-        }
-
-        [HttpPost]
-        public ActionResult AcceptOWSIndemnity()
-        {
-            var member = _memberProvider.GetLoggedInMember();
-            if (member == null)
-            {
-                return CurrentUmbracoPage();
-            }
-
-            _memberProvider.AcceptOpenWaterWaiver(member);
-
-            return RedirectToCurrentUmbracoUrl();
         }
 
         [HttpPost]

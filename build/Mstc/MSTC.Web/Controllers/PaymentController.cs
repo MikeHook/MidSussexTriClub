@@ -119,8 +119,7 @@ namespace MSTC.Web.Controllers
         }
 
         private PaymentResponseDto CreatePayment(IMember member, PaymentStates paymentState)
-        {
-            var membershipType = member.GetValue<MembershipTypeEnum>(MemberProperty.membershipType);
+        {  
             string mandateId = member.GetValue<string>(MemberProperty.directDebitMandateId);
             string email = member.Email;
 
@@ -151,6 +150,9 @@ namespace MSTC.Web.Controllers
                     break;
                 case PaymentStates.TrainingCredits:
                     costInPence = _sessionProvider.TrainingCreditsInPence;
+                    break;
+                case PaymentStates.OwsSignup:
+                    costInPence = _membershipCostCalculator.OwsSignupCostPence;
                     break;
                 default:
                     costInPence = _membershipCostCalculator.PaymentStateCost(paymentState, membershipType);
@@ -192,9 +194,20 @@ namespace MSTC.Web.Controllers
                         model.ShowCreditsConfirmation = true;
                         break;
                     }
+                case PaymentStates.OwsSignup:
+                    {
+                        _memberProvider.AcceptOpenWaterWaiver(member);
+                        model.ShowOwsSignupConfirmation = true;
+                        break;
+                    }
             }
 
             _memberService.Save(member);
         }
+
+
+
+
+
     }
 }

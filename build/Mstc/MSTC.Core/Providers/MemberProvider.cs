@@ -59,8 +59,12 @@ namespace Mstc.Core.Providers
 		    {
 				descriptionList.Add("England Athletics Membership");
             }
+			if (membershipOptions.OpenWaterIndemnityAcceptance.HasValue && membershipOptions.OpenWaterIndemnityAcceptance.Value == true)
+			{
+				descriptionList.Add("Open Water Swimming");
+			}
 
-            return string.Join(", ", descriptionList);
+			return string.Join(", ", descriptionList);
 		}
 
 		public DateTime GetNewMemberExpiry(DateTime currentDate)
@@ -139,7 +143,6 @@ namespace Mstc.Core.Providers
 			MembershipTypeEnum membershipType = member.GetValue<MembershipTypeEnum>(MemberProperty.membershipType);		
 			int swimAuthNumber = GetSwimAuthNumber(membershipType);
 			member.SetValue(MemberProperty.SwimAuthNumber, swimAuthNumber);
-			_memberService.Save(member);
 		}
 
 		private void SetMemberDetails(IMember member, PersonalDetails registrationDetails)
