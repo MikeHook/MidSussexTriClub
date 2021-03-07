@@ -16,15 +16,13 @@ Post migration
 
 To Do
 -----
-- Running 2 sessions on same day, need a start time?
-- Booking reminder emails
-- Pictures on Event booking page
-- Add info about Club subsidised events on website
-
-Membership changes
-- £10 OWS admin charge add to reg form add to OWS indemnity waiver.
 - Remove first half pool subs?
-- Move other registration costs into umbraco
 - Some explanation event booking: cancellation refunds, cutoff time, etc
+- Running 2 sessions on same day, need a start time?
+- Add info about Club subsidised events on website
 - ical download for events?
 
+
+Coulds
+- Booking reminder emails
+- Pictures on Event booking page

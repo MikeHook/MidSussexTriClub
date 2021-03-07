@@ -28,8 +28,11 @@ namespace Mstc.Core.Domain
 				new Tuple<bool, string>(false, "I do not wish to take part in open water swimming this season."),
 			};
 
-			ShowSwimSubs1 = 2 < DateTime.Now.Month && DateTime.Now.Month < 10;
-
+			ShowSwimSubs1 = 2 < DateTime.Now.Month && DateTime.Now.Month < 10 && membershipCostCalculator.SwimSubs1Enabled;
+			ShowSwimSubs2 = membershipCostCalculator.SwimSubs2Enabled;
+			ShowEnglandAthletics = membershipCostCalculator.EnglandAthleticsEnabled;
+			ShowOwsSignup = membershipCostCalculator.OwsSignupEnabled;
+		
 			SwimSubsCost = membershipCostCalculator.SwimsSubsCostInPence(MembershipTypeEnum.Individual) / 100;
 			EnglandAthleticsCost = membershipCostCalculator.EnglandAthleticsCostInPence / 100;
 			OwsSignupCost = membershipCostCalculator.OwsSignupCostPence / 100;
@@ -46,6 +49,9 @@ namespace Mstc.Core.Domain
 		public MembershipTypeEnum? MembershipType { get; set; }
 
 		public bool ShowSwimSubs1 { get; set; }
+		public bool ShowSwimSubs2 { get; set; }
+		public bool ShowEnglandAthletics { get; set; }
+		public bool ShowOwsSignup { get; set; }
 
 		public bool SwimSubs1 { get; set; }
 
