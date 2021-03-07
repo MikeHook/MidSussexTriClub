@@ -12,7 +12,7 @@ namespace Mstc.Core.Providers
 	/// </summary>
 	public class MembershipCostCalculator
 	{
-		MemberRegistration _memberRegistration;
+		private MemberRegistration _memberRegistration;
 
 		public MembershipCostCalculator()
 		{
@@ -28,6 +28,11 @@ namespace Mstc.Core.Providers
 		{
 			get { return new List<int>() { 10, 11, 12, 1, 2 }; }
 		}
+
+		public bool SwimSubs1Enabled => _memberRegistration != null ? _memberRegistration.SwimSubs1Enabled : true;
+		public bool SwimSubs2Enabled => _memberRegistration != null ? _memberRegistration.SwimSubs2Enabled : true;
+		public bool EnglandAthleticsEnabled => _memberRegistration != null ? _memberRegistration.EnglandAthleticsEnabled : true;
+		public bool OwsSignupEnabled => _memberRegistration != null ? _memberRegistration.OWssignupEnabled : true;
 
 		public List<Tuple<MembershipTypeEnum, string>> MembershipTypes => new List<Tuple<MembershipTypeEnum, string>>()
 			{

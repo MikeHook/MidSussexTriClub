@@ -73,6 +73,15 @@ namespace Mstc.Core.ContentModels
 		}
 
 		///<summary>
+		/// England Athletics Enabled
+		///</summary>
+		[ImplementPropertyType("englandAthleticsEnabled")]
+		public bool EnglandAthleticsEnabled
+		{
+			get { return this.GetPropertyValue<bool>("englandAthleticsEnabled"); }
+		}
+
+		///<summary>
 		/// Individual Member Cost: Individual Member Cost in Pounds
 		///</summary>
 		[ImplementPropertyType("individualMemberCost")]
@@ -97,6 +106,33 @@ namespace Mstc.Core.ContentModels
 		public decimal OWssignupCost
 		{
 			get { return this.GetPropertyValue<decimal>("oWSSignupCost"); }
+		}
+
+		///<summary>
+		/// OWS Signup Enabled
+		///</summary>
+		[ImplementPropertyType("oWSSignupEnabled")]
+		public bool OWssignupEnabled
+		{
+			get { return this.GetPropertyValue<bool>("oWSSignupEnabled"); }
+		}
+
+		///<summary>
+		/// Swim Subs 1 Enabled
+		///</summary>
+		[ImplementPropertyType("swimSubs1Enabled")]
+		public bool SwimSubs1Enabled
+		{
+			get { return this.GetPropertyValue<bool>("swimSubs1Enabled"); }
+		}
+
+		///<summary>
+		/// Swim Subs 2 Enabled
+		///</summary>
+		[ImplementPropertyType("swimSubs2Enabled")]
+		public bool SwimSubs2Enabled
+		{
+			get { return this.GetPropertyValue<bool>("swimSubs2Enabled"); }
 		}
 
 		///<summary>
