@@ -25,7 +25,7 @@ namespace Mstc.Core.Domain
         public string CovidDocumentLink { get; set; }
         public List<string> RaceDistances => Distances?.Split(';').ToList() ?? new List<string>();
 
-        public string DateDisplay => Date.ToString("dddd, dd MMMM yyyy");
+        public string DateDisplay => Date.ToString("dddd, dd MMMM yyyy hh:mm tt");
         public bool IsFutureEvent => Date.Date > DateTime.Now.Date;
         public bool HasSpace => Participants < MaxParticipants;
         public int Participants => EventParticipants.Count;
