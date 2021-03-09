@@ -40,7 +40,7 @@
 						if (type === "sort" || type === "type") {
 							return data;
 						}
-						return moment(data).format("dddd DD MMM YYYY");
+						return moment(data).format("dddd DD MMM YYYY hh:mm a");
 					}
 				},
 				{ data: 'participants' }

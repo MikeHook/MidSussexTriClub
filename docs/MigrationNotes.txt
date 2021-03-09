@@ -12,14 +12,10 @@ Post migration
 --------------
 - Remove extra swim credits properties
 - Move Awards post out of blog
-
+- Add info about Club subsidised events on website
 
 To Do
 -----
-- Remove first half pool subs?
-- Some explanation event booking: cancellation refunds, cutoff time, etc
-- Running 2 sessions on same day, need a start time?
-- Add info about Club subsidised events on website
 - ical download for events?
 
 
