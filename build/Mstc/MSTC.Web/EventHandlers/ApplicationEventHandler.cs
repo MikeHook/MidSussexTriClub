@@ -19,8 +19,9 @@ namespace MSTC.Web.EventHandlers
 
             var contentEventHandler = new ContentEventHandler();
             Umbraco.Core.Services.ContentService.Saving += contentEventHandler.ContentService_Saving;
+            Umbraco.Core.Services.ContentService.Saved += contentEventHandler.ContentService_Saved;
             Umbraco.Core.Services.ContentService.Deleting += contentEventHandler.ContentService_Deleting;
-        }       
+        }
 
         private static void RegisterCustomRoutes()
         {            

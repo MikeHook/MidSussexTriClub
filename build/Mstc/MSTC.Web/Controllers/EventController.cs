@@ -104,7 +104,19 @@ namespace MSTC.Web.Controllers
 				response.Error = "Unable to find logged in member record.";
 				return response;
 			}
-			
+
+			if (string.Equals(model.EventTypeName,"Open Water Swim",StringComparison.OrdinalIgnoreCase) && !member.GetValue<bool>(MemberProperty.OpenWaterIndemnityAcceptance))
+			{
+				response.Error = "You need to signup for open water swimming (on your member details page) before you can book onto open water swim sessions.";
+				return response;
+			}
+
+			if (string.Equals(model.EventTypeName, "Pool Swim", StringComparison.OrdinalIgnoreCase) && !CanBookPoolSwim(member, model.EventSlotId))
+			{
+				response.Error = "You need to signup for swim subs (on your member details page) before you can book onto pool swim sessions.";
+				return response;
+			}
+
 			if (member.GetValue<int>(MemberProperty.TrainingCredits) < model.Cost)
 			{
 				response.Error = "You do not have enough training credits to book that event.";
@@ -250,6 +262,20 @@ namespace MSTC.Web.Controllers
 			_eventParticipantRepository.Delete(eventParticipant.Id);
 		}
 
-
+		private bool CanBookPoolSwim(IMember member, int eventSlotId)
+		{
+			var eventSlot = _eventSlotRepository.GetById(eventSlotId);
+			
+			if (eventSlot.Date.Month > 3 && eventSlot.Date.Month < 10)
+			{
+				bool hasSwimSubs1 = string.IsNullOrEmpty(member.GetValue<string>(MemberProperty.swimSubs1)) == false;
+				return hasSwimSubs1;
+			} 
+			else
+			{
+				bool hasSwimSubs2 = string.IsNullOrEmpty(member.GetValue<string>(MemberProperty.swimSubs2)) == false;
+				return hasSwimSubs2;
+			}			
+		}
 	}
 }
