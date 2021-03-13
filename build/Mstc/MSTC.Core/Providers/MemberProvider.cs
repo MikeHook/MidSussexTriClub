@@ -165,16 +165,8 @@ namespace Mstc.Core.Providers
 		{
 			member.SetValue(MemberProperty.membershipType, (int)membershipOptions.MembershipType);
 			member.SetValue(MemberProperty.OpenWaterIndemnityAcceptance, membershipOptions.OpenWaterIndemnityAcceptance);
-	
-			if (membershipOptions.SwimSubs1)
-			{
-				member.SetValue(MemberProperty.swimSubs1, GetSwimSub1Description(DateTime.Now));				
-			}
-			if (membershipOptions.SwimSubs2)
-			{
-				member.SetValue(MemberProperty.swimSubs2, GetSwimSub2Description(DateTime.Now));
-			}
-
+			member.SetValue(MemberProperty.swimSubs1, membershipOptions.SwimSubs1 ? GetSwimSub1Description(DateTime.Now) : string.Empty);				
+			member.SetValue(MemberProperty.swimSubs2, membershipOptions.SwimSubs2 ? GetSwimSub2Description(DateTime.Now) : string.Empty);
 			member.SetValue(MemberProperty.EnglandAthleticsMembership, membershipOptions.EnglandAthleticsMembership);
 			member.SetValue(MemberProperty.Volunteering, membershipOptions.Volunteering);
 			member.SetValue(MemberProperty.MembershipExpiry, membershipExpiry);

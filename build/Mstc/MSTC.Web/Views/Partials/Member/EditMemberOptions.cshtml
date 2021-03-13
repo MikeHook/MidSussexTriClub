@@ -105,15 +105,8 @@
     <div class="contact-form-wrapper col-sm-12">
         @if (Model.OwsIndemnityAccepted)
         {
-        <div class="form-group">
-            
-                <label class="col-sm-5 control-label"><b>O/W swim auth number</b></label>
-                <div class="col-sm-7">
-                    <p class="form-control-static">
-                        <a data-toggle="tooltip" data-placement="bottom"
-                           title="Take this number with you to open water swim sessions. You can't get in the water unless you have your number!">@Model.OWSNumber</a>
-                    </p>
-                </div>
+        <div class="form-group">     
+            <p>You are signed up for Open Water Swimming, you can book into sessions on the <a href="@Model.EventBookingPageUrl">event booking page</a></p>      
         </div>
         }
         else

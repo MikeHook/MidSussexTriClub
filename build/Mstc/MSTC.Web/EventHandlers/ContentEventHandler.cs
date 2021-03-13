@@ -30,7 +30,7 @@ namespace MSTC.Web.EventHandlers
             _dataTypeProvider = new DataTypeProvider(_umbracoHelper.DataTypeService);
             _eventSlotRepository = new EventSlotRepository(new DataConnection());
             _logger = ApplicationContext.Current.ProfilingLogger.Logger;
-        }
+        }                    
 
         public void ContentService_Saving(Umbraco.Core.Services.IContentService sender, SaveEventArgs<IContent> e)
         {
@@ -41,33 +41,65 @@ namespace MSTC.Web.EventHandlers
                 if (entity.ContentType.Alias == "event")
                 {
                     IPublishedContent eventPageContent = entity.ToPublishedContent();
-                    var eventPage = new Event(eventPageContent);                    
+                    var eventPage = new Event(eventPageContent);                
+                    if (eventPage.Id == 0)
+                    {
+                        //No need to check this as must be creating a new event page
+                        continue;
+                    }
+
                     var eventType = eventTypes.SingleOrDefault(et => et.Name == eventPage.EventType);
                     if (eventType == null)
                     {
                         //Log and move on
-                        _logger.Warn(typeof(ContentEventHandler), $"No event type found for name '{eventPage.EventType}', event slots will not be created.");                        
+                        _logger.Warn(typeof(ContentEventHandler), $"No event type found for name '{eventPage.EventType}'.");                        
                         continue;
                     }              
 
                     var eventDates = GetEventDates(eventPage, true);                    
                     List<EventSlot> existingEventSlots = _eventSlotRepository.GetAll(true, eventTypes).ToList();
-                    existingEventSlots = existingEventSlots.Where(es => es.EventPageId == eventPage.Id).ToList();
+                    existingEventSlots = existingEventSlots.Where(es => es.EventTypeId == eventType.Id && es.EventPageId == eventPage.Id).ToList();
                     if (existingEventSlots.Any(es => eventDates.Contains(es.Date) == false && es.EventParticipants.Count > 0))
                     {
+                        string message = $"Unable to save changes - existing bookings for event slots of type {eventType.Name}, please cancel the bookings through the Event Booking Admin page first.";
+                        _logger.Warn(typeof(ContentEventHandler), message);
                         //If any slots are no longer needed and have participants then cancel saving with message                    
-                        e.Messages.Add(new EventMessage("Error", 
-                            "Unable to save changes - existing bookings for event slots, please cancel the bookings through the Event Booking Admin page first.", EventMessageType.Error));
+                        e.Messages.Add(new EventMessage("Error", message, EventMessageType.Error));
                         e.Cancel = true;
                         return;
                     }
-
-                    var response = CreateUpdateEventSlots(existingEventSlots, eventType.Id, eventPage); 
-                    _logger.Info(typeof(ContentEventHandler), 
-                        $"Updated event slots for event type '{eventPage.EventType}'. Created {response.SlotsCreated}, updated {response.SlotsUpdated} and deleted {response.SlotsDeleted} slots.");
-
                 }
             }   
+        }
+
+        public void ContentService_Saved(Umbraco.Core.Services.IContentService sender, SaveEventArgs<IContent> e)
+        {
+            List<EventType> eventTypes = _dataTypeProvider.GetEventTypes();
+
+            foreach (IContent entity in e.SavedEntities)
+            {
+                if (entity.ContentType.Alias == "event")
+                {
+                    IPublishedContent eventPageContent = entity.ToPublishedContent();
+                    var eventPage = new Event(eventPageContent);
+                   
+                    var eventType = eventTypes.SingleOrDefault(et => et.Name == eventPage.EventType);
+                    if (eventType == null)
+                    {
+                        //Log and move on
+                        _logger.Warn(typeof(ContentEventHandler), $"No event type found for name '{eventPage.EventType}', event slots will not be created/updated.");
+                        continue;
+                    }
+
+                    var eventDates = GetEventDates(eventPage, true);
+                    List<EventSlot> existingEventSlots = _eventSlotRepository.GetAll(true, eventTypes).ToList();
+                    existingEventSlots = existingEventSlots.Where(es => es.EventTypeId == eventType.Id && es.EventPageId == eventPage.Id).ToList();                
+
+                    var response = CreateUpdateEventSlots(existingEventSlots, eventType.Id, eventPage);
+                    _logger.Info(typeof(ContentEventHandler),
+                        $"Updated event slots for event type '{eventPage.EventType}'. Created {response.SlotsCreated}, updated {response.SlotsUpdated} and deleted {response.SlotsDeleted} slots.");
+                }
+            }
         }
 
         public void ContentService_Deleting(Umbraco.Core.Services.IContentService sender, DeleteEventArgs<Umbraco.Core.Models.IContent> e)
@@ -89,9 +121,10 @@ namespace MSTC.Web.EventHandlers
                     List<EventSlot> existingEventSlots = _eventSlotRepository.GetAll(true, eventTypes).Where(es => es.EventPageId == eventPage.Id).ToList();
                     if (existingEventSlots.Any(es => es.EventParticipants.Count > 0))
                     {
+                        string message = $"Unable to delete event page - existing bookings for event slots of type {eventPage.EventType}, please cancel the bookings through the Event Booking Admin page first.";
+                        _logger.Warn(typeof(ContentEventHandler), message);
                         //If any future slots have participants then cancel deleting with message                    
-                        e.Messages.Add(new EventMessage("Error",
-                            "Unable to delete event page - existing bookings for event slots, please cancel the bookings through the Event Booking Admin page first.", EventMessageType.Error));
+                        e.Messages.Add(new EventMessage("Error", message, EventMessageType.Error));
                         e.Cancel = true;
                         return;
                     }
