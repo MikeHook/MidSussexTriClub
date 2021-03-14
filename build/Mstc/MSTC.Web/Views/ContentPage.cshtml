@@ -4,7 +4,7 @@
 }
 @Html.Partial("~/Views/Partials/SectionHeader.cshtml")
 
-@if (Model.Content.BodyText != null)
+@if (!string.IsNullOrWhiteSpace(Model.Content.BodyText?.ToString()))
 {
     <section class="section">
         <div class="container">
@@ -19,7 +19,7 @@
     </section>
 }
 
-@if (Model.Content.SecondaryContent != null)
+@if (!string.IsNullOrWhiteSpace(Model.Content.SecondaryContent?.ToString()))
 {
     <section class="section">
         <div class="container">          

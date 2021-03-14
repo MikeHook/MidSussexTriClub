@@ -8,26 +8,32 @@
 
 <section class="section">
     <div class="container">
-        @if (Model.Content.BodyText != null) {
+        @if (Model.Content.BodyText != null)
+        {
             <div class="row">
                 <div class="col-sm-12">
                     @Model.Content.BodyText
                 </div>
             </div>
         }
-        <div class="row service-wrapper-row">
-            @foreach (Person person in Model.Content.Children)
-            {
-                if (person.IsCoach)
+        @if (Model.Content.IsCoaching)
+        {
+            <div class="row service-wrapper-row">
+                @foreach (Person person in Model.Content.Children)
                 {
                     @Html.Partial("~/Views/Partials/Person/Coach.cshtml", person)
                 }
-                else
-                {
+            </div>
+        }
+        else
+        {
+            foreach (Person person in Model.Content.Children)
+            {
+                <div class="row service-wrapper-row">
                     @Html.Partial("~/Views/Partials/Person/Person.cshtml", person)
-                }
+                </div>
             }
-        </div>
+        }       
     </div>
 </section>
 
