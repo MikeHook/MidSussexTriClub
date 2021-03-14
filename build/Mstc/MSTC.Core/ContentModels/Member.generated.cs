@@ -220,9 +220,9 @@ namespace Mstc.Core.ContentModels
 		/// Profile Image
 		///</summary>
 		[ImplementPropertyType("profileImage")]
-		public string ProfileImage
+		public IPublishedContent ProfileImage
 		{
-			get { return this.GetPropertyValue<string>("profileImage"); }
+			get { return this.GetPropertyValue<IPublishedContent>("profileImage"); }
 		}
 
 		///<summary>
