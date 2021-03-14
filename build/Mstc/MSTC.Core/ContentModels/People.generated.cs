@@ -46,6 +46,15 @@ namespace Mstc.Core.ContentModels
 		}
 
 		///<summary>
+		/// Is Coaching
+		///</summary>
+		[ImplementPropertyType("isCoaching")]
+		public bool IsCoaching
+		{
+			get { return this.GetPropertyValue<bool>("isCoaching"); }
+		}
+
+		///<summary>
 		/// Secondary Content
 		///</summary>
 		[ImplementPropertyType("secondaryContent")]

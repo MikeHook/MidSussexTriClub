@@ -46,15 +46,6 @@ namespace Mstc.Core.ContentModels
 		}
 
 		///<summary>
-		/// Is Coach
-		///</summary>
-		[ImplementPropertyType("isCoach")]
-		public bool IsCoach
-		{
-			get { return this.GetPropertyValue<bool>("isCoach"); }
-		}
-
-		///<summary>
 		/// Photo
 		///</summary>
 		[ImplementPropertyType("photo")]
