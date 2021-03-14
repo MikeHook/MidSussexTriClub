@@ -5,10 +5,18 @@
     <h2>Profile image</h2>
 
     <div class="profile-image">
-        @if (string.IsNullOrEmpty(Model.ProfileImageId) == false) {
-        <img src="@Umbraco.TypedMedia(Model.ProfileImageId).Url" />
+        @if (string.IsNullOrEmpty(Model.ProfileImageId) == false)
+        {
+            if (Model.ProfileImageId.Contains("umb:"))
+            {
+                <img src="@Umbraco.TypedMedia(Model.ProfileImageId).Url" />
+            }
+            else
+            {
+                <img src="@Model.ProfileImageId" />
+            }
         }
-    <div>Recommended size 200 x 200px</div>
+        <div>Recommended size 200 x 200px</div>
     </div>
     <div class="contact-form-wrapper">
         <div class="form-group">            

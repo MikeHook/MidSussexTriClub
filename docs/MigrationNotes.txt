@@ -6,6 +6,7 @@ Migration
 ---------
 - Use the 'Member' import not MemberService
 - Tick the 'Store password as clear text' option on the password field
+- Specify location for profile and service images
 - Add the extra MemberType fields into the new CMS first
 
 Post migration
