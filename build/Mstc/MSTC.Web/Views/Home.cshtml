@@ -8,6 +8,23 @@
     <div id="sequence">
         <ul class="sequence-canvas">
             <!-- Sliders -->
+
+            @Html.Partial("~/Views/Partials/HomeSlider.cshtml", new MSTC.Web.Model.Partials.SliderModel
+             {
+                 LinkUrl = Model.Content.SliderLinks.FirstOrDefault()?.Url ?? "",
+                 CssClass = "bg-velodrome",
+                 LinkText = "Sign up to the club",
+                 SubText = "If you want to get more involved with trialthon why not become a member of the club?"
+             })
+
+            @Html.Partial("~/Views/Partials/HomeSlider.cshtml", new MSTC.Web.Model.Partials.SliderModel
+             {
+                 LinkUrl = Model.Content.SliderLinks.LastOrDefault()?.Url ?? "",
+                 CssClass = "bg-running",
+                 LinkText = "Try our training sessions",
+                 SubText = "Come down to our weekly group training session on Thursday and have a go!"
+             })
+
             @if (Model.Content.EventEntryEnabled)
             {
                 <li class="bg-pool">
@@ -17,22 +34,6 @@
                     </div>
                 </li>
             }
-
-            @Html.Partial("~/Views/Partials/HomeSlider.cshtml", new MSTC.Web.Model.Partials.SliderModel
-             {
-                 LinkUrl = Model.Content.SliderLinks.FirstOrDefault()?.Url ?? "",
-                 CssClass = "bg-ardingly",
-                 LinkText = "Sign up to the club",
-                 SubText = "If you want to get more involved with trialthon why not become a member of the club?"
-             })
-
-            @Html.Partial("~/Views/Partials/HomeSlider.cshtml", new MSTC.Web.Model.Partials.SliderModel
-             {
-                 LinkUrl = Model.Content.SliderLinks.LastOrDefault()?.Url ?? "",
-                 CssClass = "bg-bikes",
-                 LinkText = "Try our training sessions",
-                 SubText = "Come down to our weekly group training session on Thursday and have a go!"
-             })
             <!-- End Sliders -->
         </ul>
         <div class="sequence-pagination-wrapper">

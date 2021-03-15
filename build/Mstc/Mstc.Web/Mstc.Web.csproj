@@ -754,8 +754,10 @@
     <Content Include="Images\mstc\homepage-slider\bg-531Swim.jpg" />
     <Content Include="Images\mstc\homepage-slider\bg-biketraining.jpg" />
     <Content Include="Images\mstc\homepage-slider\bg-pool1.jpg" />
+    <Content Include="Images\mstc\homepage-slider\bg-running.jpg" />
     <Content Include="Images\mstc\homepage-slider\bg-swim1.jpg" />
     <Content Include="Images\mstc\homepage-slider\bg-trihub2.jpg" />
+    <Content Include="Images\mstc\homepage-slider\bg-velodrome.jpg" />
     <Content Include="Images\mstc\homepage-slider\triathlon-biketransition.jpg" />
     <Content Include="Images\mstc\homepage-slider\triathlon-end.jpg" />
     <Content Include="Images\mstc\MSTC_logo_nowhite_small.png" />
