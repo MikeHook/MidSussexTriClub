@@ -2111,6 +2111,13 @@ ul.footer-navigate-section {
 #sequence > .sequence-canvas > li.bg-transition {
   background-image: url(/images/mstc/homepage-slider/triathlon-biketransition.jpg);
 }
+#sequence > .sequence-canvas > li.bg-running {
+    background-image: url(/images/mstc/homepage-slider/bg-running.jpg);
+}
+#sequence > .sequence-canvas > li.bg-velodrome {
+    background-image: url(/images/mstc/homepage-slider/bg-velodrome.jpg);
+}
+
 #sequence > .sequence-canvas > li img {
   height: 96%;
 }
