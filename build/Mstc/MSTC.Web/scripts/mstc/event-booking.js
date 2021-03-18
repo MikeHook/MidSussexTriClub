@@ -21,6 +21,20 @@
 	var bookedEventSlots = [];
 	var cancelSlotId = null;
 
+	var resetProps = function () {
+		eventTypes = [];
+		eventType = undefined;
+		eventSlot = undefined;
+		raceDistance = '';
+		bookedEventSlots = [];
+		cancelSlotId = null;
+
+		$("#eventType").empty();
+		$("#eventDate").empty();
+		$("#raceDistance").empty();
+		spacesEl.innerText = '';
+	};
+
 	var eventTypeChanged = function (field) {
 		$("#eventDate").empty();
 		eventSlotChanged(undefined);
@@ -59,9 +73,9 @@
 		raceDistance = field.value;
 	};
 
-	var eventSlotChanged = function (eventSlot) {		
-		spacesEl.innerText = eventSlot === undefined ? '' : eventSlot.spacesRemaining;		
-		if (eventSlot === undefined || !eventSlot.hasSpace) {
+	var eventSlotChanged = function (slot) {		
+		spacesEl.innerText = slot === undefined ? '' : slot.spacesRemaining;		
+		if (slot === undefined || !slot.hasSpace) {
 			bookEventButton$.prop('disabled', true);
 			bookEventButton$.html('Book Event - No slots available');
 			raceDistanceDiv$.addClass('hide');
@@ -71,39 +85,40 @@
 			$('#checkboxCovid').prop('checked', false);
 		} else {
 			bookEventButton$.prop('disabled', false);			
-			var buttonText = eventSlot.cost > 0 ? 'Book Event for £' + eventSlot.cost : 'Book Event - No Cost';
+			var buttonText = slot.cost > 0 ? 'Book Event for £' + slot.cost : 'Book Event - No Cost';
 			bookEventButton$.html(buttonText);
 		
-			eventDateConfirm$.html(eventSlot.dateDisplay);
-			eventCostConfirm$.html(eventSlot.cost);
+			eventDateConfirm$.html(slot.dateDisplay);
+			eventCostConfirm$.html(slot.cost);
 
-			if (eventSlot.raceDistances.length > 0) {
+			if (slot.raceDistances.length > 0) {
 				raceDistanceDiv$.removeClass('hide');
 				$("#raceDistance").empty();
 				raceDistanceDropDown.options[raceDistanceDropDown.options.length] = new Option('Select a race distance', '');
-				eventSlot.raceDistances.forEach(raceDistance => {
+				slot.raceDistances.forEach(raceDistance => {
 					raceDistanceDropDown.options[raceDistanceDropDown.options.length] = new Option(raceDistance, raceDistance);
 				});		
 			} else {
 				raceDistanceDiv$.addClass('hide');
 			}
 
-			if (eventSlot.indemnityWaiverDocumentLink) {
+			if (slot.indemnityWaiverDocumentLink) {
 				waiverDiv$.removeClass('hide');
-				$('#waiverLink').attr('href', eventSlot.indemnityWaiverDocumentLink);
+				$('#waiverLink').attr('href', slot.indemnityWaiverDocumentLink);
 			} else {
 				waiverDiv$.addClass('hide');
 			}
-			if (eventSlot.covidDocumentLink) {
+			if (slot.covidDocumentLink) {
 				covidDiv$.removeClass('hide');
-				$('#covidLink').attr('href', eventSlot.covidDocumentLink);
+				$('#covidLink').attr('href', slot.covidDocumentLink);
 			} else {
 				covidDiv$.addClass('hide');
 			}
 		}
 	};
 
-	var getEvents = function() {
+	var getEvents = function () {
+		resetProps();
 		$.ajax({
 			url: '/umbraco/api/event/BookableEvents?futureEventsOnly=true&withSlotsOnly=true',
 			method: 'GET',// jQuery > 1.9
@@ -273,6 +288,8 @@
 
 		
 	};
+
+
 
 	var init = function() {
 		bindFunctions();
