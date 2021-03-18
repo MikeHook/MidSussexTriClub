@@ -844,6 +844,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\JSNLogConfig.cs" />
+    <Compile Include="Model\DateTimeModelBinder.cs" />
     <Compile Include="Controllers\ICalController.cs" />
     <Compile Include="EventHandlers\ApplicationEventHandler.cs" />
     <Compile Include="EventHandlers\ContentEventHandler.cs" />
