@@ -6,6 +6,8 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Mstc.Core.Providers;
+using MSTC.Web.Controllers;
+using MSTC.Web.Model;
 using Newtonsoft.Json.Serialization;
 using Umbraco.Core;
 
@@ -43,6 +45,10 @@ namespace MSTC.Web.EventHandlers
             HttpConfiguration config = GlobalConfiguration.Configuration;
             config.Formatters.JsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
             config.Formatters.JsonFormatter.UseDataContractJsonSerializer = false;
+
+            var binder = new DateTimeModelBinder("dd/MM/yyyy");
+            ModelBinders.Binders.Add(typeof(DateTime), binder);
+            ModelBinders.Binders.Add(typeof(DateTime?), binder);
         }     
     }
 }
