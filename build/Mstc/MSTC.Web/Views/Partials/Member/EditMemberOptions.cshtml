@@ -44,7 +44,7 @@
                         <button name="btnSwimSubs1" type="submit" class="btn btn-yellow pull-left swim-subs-btn">@Model.BuySwimSubs1Text</button>
                     </div>
                 </div>
-            }            
+            }
         }
         @if (Model.ShowBuySwimSubs2)
         {
@@ -90,11 +90,12 @@
 
         @if (Model.ShowMemberAdminLink)
         {
-            <div class="form-group">
-                <label class="control-label"><b>Super secret admin page</b></label>
-                <p class="form-control-static"><a href="@Model.MemberAdminPageUrl">Members Admin Details</a></p>
-            </div>
-        }       
+        <div class="form-group">
+            <label class="control-label"><b>Super secret admin pages</b></label>
+            <p class="form-control-static"><a href="@Model.MemberAdminPageUrl">Members Admin Details</a></p>
+            <p><a href="@Model.EventAdminPageUrl">Event Admin Page</a></p>
+        </div>
+        }
     </div>
 </div>
 
@@ -128,17 +129,3 @@
 </div>
 }
 
-<div id="training-section" class="form-horizontal">
-    <h2>Training and Events</h2>
-    @{ Html.RenderAction("TrainingCredits", "MemberEdit"); }
-    <div class="form-group">
-        <div class="col-sm-12">
-            <p>If you would like to take part in training sessions or events please pre-book on the below page.</p>
-            <p><a href="@Model.EventBookingPageUrl">Training & Event Booking</a></p>
-            @if (Model.ShowMemberAdminLink)
-            {
-                <p><a href="@Model.EventAdminPageUrl">Event Admin Page</a></p>
-            }
-        </div>
-    </div>
-</div>

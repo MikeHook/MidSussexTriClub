@@ -38,7 +38,7 @@ namespace MSTC.Web.Controllers
             _membershipCostCalculator = new MembershipCostCalculator();
         }
 
-        [HttpGet]
+        [AcceptVerbs(HttpVerbs.Post | HttpVerbs.Get)]
         public ActionResult MemberImage()
         {
             var member = _memberProvider.GetLoggedInMember();
@@ -51,7 +51,7 @@ namespace MSTC.Web.Controllers
             return PartialView("Member/EditMemberImage", model);
         }
 
-        [HttpGet]
+        [AcceptVerbs(HttpVerbs.Post | HttpVerbs.Get)]
         public ActionResult MemberDetails()
         {
             var member = _memberProvider.GetLoggedInMember();
@@ -60,7 +60,7 @@ namespace MSTC.Web.Controllers
             return PartialView("Member/EditMemberDetails", model);
         }
 
-        [HttpGet]
+        [AcceptVerbs(HttpVerbs.Post | HttpVerbs.Get)]
         public ActionResult MemberOptions()
         {
             var memberEditPage = CurrentPage as MemberEdit;
@@ -99,7 +99,7 @@ namespace MSTC.Web.Controllers
                 model.OwsSignupFee = (decimal) _membershipCostCalculator.OwsSignupCostPence / 100;
 
                 model.RenewalPageUrl = memberEditPage.RenewalPage?.Url;
-                model.MemberAdminPageUrl = memberEditPage.MemberAdminPage?.Url;                
+                model.MemberAdminPageUrl = memberEditPage.MemberAdminPage?.Url;
                 model.EventBookingPageUrl = memberEditPage.EventBookingPage?.Url;
                 model.EventAdminPageUrl = memberEditPage.EventAdminPage?.Url;
                 model.UnlinkBankPageUrl = memberEditPage.UnlinkBankPage?.Url;
@@ -109,13 +109,16 @@ namespace MSTC.Web.Controllers
             return PartialView("Member/EditMemberOptions", model);
         }
 
-        [HttpGet]
+        [AcceptVerbs(HttpVerbs.Post | HttpVerbs.Get)]
         public ActionResult TrainingCredits()
         {
+            var memberEditPage = CurrentPage as MemberEdit;
+
             var member = _memberProvider.GetLoggedInMember();
             var model = new TrainingCreditsModel();
             if (member!= null)
             {
+                model.EventBookingPageUrl = memberEditPage.EventBookingPage?.Url;
                 model.CurrentTrainingCredits = member.GetValue<int>(MemberProperty.TrainingCredits);
             }
 
@@ -152,7 +155,7 @@ namespace MSTC.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult MemberImage(MemberImageModel model)
+        public ActionResult UpdateMemberImage(MemberImageModel model)
         {
             var member = _memberProvider.GetLoggedInMember();
             if (!ModelState.IsValid || member == null)
@@ -175,7 +178,7 @@ namespace MSTC.Web.Controllers
         }        
 
         [HttpPost]
-        public ActionResult MemberDetails(MemberDetailsModel model)
+        public ActionResult UpdateMemberDetails(MemberDetailsModel model)
         {
             var member = _memberProvider.GetLoggedInMember();
             if (!ModelState.IsValid || member == null)
