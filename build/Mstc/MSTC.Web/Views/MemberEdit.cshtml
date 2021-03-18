@@ -1,7 +1,7 @@
 ﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage<MemberEdit>
 
 @{
-	Layout = "Master.cshtml";
+    Layout = "Master.cshtml";
 }
 @section Header {
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -20,6 +20,7 @@
 			<div class="col-sm-4">
 				@{ Html.RenderAction("MemberImage", "MemberEdit"); }
 				@{ Html.RenderAction("MemberOptions", "MemberEdit"); }
+				@{ Html.RenderAction("TrainingCredits", "MemberEdit"); }
 			</div>
 
 
