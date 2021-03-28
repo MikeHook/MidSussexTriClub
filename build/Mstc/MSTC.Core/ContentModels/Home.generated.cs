@@ -73,6 +73,15 @@ namespace Mstc.Core.ContentModels
 		}
 
 		///<summary>
+		/// Event Booking Page
+		///</summary>
+		[ImplementPropertyType("eventBookingPage")]
+		public IPublishedContent EventBookingPage
+		{
+			get { return this.GetPropertyValue<IPublishedContent>("eventBookingPage"); }
+		}
+
+		///<summary>
 		/// Event Entry Enabled
 		///</summary>
 		[ImplementPropertyType("eventEntryEnabled")]

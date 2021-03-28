@@ -201,7 +201,8 @@ span.help-block[style*="hidden"] {
   padding: 15px 10px 15px 10px;
 }
 .home-social .service-wrapper p {
-  margin-top: 10px;
+  margin: 10px 0 0 0;
+  font-weight: 900;
 }
 
 .affiliation-logo {
@@ -234,7 +235,7 @@ span.help-block[style*="hidden"] {
 }
 @media (min-width: 1024px) {
   .home-social .service-wrapper.strava iframe {
-    width: 400px;
+    width: 320px;
   }
 }
 /* Row */
