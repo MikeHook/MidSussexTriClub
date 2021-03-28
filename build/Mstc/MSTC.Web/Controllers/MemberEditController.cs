@@ -79,9 +79,10 @@ namespace MSTC.Web.Controllers
                 model.IsBankLinked = !string.IsNullOrEmpty(member.GetValue<string>(MemberProperty.directDebitMandateId));
 
                 string swimSubs1 = member.GetValue<string>(MemberProperty.swimSubs1);
-                model.ShowBuySwimSubs1 = !model.EnableMemberRenewal && !isGuest && string.IsNullOrEmpty(swimSubs1) && DateTime.Now.Month < 10 && DateTime.Now.Month > 2;
+                model.ShowBuySwimSubs1 = !model.EnableMemberRenewal && !isGuest && _membershipCostCalculator.SwimSubs1Enabled
+                    && string.IsNullOrEmpty(swimSubs1) && DateTime.Now.Month < 10 && DateTime.Now.Month > 2;
                 string swimSubs2 = member.GetValue<string>(MemberProperty.swimSubs2);
-                model.ShowBuySwimSubs2 = !model.EnableMemberRenewal && !isGuest && string.IsNullOrEmpty(swimSubs2);
+                model.ShowBuySwimSubs2 = !model.EnableMemberRenewal && !isGuest && _membershipCostCalculator.SwimSubs2Enabled && string.IsNullOrEmpty(swimSubs2);
                 model.OptionalExtras = GetOptionalExtras(member);
                 decimal swimSubsCost = _membershipCostCalculator.SwimsSubsCostInPence(memberType) / 100;
                 model.BuySwimSubs1Text = string.Format("Buy {0} @ £{1:N2}", MemberProvider.GetSwimSub1Description(DateTime.Now), swimSubsCost);
