@@ -764,6 +764,9 @@
     <Content Include="Images\mstc\page-background.png" />
     <Content Include="Images\mstc\service-icon\facebook-200.png" />
     <Content Include="Images\mstc\service-icon\flickr-200.png" />
+    <Content Include="Images\mstc\service-icon\tt-icon-black-200.png" />
+    <Content Include="Images\mstc\service-icon\tt-icon-black-white-200.png" />
+    <Content Include="Images\mstc\service-icon\tt-icon-yellow-grey-v2-200.png" />
     <Content Include="Images\mstc\service-icon\twitter-200.png" />
     <Content Include="Images\mstc\sponsors\BHRunners.jpg" />
     <Content Include="Images\mstc\sponsors\btrs.jpg" />
