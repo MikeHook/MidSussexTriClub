@@ -803,6 +803,7 @@
     <Content Include="scripts\mstc\moment.min.js" />
     <Content Include="scripts\mstc\shared.js" />
     <Content Include="scripts\mstc\toastr.min.js" />
+    <Content Include="ServerError.html" />
     <Content Include="Umbraco\Plugins\cmsimport\dashboardcontrols\CMSImportDashboardControl.ascx" />
     <Content Include="Umbraco\Plugins\cmsimport\images\add.png" />
     <Content Include="Umbraco\Plugins\cmsimport\images\cancel.png" />
