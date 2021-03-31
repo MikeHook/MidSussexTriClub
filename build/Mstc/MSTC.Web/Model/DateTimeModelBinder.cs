@@ -19,7 +19,9 @@ namespace MSTC.Web.Model
         public override object BindModel(ControllerContext controllerContext, ModelBindingContext bindingContext)
         {
             var value = bindingContext.ValueProvider.GetValue(bindingContext.ModelName);
-            return DateTime.ParseExact(value.AttemptedValue, _customFormat, CultureInfo.InvariantCulture);
+            DateTime result;
+            return DateTime.TryParseExact(value.AttemptedValue, _customFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out result) 
+                ? (DateTime?) result : null;
         }
     }
 }

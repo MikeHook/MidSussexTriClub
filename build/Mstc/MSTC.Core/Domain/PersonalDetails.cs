@@ -33,8 +33,8 @@ namespace Mstc.Core.Domain
 
 		[Required, Display(Name = "Gender*")]	
 		public GenderEnum Gender { get; set; }
-
-		[Required, Display(Name = "Date of birth*"), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}"), DateOver16Validator, DataType(DataType.Date)]
+		
+		[Required, Display(Name = "Date of birth*"), DateOver16Validator, DataType(DataType.Date)]
 		public DateTime? DateOfBirth { get; set; }
 
 		[Required, Display(Name = "House number and Street*")]
