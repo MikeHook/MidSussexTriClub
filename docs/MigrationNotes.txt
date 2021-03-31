@@ -11,8 +11,6 @@ Migration
 
 Post migration
 --------------
-- Remove extra swim credits properties
-- Move Awards post out of blog
 - Add info about Club subsidised events on website
 
 To Do
@@ -23,4 +21,6 @@ To Do
 Coulds
 - Booking reminder emails
 - Pictures on Event booking page
+
+
 
