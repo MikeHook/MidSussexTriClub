@@ -189,16 +189,16 @@ namespace MSTC.Web.Controllers
 
             if (member.Username != model.Email)
             {
-                FormsAuthentication.SignOut();                
+                FormsAuthentication.SignOut();
                 FormsAuthentication.SetAuthCookie(model.Email, true);
+
+                string emailContent = GetEmailChangeContent(model, member.Email);                
+
+                _emailProvider.SendEmail(EmailProvider.MembersEmail, EmailProvider.SupportEmail,
+                    "MSTC member email updated", emailContent);
             }
 
-            string emailContent = GetEmailChangeContent(model, member.Email);
-
             SetMemberDetails(member, model);
-           
-            _emailProvider.SendEmail(EmailProvider.MembersEmail, EmailProvider.SupportEmail,
-                "MSTC member email updated", emailContent);
 
             return RedirectToCurrentUmbracoUrl(); 
         }
