@@ -105,6 +105,14 @@ namespace MSTC.Web.Controllers
 				return response;
 			}
 
+			var membershipExpiry = member.GetValue<DateTime>(MemberProperty.MembershipExpiry);
+			bool isMembershipExpired = membershipExpiry < DateTime.Now;
+			if (isMembershipExpired)
+			{
+				response.Error = "Your membership has expired, please renew your membership before booking any events.";
+				return response;
+			}
+
 			if (string.Equals(model.EventTypeName,"Open Water Swim",StringComparison.OrdinalIgnoreCase) && !member.GetValue<bool>(MemberProperty.OpenWaterIndemnityAcceptance))
 			{
 				response.Error = "You need to signup for open water swimming (on your member details page) before you can book onto open water swim sessions.";
