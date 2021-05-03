@@ -187,7 +187,7 @@ namespace MSTC.Web.Controllers
                 return CurrentUmbracoPage();
             }
 
-            if (member.Username != model.Email)
+            if (!string.Equals(member.Email.Trim(), model.Email.Trim(), StringComparison.OrdinalIgnoreCase))
             {
                 FormsAuthentication.SignOut();
                 FormsAuthentication.SetAuthCookie(model.Email, true);
