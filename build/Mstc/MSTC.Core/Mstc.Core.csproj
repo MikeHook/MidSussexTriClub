@@ -283,7 +283,6 @@
     <Compile Include="DataAccess\EventParticipantRepository.cs" />
     <Compile Include="DataAccess\EventSlotRepository.cs" />
     <Compile Include="Domain\MemberOptions.cs" />
-    <Compile Include="Domain\EventsFilter.cs" />
     <Compile Include="Domain\PersonalDetails.cs" />
     <Compile Include="Domain\RecurringFrequencyEnum.cs" />
     <Compile Include="Domain\EventType.cs" />
