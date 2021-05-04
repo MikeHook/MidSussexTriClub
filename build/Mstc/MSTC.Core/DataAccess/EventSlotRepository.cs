@@ -15,7 +15,7 @@ namespace Mstc.Core.DataAccess
     {
         EventSlot Create(EventSlot eventSlot);
         EventSlot GetById(int id);
-        IEnumerable<EventSlot> GetAll(EventsFilter eventsFilter, List<EventType> eventTypes);
+        IEnumerable<EventSlot> GetAll(bool futureEventsOnly, List<EventType> eventTypes);
         void Delete(int id);
         void Update(EventSlot slot);
     }
@@ -57,18 +57,13 @@ namespace Mstc.Core.DataAccess
             }
         }
 
-        public IEnumerable<EventSlot> GetAll(EventsFilter eventsFilter, List<EventType> eventTypes)
+        public IEnumerable<EventSlot> GetAll(bool futureEventsOnly, List<EventType> eventTypes)
         {
-            string query = $"{_baseGet} {(eventsFilter != EventsFilter.AllEvents ? "Where [Date] > @now" : "")} order By Date";
+            string query = $"{_baseGet} {(futureEventsOnly ? "Where [Date] > @now" : "")} order By Date";
 
             using (IDbConnection connection = _dataConnection.SqlConnection)
             {
-                var now = DateTime.Now;                
-                var endofToday = new DateTime(now.Year, now.Month, now.Day, 23, 59, 59);
-                var endofYesterday = endofToday.AddDays(-1);
-                var filterDate = eventsFilter == EventsFilter.CurrentAndFutureEvents ? endofYesterday : endofToday;
-
-                var eventSlots = connection.Query<EventSlot>(query, new { now = filterDate }).ToList();
+                var eventSlots = connection.Query<EventSlot>(query, new { now = DateTime.Now }).ToList();
                 var eventParticipants = _eventParticipantRepository.GetAll(connection).ToList();                
                 foreach (var eventSlot in eventSlots)
                 {

@@ -57,7 +57,7 @@ namespace MSTC.Web.EventHandlers
                     }              
 
                     var eventDates = GetEventDates(eventPage, true);                    
-                    List<EventSlot> existingEventSlots = _eventSlotRepository.GetAll(EventsFilter.FutureEvents, eventTypes).ToList();
+                    List<EventSlot> existingEventSlots = _eventSlotRepository.GetAll(true, eventTypes).ToList();
                     existingEventSlots = existingEventSlots.Where(es => es.EventTypeId == eventType.Id && es.EventPageId == eventPage.Id).ToList();
                     if (existingEventSlots.Any(es => eventDates.Contains(es.Date) == false && es.EventParticipants.Count > 0))
                     {
@@ -92,7 +92,7 @@ namespace MSTC.Web.EventHandlers
                     }
 
                     var eventDates = GetEventDates(eventPage, true);
-                    List<EventSlot> existingEventSlots = _eventSlotRepository.GetAll(EventsFilter.FutureEvents, eventTypes).ToList();
+                    List<EventSlot> existingEventSlots = _eventSlotRepository.GetAll(true, eventTypes).ToList();
                     existingEventSlots = existingEventSlots.Where(es => es.EventTypeId == eventType.Id && es.EventPageId == eventPage.Id).ToList();                
 
                     var response = CreateUpdateEventSlots(existingEventSlots, eventType.Id, eventPage);
@@ -118,7 +118,7 @@ namespace MSTC.Web.EventHandlers
                     IPublishedContent eventPageContent = entity.ToPublishedContent();
                     var eventPage = new Event(eventPageContent);
                     
-                    List<EventSlot> existingEventSlots = _eventSlotRepository.GetAll(EventsFilter.FutureEvents, eventTypes).Where(es => es.EventPageId == eventPage.Id).ToList();
+                    List<EventSlot> existingEventSlots = _eventSlotRepository.GetAll(true, eventTypes).Where(es => es.EventPageId == eventPage.Id).ToList();
                     if (existingEventSlots.Any(es => es.EventParticipants.Count > 0))
                     {
                         string message = $"Unable to delete event page - existing bookings for event slots of type {eventPage.EventType}, please cancel the bookings through the Event Booking Admin page first.";
