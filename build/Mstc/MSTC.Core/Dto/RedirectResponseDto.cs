@@ -10,5 +10,7 @@ namespace Mstc.Core.Dto
     {
         public string Id { get; set; }
         public string RedirectUrl { get; set; }
+        public bool HasError => string.IsNullOrEmpty(Error) == false;
+        public string Error { get; set; }
     }
 }

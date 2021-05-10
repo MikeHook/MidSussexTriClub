@@ -5,6 +5,7 @@ using Mstc.Core.Dto;
 using Mstc.Core.Providers;
 using Umbraco.Core;
 using Umbraco.Core.Services;
+using Umbraco.Core.Logging;
 using Umbraco.Web.Mvc;
 
 namespace MSTC.Web.Controllers
@@ -16,6 +17,7 @@ namespace MSTC.Web.Controllers
         protected SessionProvider _sessionProvider;
         protected GoCardlessProvider _goCardlessProvider;
         protected MemberProvider _memberProvider;
+        protected ILogger _logger;
 
         public MandateController()
         {
@@ -23,6 +25,7 @@ namespace MSTC.Web.Controllers
             _goCardlessProvider = new GoCardlessProvider();
             _memberService = ApplicationContext.Current.Services.MemberService;
             _memberProvider = new MemberProvider(_memberService);
+            _logger = ApplicationContext.Current.ProfilingLogger.Logger;
         }
 
         [HttpGet]
@@ -59,8 +62,14 @@ namespace MSTC.Web.Controllers
             string rootUrl = string.Format("{0}://{1}{2}", Request.Url.Scheme, Request.Url.Host, Request.Url.Port == 80 ? string.Empty : ":" + Request.Url.Port);
             string mandateSuccessUrl = string.Format("{0}/payment?state={1}", rootUrl, state);
 
-            var redirectResponse = _goCardlessProvider.CreateRedirectRequest(customerDto, "Mid Sussex Tri Club DD Mandate Setup", _sessionProvider.SessionId,
-                mandateSuccessUrl);
+            var redirectResponse = _goCardlessProvider.CreateRedirectRequest(_logger, customerDto, "Mid Sussex Tri Club DD Mandate Setup", _sessionProvider.SessionId,
+                mandateSuccessUrl);            
+
+            if (redirectResponse.HasError)
+            {
+                ModelState.AddModelError("", redirectResponse.Error);
+                return View(true);
+            }
 
             _sessionProvider.GoCardlessRedirectFlowId = redirectResponse.Id;
             return Redirect(redirectResponse.RedirectUrl);

@@ -19,6 +19,15 @@
         <div class="row">
             <div class="col-sm-12">
                 <div class="row">
+                    @if (!ViewData.ModelState.IsValid)
+                    {
+                        <div class="help-block alert-danger">
+                            @Html.ValidationSummary()
+                        </div>
+
+                        <p>Please try your action again and <a href="/the-club/contact-us">contact support</a> if the issue recurs </p>
+                    }
+
                     @if (!Model)
                     {
                         <p>No pending payment request has been found.</p>
