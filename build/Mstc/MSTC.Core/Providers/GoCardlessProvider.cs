@@ -6,6 +6,7 @@ using GoCardless;
 using GoCardless.Exceptions;
 using GoCardless.Services;
 using Mstc.Core.Dto;
+using Newtonsoft.Json;
 
 namespace Mstc.Core.Providers
 {
@@ -24,31 +25,58 @@ namespace Mstc.Core.Providers
 		        environment);
 		}
 
-	    public RedirectResponseDto CreateRedirectRequest(CustomerDto customer, string description, string sessionToken, string successUrl)
+	    public RedirectResponseDto CreateRedirectRequest(Umbraco.Core.Logging.ILogger logger, CustomerDto customer, string description, string sessionToken, string successUrl)
 	    {
-	        var redirectFlowResponse =  _client.RedirectFlows.CreateAsync(new RedirectFlowCreateRequest()
-	        {
-	            Description = description,
-	            SessionToken = sessionToken,
-	            SuccessRedirectUrl = successUrl,
-	            // Optionally, prefill customer details on the payment page
-	            PrefilledCustomer = new RedirectFlowCreateRequest.RedirectFlowPrefilledCustomer()
-	            {
-	                GivenName = customer.GivenName,
-	                FamilyName = customer.FamilyName,
-	                Email = customer.Email,
-	                AddressLine1 = customer.AddressLine1,
-	                City = customer.City,
-	                PostalCode = customer.PostalCode
-	            }
-	        }).Result;
+			var request = new RedirectFlowCreateRequest()
+			{
+				Description = description,
+				SessionToken = sessionToken,
+				SuccessRedirectUrl = successUrl,
+				// Optionally, prefill customer details on the payment page
+				PrefilledCustomer = new RedirectFlowCreateRequest.RedirectFlowPrefilledCustomer()
+				{
+					GivenName = customer.GivenName,
+					FamilyName = customer.FamilyName,
+					Email = customer.Email,
+					AddressLine1 = customer.AddressLine1,
+					City = customer.City,
+					PostalCode = customer.PostalCode
+				}
+			};
+		
+			try
+			{
+				RedirectFlowResponse redirectFlowResponse = _client.RedirectFlows.CreateAsync(request).Result;
+				var redirectFlow = redirectFlowResponse.RedirectFlow;
+				return new RedirectResponseDto()
+				{
+					Id = redirectFlow.Id,
+					RedirectUrl = redirectFlow.RedirectUrl
+				};
+			}
+			catch (Exception ex)
+			{
+				string error = "GoCardless Error setting up mandate.";
+				logger.Error(typeof(GoCardlessProvider), string.Format(
+						$"Unable to CreateRedirectRequest for memberEmail: {customer.Email}, exception: {0}",
+						ex), ex);
 
-            var redirectFlow = redirectFlowResponse.RedirectFlow;
-            return new RedirectResponseDto()
-            {
-                Id = redirectFlow.Id,
-                RedirectUrl = redirectFlow.RedirectUrl
-            };
+				var exception = ex.InnerException as ApiException;
+				if (exception != null)
+				{
+					if (exception.ApiErrorResponse != null) 
+					{
+						string apiError = JsonConvert.SerializeObject(exception.ApiErrorResponse);
+						error = $"GoCardless Error setting up mandate - {exception.ApiErrorResponse.Error.Message}";
+						logger.Error(typeof(GoCardlessProvider), string.Format($"GoCardless Error: {0}", apiError), exception);
+					} 
+					else
+					{
+						logger.Error(typeof(GoCardlessProvider), "GoCardless Error", exception);
+					}
+				}
+				return new RedirectResponseDto() { Error = error };
+			}			
         }
 
 	    public string CompleteRedirectRequest(string requestId, string sessionToken)

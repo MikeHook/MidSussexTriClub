@@ -83,8 +83,14 @@ namespace MSTC.Web.Controllers
                 Request.Url.Port == 80 ? string.Empty : ":" + Request.Url.Port);
             string successUrl = string.Format("{0}/the-club/confirm-registration", rootUrl);
 
-            var redirectResponse = _goCardlessProvider.CreateRedirectRequest(customerDto, "MSTC Member Registration", _sessionProvider.SessionId,
+            var redirectResponse = _goCardlessProvider.CreateRedirectRequest(Logger, customerDto, "MSTC Member Registration", _sessionProvider.SessionId,
                 successUrl);
+
+            if (redirectResponse.HasError)
+            {
+                ModelState.AddModelError("", redirectResponse.Error);
+                return CurrentUmbracoPage();
+            }
 
             _sessionProvider.GoCardlessRedirectFlowId = redirectResponse.Id;
             return Redirect(redirectResponse.RedirectUrl);
