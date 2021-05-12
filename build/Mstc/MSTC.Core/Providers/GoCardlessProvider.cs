@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Linq;
 using System.Net;
 using GoCardless;
 using GoCardless.Exceptions;
@@ -73,9 +74,10 @@ namespace Mstc.Core.Providers
 
 					if (apiException != null)
 					{
-						error = $"GoCardless Error setting up mandate - {string.Join(",", apiException?.Errors)}";
-						logger.Error(typeof(GoCardlessProvider), error, apiException);
-						logger.Error(typeof(GoCardlessProvider), apiException.ToString(), apiException);
+						var errors = JsonConvert.SerializeObject(apiException?.Errors);
+						error = $"GoCardless Error setting up mandate - {errors}";
+						logger.Warn(typeof(GoCardlessProvider), errors);		
+						logger.Error(typeof(GoCardlessProvider), JsonConvert.SerializeObject(apiException), apiException);
 					}
 					else
 					{
