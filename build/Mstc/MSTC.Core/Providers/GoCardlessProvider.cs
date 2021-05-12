@@ -43,7 +43,12 @@ namespace Mstc.Core.Providers
 					PostalCode = customer.PostalCode
 				}
 			};
-		
+
+			return TryCreateRedirectRequest(logger, customer, request);
+		}
+
+		public RedirectResponseDto TryCreateRedirectRequest(Umbraco.Core.Logging.ILogger logger, CustomerDto customer, RedirectFlowCreateRequest request)
+		{
 			try
 			{
 				RedirectFlowResponse redirectFlowResponse = _client.RedirectFlows.CreateAsync(request).Result;
@@ -61,25 +66,36 @@ namespace Mstc.Core.Providers
 						$"Unable to CreateRedirectRequest for memberEmail: {customer.Email}, exception: {0}",
 						ex), ex);
 
-				var exception = ex.InnerException as ApiException;
+				var exception = ex.InnerException;
 				if (exception != null)
 				{
-					if (exception.ApiErrorResponse != null) 
+					var apiException = exception as ApiException;
+
+					if (apiException != null)
 					{
-						string apiError = JsonConvert.SerializeObject(exception.ApiErrorResponse);
-						error = $"GoCardless Error setting up mandate - {exception.ApiErrorResponse.Error.Message}";
-						logger.Error(typeof(GoCardlessProvider), string.Format($"GoCardless Error: {0}", apiError), exception);
-					} 
+						error = $"GoCardless Error setting up mandate - {string.Join(",", apiException?.Errors)}";
+						logger.Error(typeof(GoCardlessProvider), error, apiException);
+						logger.Error(typeof(GoCardlessProvider), apiException.ToString(), apiException);
+					}
 					else
 					{
-						logger.Error(typeof(GoCardlessProvider), "GoCardless Error", exception);
+						logger.Error(typeof(GoCardlessProvider), $"GoCardless Error: {exception.ToString()}", exception);
 					}
 				}
-				return new RedirectResponseDto() { Error = error };
-			}			
-        }
 
-	    public string CompleteRedirectRequest(string requestId, string sessionToken)
+				if (request.PrefilledCustomer != null)
+				{
+					request.PrefilledCustomer = null;
+					return TryCreateRedirectRequest(logger, customer, request);
+				}
+				else
+				{
+					return new RedirectResponseDto() { Error = error };
+				}
+			}
+		}
+
+		public string CompleteRedirectRequest(string requestId, string sessionToken)
 	    {
 	        var redirectFlowResponse = _client.RedirectFlows
 	            .CompleteAsync(requestId,
