@@ -1,0 +1,53 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<Mstc.Core.Domain.RegistrationDetails>
+@{
+
+}
+
+<div class="member-options">
+    <div class="form-group">
+        <h3 class="col-sm-12">Guest options</h3>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label"><b>Signup code</b></label>
+        <div class="col-sm-7">
+            @Html.TextBoxFor(m => m.MemberOptions.GuestCode, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.MemberOptions.GuestCode, "Please enter the signup code", new { @class = "help-block alert-danger" })
+        </div>
+    </div>
+ 
+    @if (Model.MemberOptions.ShowOwsSignup)
+    {
+    <div class="form-group">
+        @Html.LabelFor(m => m.MemberOptions.OpenWaterIndemnityAcceptance, new { @class = "col-sm-2 control-label" })
+        <div class="col-sm-10">
+            <p><a href="/training-zone/open-water-swim-sessions.aspx" target="_blank">Click here to review the OWS Safety Video and Guidelines</a></p>
+            <p><a href="http://midsussextriclub.com/media/47452/MSTCIndemnityWaiver.pdf" target="_blank">Click here to view the Open Water Swimming Indemnity Document</a></p>
+
+            <span class="radio">
+                @foreach (var option in Model.MemberOptions.IndemnityOptions)
+                {
+                    @Html.RadioButtonFor(m => m.MemberOptions.OpenWaterIndemnityAcceptance, option.Item1, new { id = $"indemnity-{option.Item1}" })
+                    <label for="indemnity-@option.Item1.ToString()">@Html.Raw(option.Item2)</label>
+                    <br />
+                }
+            </span>
+            @Html.ValidationMessageFor(m => m.MemberOptions.OpenWaterIndemnityAcceptance, "Please select your open water indemnity waiver response", new { @class = "help-block alert-danger" })
+        </div>
+    </div>
+    } else
+    {
+        @Html.HiddenFor(m => m.MemberOptions.OpenWaterIndemnityAcceptance, new { Value="false"});
+    }    
+    <div class="form-group">
+        <label class="col-sm-2 control-label"><b>Personal data</b></label>
+        <div class="col-sm-10">
+            <p class="form-control-static">
+                In becoming a guest of Mid Sussex Triathlon Club ("the Club"), the Club will collect certain
+                personal information about you. This data will be used for the purposes of administration of Club
+                membership, Club management, sending communications to you about the Club, and administration
+                of training sessions and club competitions. Further details can be found in the Club's
+                <a href="https://midsussextriclub.com/media/69408/mstcprivacypolicymay2018.pdf" target="_blank">privacy statement and policy</a>.
+            </p>
+        </div>
+    </div>
+</div>

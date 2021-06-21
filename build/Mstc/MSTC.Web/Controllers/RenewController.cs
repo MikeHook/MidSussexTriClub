@@ -32,9 +32,10 @@ namespace MSTC.Web.Controllers
 
             var membershipType = member.GetValue<MembershipTypeEnum>(MemberProperty.membershipType);
 
-            var model = new RegistrationDetails(_membershipCostCalculator);            
-            model.MemberOptions.IsRenewing = membershipType != MembershipTypeEnum.Guest;
-            model.MemberOptions.IsUpgrading = membershipType == MembershipTypeEnum.Guest;            
+            bool isGuest = membershipType == MembershipTypeEnum.Guest;
+            var model = new RegistrationDetails(_membershipCostCalculator, isGuest);            
+            model.MemberOptions.IsRenewing = !isGuest;
+            model.MemberOptions.IsUpgrading = isGuest;            
 
             return PartialView("Registration/MemberOptions", model);
         }

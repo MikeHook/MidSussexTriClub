@@ -1000,6 +1000,7 @@
     <Content Include="scripts\mstc\toastr.js.map" />
     <Content Include="Umbraco\Plugins\cmsimport\config\cmsImport.config" />
     <Content Include="Umbraco\Plugins\cmsimport\config\CMSImportScheduler.Config" />
+    <Content Include="Views\Partials\Registration\GuestOptions.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

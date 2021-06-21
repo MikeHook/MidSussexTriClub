@@ -32,7 +32,14 @@
 
 					Html.RenderAction("PersonalDetails", "Registration");
 
-					Html.RenderAction("MemberOptions", "Registration");
+					if (Model.Content.IsGuest)
+                    {
+                        Html.RenderAction("GuestOptions", "Registration");
+                    } 
+					else
+                    {
+						Html.RenderAction("MemberOptions", "Registration");
+                    }
 
 					<div class="form-group">
 						<div class="col-sm-2"></div>
