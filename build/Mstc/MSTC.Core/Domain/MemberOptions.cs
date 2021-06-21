@@ -14,14 +14,14 @@ namespace Mstc.Core.Domain
 			IndemnityOptions = new List<Tuple<bool, string>>();
 		}
 
-		public MemberOptions(MembershipCostCalculator membershipCostCalculator)
+		public MemberOptions(MembershipCostCalculator membershipCostCalculator, bool isGuest)
 		{
 			MembershipTypes = membershipCostCalculator.MembershipTypes;
-			string owsSignupText = $"I wish to take part in open water swimming - " +
-				$"£{membershipCostCalculator.OwsSignupCostPence / 100} signup fee.<br />" +
+			string owsSignupText = $"I wish to take part in open water swimming" +
+				(isGuest ? ".<br/>" : $" - £{membershipCostCalculator.OwsSignupCostPence / 100} signup fee.<br />") +
 				$"I have reviewed the safety video, read and understand the spotter/kayak guidelines and the " +
-				$"open water swimming indemnity document.<br />I agree to and accept the terms without qualification " +
-				$"and agree to be included in the duty rota for the safety team by attending sessions as a spotter or kayaker.";
+				$"open water swimming indemnity document.<br />I agree to and accept the terms without qualification" +
+				(isGuest ? "." : $" and agree to be included in the duty rota for the safety team by attending sessions as a spotter or kayaker.");
 			IndemnityOptions = new List<Tuple<bool, string>>()
 			{
 				new Tuple<bool, string>(true, owsSignupText	),

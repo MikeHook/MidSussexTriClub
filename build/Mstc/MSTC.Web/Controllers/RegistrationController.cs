@@ -34,7 +34,7 @@ namespace MSTC.Web.Controllers
             _memberProvider = new MemberProvider(Services);
             _membershipCostCalculator = new MembershipCostCalculator();
         
-            _model = new RegistrationDetails(_membershipCostCalculator);
+            _model = new RegistrationDetails(_membershipCostCalculator, false);
         }
 
         [AcceptVerbs(HttpVerbs.Post | HttpVerbs.Get)]
@@ -47,7 +47,14 @@ namespace MSTC.Web.Controllers
         public ActionResult MemberOptions()
         {
             return PartialView("Registration/MemberOptions", _model);
-        }      
+        }
+
+        [AcceptVerbs(HttpVerbs.Post | HttpVerbs.Get)]
+        public ActionResult GuestOptions()
+        {
+            _model = new RegistrationDetails(_membershipCostCalculator, true);
+            return PartialView("Registration/GuestOptions", _model);
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]

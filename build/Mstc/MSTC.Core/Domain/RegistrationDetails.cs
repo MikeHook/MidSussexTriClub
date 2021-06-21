@@ -13,10 +13,10 @@ namespace Mstc.Core.Domain
 			MemberOptions = new MemberOptions();
 		}
 
-		public RegistrationDetails(MembershipCostCalculator membershipCostCalculator)
+		public RegistrationDetails(MembershipCostCalculator membershipCostCalculator, bool isGuest)
 		{
 			PersonalDetails = new PersonalDetails();
-			MemberOptions = new MemberOptions(membershipCostCalculator);
+			MemberOptions = new MemberOptions(membershipCostCalculator, isGuest);
 
 			IsDiscounted = membershipCostCalculator.DiscountedMonths.Contains(DateTime.Now.Month); ;
 		}		

@@ -17,10 +17,10 @@ namespace Mstc.Core.Providers
 		public MembershipCostCalculator()
 		{
 			UmbracoHelper umbracoHelper = new UmbracoHelper(UmbracoContext.Current);
-			var memberRegistrationContent = umbracoHelper?.TypedContentAtRoot().DescendantsOrSelf(MemberRegistration.ModelTypeAlias).FirstOrDefault();
-			if (memberRegistrationContent != null)
+			var memberRegistrations = umbracoHelper?.TypedContentAtRoot().DescendantsOrSelf(MemberRegistration.ModelTypeAlias).Select(m => new MemberRegistration(m));
+			if (memberRegistrations != null && memberRegistrations.Any())
 			{
-				_memberRegistration = new MemberRegistration(memberRegistrationContent);
+				_memberRegistration = memberRegistrations.FirstOrDefault(m => m.IsGuest == false);
 			}
 		}
 
