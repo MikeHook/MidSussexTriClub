@@ -82,30 +82,12 @@ namespace Mstc.Core.ContentModels
 		}
 
 		///<summary>
-		/// Guest Codes
-		///</summary>
-		[ImplementPropertyType("guestCodes")]
-		public IEnumerable<string> GuestCodes
-		{
-			get { return this.GetPropertyValue<IEnumerable<string>>("guestCodes"); }
-		}
-
-		///<summary>
 		/// Individual Member Cost: Individual Member Cost in Pounds
 		///</summary>
 		[ImplementPropertyType("individualMemberCost")]
 		public decimal IndividualMemberCost
 		{
 			get { return this.GetPropertyValue<decimal>("individualMemberCost"); }
-		}
-
-		///<summary>
-		/// Is Guest
-		///</summary>
-		[ImplementPropertyType("isGuest")]
-		public bool IsGuest
-		{
-			get { return this.GetPropertyValue<bool>("isGuest"); }
 		}
 
 		///<summary>

@@ -168,6 +168,7 @@ namespace MSTC.Web.EventHandlers
                 slot.Cost = eventPage.Cost;
                 slot.IndemnityWaiverDocumentLink = eventPage.IndemnityWaiver?.Url;
                 slot.CovidDocumentLink = eventPage.CovidHealthDeclaration?.Url;
+                slot.IsGuestEvent = eventPage.IsGuestEvent;
                 slot.SetDisances(eventPage.RaceDistances);
                 _eventSlotRepository.Update(slot);
             }   
@@ -211,7 +212,8 @@ namespace MSTC.Web.EventHandlers
                 Cost = eventPage.Cost,
                 MaxParticipants = eventPage.MaximumParticipants,
                 IndemnityWaiverDocumentLink = eventPage.IndemnityWaiver?.Url,
-                CovidDocumentLink = eventPage.CovidHealthDeclaration?.Url
+                CovidDocumentLink = eventPage.CovidHealthDeclaration?.Url,
+                IsGuestEvent = eventPage.IsGuestEvent
             };
             eventSlot.SetDisances(eventPage.RaceDistances);
             _eventSlotRepository.Create(eventSlot);            

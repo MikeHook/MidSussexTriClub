@@ -262,6 +262,7 @@
     <Compile Include="ContentModels\File.generated.cs" />
     <Compile Include="ContentModels\Folder.generated.cs" />
     <Compile Include="ContentModels\ForgotPassword.generated.cs" />
+    <Compile Include="ContentModels\GuestRegistration.generated.cs" />
     <Compile Include="ContentModels\Home.generated.cs" />
     <Compile Include="ContentModels\Image.generated.cs" />
     <Compile Include="ContentModels\Login.generated.cs" />
@@ -282,6 +283,7 @@
     <Compile Include="DataAccess\DataConnection.cs" />
     <Compile Include="DataAccess\EventParticipantRepository.cs" />
     <Compile Include="DataAccess\EventSlotRepository.cs" />
+    <Compile Include="Domain\GuestOptions.cs" />
     <Compile Include="Domain\MemberOptions.cs" />
     <Compile Include="Domain\PersonalDetails.cs" />
     <Compile Include="Domain\RecurringFrequencyEnum.cs" />
