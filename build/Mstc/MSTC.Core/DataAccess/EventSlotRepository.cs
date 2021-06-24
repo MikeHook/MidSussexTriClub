@@ -31,6 +31,7 @@ namespace Mstc.Core.DataAccess
                                       ,[Distances]
                                       ,[IndemnityWaiverDocumentLink]
                                       ,[CovidDocumentLink]
+                                      ,[IsGuestEvent]
                                   FROM [dbo].[EventSlot] ";
 
         private readonly IDataConnection _dataConnection;
@@ -84,7 +85,8 @@ namespace Mstc.Core.DataAccess
                                            ,[MaxParticipants]
                                            ,[Distances]
                                            ,[IndemnityWaiverDocumentLink]
-                                           ,[CovidDocumentLink])
+                                           ,[CovidDocumentLink]
+                                           ,[IsGuestEvent])
                                         OUTPUT Inserted.Id
                                         VALUES
                                            (@EventTypeId
@@ -94,7 +96,8 @@ namespace Mstc.Core.DataAccess
                                            ,@MaxParticipants
                                            ,@Distances
                                            ,@IndemnityWaiverDocumentLink
-                                           ,@CovidDocumentLink)";
+                                           ,@CovidDocumentLink
+                                           ,@IsGuestEvent)";
 
 
             using (IDbConnection connection = _dataConnection.SqlConnection)
@@ -113,6 +116,7 @@ namespace Mstc.Core.DataAccess
                                         ,[Distances] = @Distances
                                         ,[IndemnityWaiverDocumentLink] = @IndemnityWaiverDocumentLink
                                         ,[CovidDocumentLink] = @CovidDocumentLink
+                                        ,[IsGuestEvent] = @IsGuestEvent
                                     WHERE Id = @Id";
             using (IDbConnection connection = _dataConnection.SqlConnection)
             {
@@ -123,7 +127,8 @@ namespace Mstc.Core.DataAccess
                     MaxParticipants = slot.MaxParticipants,
                     Distances = slot.Distances,
                     IndemnityWaiverDocumentLink = slot.IndemnityWaiverDocumentLink,
-                    CovidDocumentLink = slot.CovidDocumentLink
+                    CovidDocumentLink = slot.CovidDocumentLink,
+                    IsGuestEvent = slot.IsGuestEvent
                 });
             }
         }

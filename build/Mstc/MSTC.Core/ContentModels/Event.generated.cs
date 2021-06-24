@@ -91,6 +91,15 @@ namespace Mstc.Core.ContentModels
 		}
 
 		///<summary>
+		/// Is Guest Event
+		///</summary>
+		[ImplementPropertyType("isGuestEvent")]
+		public bool IsGuestEvent
+		{
+			get { return this.GetPropertyValue<bool>("isGuestEvent"); }
+		}
+
+		///<summary>
 		/// Maximum Participants
 		///</summary>
 		[ImplementPropertyType("maximumParticipants")]

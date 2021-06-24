@@ -4,27 +4,34 @@
     var model = TempData["Model"] != null ? TempData["Model"] as MSTC.Web.Model.RegistrationCompleteModel : Model;
 }
 
-    @if (model.PromptForConfirmation)
+@if (model.PromptForConfirmation)
+{
+
+    using (Html.BeginUmbracoForm("ConfirmPayment", "Registration", FormMethod.Post, new { id = "register", @class = "form-horizontal" }))
     {
+        @Html.AntiForgeryToken()
 
-        using (Html.BeginUmbracoForm("ConfirmPayment", "Registration", FormMethod.Post, new { id = "register", @class = "form-horizontal" }))
-        {
-            @Html.AntiForgeryToken()
-
-            <p>Your selected membership options:</p>
-            <p><strong>@Html.Raw(model.PaymentDescription)</strong></p>
-            <p>Would like to register for Mid Sussex Tri Club for <strong>£@(model.Cost)?</strong></p>
-            <button name="confirm" type="submit" class="btn btn-yellow pull-right">Confirm Payment</button>
-        }
-
+        <p>Your selected membership options:</p>
+        <p><strong>@Html.Raw(model.PaymentDescription)</strong></p>
+        <p>Would like to register for Mid Sussex Tri Club for <strong>£@(model.Cost)?</strong></p>
+        <button name="confirm" type="submit" class="btn btn-yellow pull-right">Confirm Payment</button>
     }
-    else if (model.IsRegistered)
-    {
-        <p>Thank you for registering with the Mid Sussex Tri Club! We have setup a payment for £@(model.Cost)</p>
 
-        <p>Please go to <a href="/members-area/my-details">your details page</a> to make sure your information is up to date.</p>
+}
+else if (model.IsRegistered)
+{
+    if (string.IsNullOrEmpty(model.Cost))
+    {
+        <p>Thank you for registering with the Mid Sussex Tri Club!</p>
     }
     else
     {
-        <p>Sorry, there has been a problem completing your registration. Please <a href="the-club/contact-us.aspx">send us a message</a> for further assistance </p>
+        <p>Thank you for registering with the Mid Sussex Tri Club! We have setup a payment for £@(model.Cost)</p>
     }
+
+    <p>Please go to <a href="/members-area/my-details">your details page</a> to make sure your information is up to date.</p>
+}
+else
+{
+    <p>Sorry, there has been a problem completing your registration. Please <a href="the-club/contact-us.aspx">send us a message</a> for further assistance </p>
+}

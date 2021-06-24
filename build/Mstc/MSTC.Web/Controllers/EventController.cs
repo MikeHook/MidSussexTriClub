@@ -11,7 +11,7 @@ using Umbraco.Core.Models;
 
 namespace MSTC.Web.Controllers
 {
-	[MemberAuthorize(AllowGroup = "Member")]
+	[MemberAuthorize(AllowGroup = "Member,Guest")]
 	public class EventController : UmbracoApiController
     {
 		DataTypeProvider _dataTypeProvider;
@@ -33,11 +33,15 @@ namespace MSTC.Web.Controllers
         {
 			try
 			{
+				var member = _memberProvider.GetLoggedInMember();
+				var memberType = member.GetValue<MembershipTypeEnum>(MemberProperty.membershipType);
+				var isGuest = memberType == MembershipTypeEnum.Guest;
+
 				List<EventType> eventTypes = _dataTypeProvider.GetEventTypes();
 				var eventSlots = _eventSlotRepository.GetAll(futureEventsOnly, eventTypes);
 				foreach(var eventType in eventTypes)
 				{
-					eventType.EventSlots = eventSlots.Where(es => es.EventTypeId == eventType.Id).ToList();
+					eventType.EventSlots = eventSlots.Where(es => es.EventTypeId == eventType.Id && es.IsGuestEvent == isGuest).ToList();
 				}
 
 				return withSlotsOnly ?  eventTypes.Where(e => e.EventSlots.Any()) : eventTypes;			
@@ -168,7 +172,7 @@ namespace MSTC.Web.Controllers
 		public EventResponse CancelEventSlot(CancelEventRequest model)
 		{
 			var response = new EventResponse();
-			var loggedInmember = _memberProvider.GetLoggedInMember();
+			IMember loggedInmember = _memberProvider.GetLoggedInMember();
 			if (loggedInmember == null)
 			{
 				Logger.Warn(typeof(EventController), "Unable to find logged in member record.");

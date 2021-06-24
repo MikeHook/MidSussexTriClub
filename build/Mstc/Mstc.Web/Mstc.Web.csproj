@@ -848,6 +848,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\JSNLogConfig.cs" />
+    <Compile Include="Controllers\GuestRegistrationController.cs" />
     <Compile Include="Model\DateTimeModelBinder.cs" />
     <Compile Include="Controllers\ICalController.cs" />
     <Compile Include="EventHandlers\ApplicationEventHandler.cs" />
@@ -1001,6 +1002,7 @@
     <Content Include="Umbraco\Plugins\cmsimport\config\cmsImport.config" />
     <Content Include="Umbraco\Plugins\cmsimport\config\CMSImportScheduler.Config" />
     <Content Include="Views\Partials\Registration\GuestOptions.cshtml" />
+    <Content Include="Views\GuestRegistration.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

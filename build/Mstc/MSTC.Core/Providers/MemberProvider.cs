@@ -86,13 +86,13 @@ namespace Mstc.Core.Providers
 			return member;
 		}
 
-		public void UpdateMemberDetails(IMember member, RegistrationDetails regDetails)
+		public void UpdateMemberDetails(IMember member, PersonalDetails personalDetails, MemberOptions memberOptions)
 		{
-			SetMemberDetails(member, regDetails.PersonalDetails);
+			SetMemberDetails(member, personalDetails);
 			var membershipExpiry = GetNewMemberExpiry(DateTime.Now);
 			bool zeroSwimCredits = true;			
 
-			SetMembershipOptions(member, regDetails.MemberOptions, membershipExpiry, zeroSwimCredits);
+			SetMembershipOptions(member, memberOptions, membershipExpiry, zeroSwimCredits);
 
 			_memberService.Save(member);
 		}

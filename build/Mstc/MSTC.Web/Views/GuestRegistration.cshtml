@@ -1,5 +1,4 @@
-﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage<MemberRegistration>
-
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage<GuestRegistration>
 @{
 	Layout = "Master.cshtml";
 }
@@ -17,16 +16,22 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-sm-12">				
+			<div class="col-sm-12">
+				@if (!ViewData.ModelState.IsValid)
+				{
+					<div class="help-block alert-danger">
+						@Html.ValidationSummary()
+					</div>
+				}
 
-				@using (Html.BeginUmbracoForm("Register", "Registration", FormMethod.Post, new { id = "register", @class = "form-horizontal" }))
+				@using (Html.BeginUmbracoForm("Register", "GuestRegistration", FormMethod.Post, new { id = "register", @class = "form-horizontal" }))
 				{
 
 					@Html.AntiForgeryToken();
 
-					Html.RenderAction("PersonalDetails", "Registration");
-
-					Html.RenderAction("MemberOptions", "Registration");                    
+					Html.RenderAction("PersonalDetails", "GuestRegistration");
+					
+					Html.RenderAction("GuestOptions", "GuestRegistration");					
 
 					<div class="form-group">
 						<div class="col-sm-2"></div>
@@ -49,7 +54,3 @@
 			});
 		});</script>
 }
-
-
-
-

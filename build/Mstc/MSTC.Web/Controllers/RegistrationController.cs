@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Web.Mvc;
 using System.Web.Security;
+using Mstc.Core.ContentModels;
 using Mstc.Core.Domain;
 using Mstc.Core.Dto;
 using Mstc.Core.Providers;
@@ -21,9 +22,7 @@ namespace MSTC.Web.Controllers
         protected GoCardlessProvider _goCardlessProvider;
         EmailProvider _emailProvider;
         MemberProvider _memberProvider;
-        MembershipCostCalculator _membershipCostCalculator;
-
-        RegistrationDetails _model;
+        MembershipCostCalculator _membershipCostCalculator;  
 
         public RegistrationController( )
         {
@@ -33,46 +32,38 @@ namespace MSTC.Web.Controllers
             _emailProvider = new EmailProvider();
             _memberProvider = new MemberProvider(Services);
             _membershipCostCalculator = new MembershipCostCalculator();
-        
-            _model = new RegistrationDetails(_membershipCostCalculator, false);
         }
 
         [AcceptVerbs(HttpVerbs.Post | HttpVerbs.Get)]
         public ActionResult PersonalDetails()
         {
-            return PartialView("Registration/PersonalDetails", _model);
+            return PartialView("Registration/PersonalDetails", new PersonalDetails());
         }
 
         [AcceptVerbs(HttpVerbs.Post | HttpVerbs.Get)]
         public ActionResult MemberOptions()
         {
-            return PartialView("Registration/MemberOptions", _model);
-        }
-
-        [AcceptVerbs(HttpVerbs.Post | HttpVerbs.Get)]
-        public ActionResult GuestOptions()
-        {
-            _model = new RegistrationDetails(_membershipCostCalculator, true);
-            return PartialView("Registration/GuestOptions", _model);
+            return PartialView("Registration/MemberOptions", new MemberOptions(_membershipCostCalculator));
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Register(RegistrationDetails model)
+        public ActionResult Register(MemberOptions memberOptions, PersonalDetails personalDetails)
         {
             if (!ModelState.IsValid)
             {
                 return CurrentUmbracoPage();
             }
 
-            var member = Services.MemberService.GetByEmail(model.PersonalDetails.Email);
+            var member = Services.MemberService.GetByEmail(personalDetails.Email);
 
             if (member != null)
             {
-                ModelState.AddModelError("PersonalDetails.Email", "There is already a member registered with the supplied email address.");
+                ModelState.AddModelError("Email", "There is already a member registered with the supplied email address.");
                 return CurrentUmbracoPage();
-            }        
+            }
 
+            var model = new RegistrationDetails() { PersonalDetails = personalDetails, MemberOptions = memberOptions };
             _sessionProvider.RegistrationDetails = model;
 
             Logger.Info(typeof(RegistrationController), $"New member registration request: {JsonConvert.SerializeObject(model)}");     
@@ -149,7 +140,7 @@ namespace MSTC.Web.Controllers
             if (model.IsRegistered)
             {                
                 var member = _memberProvider.CreateMember(regDetails, new string[] { MSTCRoles.Member });
-                _memberProvider.UpdateMemberDetails(member, registrationDetails);
+                _memberProvider.UpdateMemberDetails(member, registrationDetails.PersonalDetails, registrationDetails.MemberOptions);
 
                 //Login the member
                 FormsAuthentication.SetAuthCookie(member.Username, true);          

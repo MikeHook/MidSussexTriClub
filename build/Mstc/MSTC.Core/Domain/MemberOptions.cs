@@ -14,14 +14,14 @@ namespace Mstc.Core.Domain
 			IndemnityOptions = new List<Tuple<bool, string>>();
 		}
 
-		public MemberOptions(MembershipCostCalculator membershipCostCalculator, bool isGuest)
-		{
+		public MemberOptions(MembershipCostCalculator membershipCostCalculator)
+		{	
 			MembershipTypes = membershipCostCalculator.MembershipTypes;
 			string owsSignupText = $"I wish to take part in open water swimming" +
-				(isGuest ? ".<br/>" : $" - £{membershipCostCalculator.OwsSignupCostPence / 100} signup fee.<br />") +
+				$" - £{membershipCostCalculator.OwsSignupCostPence / 100} signup fee.<br />" +
 				$"I have reviewed the safety video, read and understand the spotter/kayak guidelines and the " +
 				$"open water swimming indemnity document.<br />I agree to and accept the terms without qualification" +
-				(isGuest ? "." : $" and agree to be included in the duty rota for the safety team by attending sessions as a spotter or kayaker.");
+				$" and agree to be included in the duty rota for the safety team by attending sessions as a spotter or kayaker.";
 			IndemnityOptions = new List<Tuple<bool, string>>()
 			{
 				new Tuple<bool, string>(true, owsSignupText	),
@@ -36,7 +36,11 @@ namespace Mstc.Core.Domain
 			SwimSubsCost = membershipCostCalculator.SwimsSubsCostInPence(MembershipTypeEnum.Individual) / 100;
 			EnglandAthleticsCost = membershipCostCalculator.EnglandAthleticsCostInPence / 100;
 			OwsSignupCost = membershipCostCalculator.OwsSignupCostPence / 100;
+
+			IsDiscounted = membershipCostCalculator.DiscountedMonths.Contains(DateTime.Now.Month);
 		}
+
+		public bool IsDiscounted { get; set; }
 
 		public bool IsRenewing { get; set; }
 		public bool IsUpgrading { get; set; }

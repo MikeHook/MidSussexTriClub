@@ -1,4 +1,4 @@
-﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<Mstc.Core.Domain.RegistrationDetails>
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<Mstc.Core.Domain.GuestOptions>
 @{
 
 }
@@ -10,33 +10,33 @@
     <div class="form-group">
         <label class="col-sm-2 control-label"><b>Signup code</b></label>
         <div class="col-sm-7">
-            @Html.TextBoxFor(m => m.MemberOptions.GuestCode, new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.MemberOptions.GuestCode, "Please enter the signup code", new { @class = "help-block alert-danger" })
+            @Html.TextBoxFor(m => m.GuestCode, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.GuestCode, "The guest code does not match any available codes.", new { @class = "help-block alert-danger" })
         </div>
     </div>
  
-    @if (Model.MemberOptions.ShowOwsSignup)
+    @if (Model.ShowOwsSignup)
     {
     <div class="form-group">
-        @Html.LabelFor(m => m.MemberOptions.OpenWaterIndemnityAcceptance, new { @class = "col-sm-2 control-label" })
+        @Html.LabelFor(m => m.OpenWaterIndemnityAcceptance, new { @class = "col-sm-2 control-label" })
         <div class="col-sm-10">
             <p><a href="/training-zone/open-water-swim-sessions.aspx" target="_blank">Click here to review the OWS Safety Video and Guidelines</a></p>
             <p><a href="http://midsussextriclub.com/media/47452/MSTCIndemnityWaiver.pdf" target="_blank">Click here to view the Open Water Swimming Indemnity Document</a></p>
 
             <span class="radio">
-                @foreach (var option in Model.MemberOptions.IndemnityOptions)
+                @foreach (var option in Model.IndemnityOptions)
                 {
-                    @Html.RadioButtonFor(m => m.MemberOptions.OpenWaterIndemnityAcceptance, option.Item1, new { id = $"indemnity-{option.Item1}" })
+                    @Html.RadioButtonFor(m => m.OpenWaterIndemnityAcceptance, option.Item1, new { id = $"indemnity-{option.Item1}" })
                     <label for="indemnity-@option.Item1.ToString()">@Html.Raw(option.Item2)</label>
                     <br />
                 }
             </span>
-            @Html.ValidationMessageFor(m => m.MemberOptions.OpenWaterIndemnityAcceptance, "Please select your open water indemnity waiver response", new { @class = "help-block alert-danger" })
+            @Html.ValidationMessageFor(m => m.OpenWaterIndemnityAcceptance, "Please select your open water indemnity waiver response", new { @class = "help-block alert-danger" })
         </div>
     </div>
     } else
     {
-        @Html.HiddenFor(m => m.MemberOptions.OpenWaterIndemnityAcceptance, new { Value="false"});
+        @Html.HiddenFor(m => m.OpenWaterIndemnityAcceptance, new { Value="false"});
     }    
     <div class="form-group">
         <label class="col-sm-2 control-label"><b>Personal data</b></label>
