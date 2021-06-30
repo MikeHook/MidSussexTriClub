@@ -3,7 +3,9 @@
     <div id="training-section" class="form-horizontal">
         <h2>Training and Events</h2>
 
-        @using (Html.BeginUmbracoForm("CreditsPaymentRedirect", "MemberEdit", FormMethod.Post))
+    @if (Model.IsTrainingCreditsEnabled)
+    {
+        using (Html.BeginUmbracoForm("CreditsPaymentRedirect", "MemberEdit", FormMethod.Post))
         {
             @Html.AntiForgeryToken()
             <div class="row">
@@ -27,6 +29,7 @@
                 </div>
             </div>
         }
+    }
 
         <div class="form-group">
             <div class="col-sm-12">
