@@ -63,7 +63,7 @@ namespace MSTC.Web.Controllers
         [AcceptVerbs(HttpVerbs.Post | HttpVerbs.Get)]
         public ActionResult MemberOptions()
         {
-            var memberEditPage = CurrentPage as MemberEdit;
+            var memberEditPage = CurrentPage as MemberEdit;            
 
             IMember member = _memberProvider.GetLoggedInMember();
             var model = new MemberOptionsModel();
@@ -121,6 +121,9 @@ namespace MSTC.Web.Controllers
             {
                 model.EventBookingPageUrl = memberEditPage.EventBookingPage?.Url;
                 model.CurrentTrainingCredits = member.GetValue<int>(MemberProperty.TrainingCredits);
+                var memberType = member.GetValue<MembershipTypeEnum>(MemberProperty.membershipType);
+                var isGuest = memberType == MembershipTypeEnum.Guest;
+                model.IsTrainingCreditsEnabled = !isGuest || memberEditPage.GuestTrainingCreditsEnabled;
             }
 
             return PartialView("Member/TrainingCredits", model);

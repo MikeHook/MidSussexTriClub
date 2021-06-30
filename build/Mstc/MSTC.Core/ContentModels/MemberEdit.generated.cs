@@ -64,6 +64,15 @@ namespace Mstc.Core.ContentModels
 		}
 
 		///<summary>
+		/// Guest Training Credits Enabled
+		///</summary>
+		[ImplementPropertyType("guestTrainingCreditsEnabled")]
+		public bool GuestTrainingCreditsEnabled
+		{
+			get { return this.GetPropertyValue<bool>("guestTrainingCreditsEnabled"); }
+		}
+
+		///<summary>
 		/// Indemnity Waiver Doc
 		///</summary>
 		[ImplementPropertyType("indemnityWaiverDoc")]
@@ -88,15 +97,6 @@ namespace Mstc.Core.ContentModels
 		public bool OWsenabled
 		{
 			get { return this.GetPropertyValue<bool>("oWSEnabled"); }
-		}
-
-		///<summary>
-		/// Payment Page
-		///</summary>
-		[ImplementPropertyType("paymentPage")]
-		public IPublishedContent PaymentPage
-		{
-			get { return this.GetPropertyValue<IPublishedContent>("paymentPage"); }
 		}
 
 		///<summary>

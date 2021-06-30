@@ -14,5 +14,7 @@ namespace MSTC.Web.Model.Partials
         public int TrainingCreditsToBuy { get; set; }
 
         public string EventBookingPageUrl { get; set; }
+
+        public bool IsTrainingCreditsEnabled { get; set; }
     }
 }
