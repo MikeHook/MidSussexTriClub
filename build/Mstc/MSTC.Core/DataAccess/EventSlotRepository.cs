@@ -15,7 +15,7 @@ namespace Mstc.Core.DataAccess
     {
         EventSlot Create(EventSlot eventSlot);
         EventSlot GetById(int id);
-        IEnumerable<EventSlot> GetAll(bool futureEventsOnly, List<EventType> eventTypes);
+        IEnumerable<EventSlot> GetAll(bool futureEventsOnly, List<EventType> eventTypes, bool? memberHasBTFNumber);
         void Delete(int id);
         void Update(EventSlot slot);
     }
@@ -32,6 +32,7 @@ namespace Mstc.Core.DataAccess
                                       ,[IndemnityWaiverDocumentLink]
                                       ,[CovidDocumentLink]
                                       ,[IsGuestEvent]
+                                      ,[RequiresBTFLicense]
                                   FROM [dbo].[EventSlot] ";
 
         private readonly IDataConnection _dataConnection;
@@ -58,7 +59,7 @@ namespace Mstc.Core.DataAccess
             }
         }
 
-        public IEnumerable<EventSlot> GetAll(bool futureEventsOnly, List<EventType> eventTypes)
+        public IEnumerable<EventSlot> GetAll(bool futureEventsOnly, List<EventType> eventTypes, bool? memberHasBTFNumber)
         {
             string query = $"{_baseGet} {(futureEventsOnly ? "Where [Date] > @now" : "")} order By Date";
 
@@ -70,6 +71,7 @@ namespace Mstc.Core.DataAccess
                 {
                     eventSlot.EventParticipants = eventParticipants.Where(ep => ep.EventSlotId == eventSlot.Id).ToList();
                     eventSlot.EventTypeName = eventTypes.SingleOrDefault(et => et.Id == eventSlot.EventTypeId)?.Name;
+                    eventSlot.MemberHasBTFNumber = memberHasBTFNumber;
                 }
                 return eventSlots;
             }
@@ -86,7 +88,8 @@ namespace Mstc.Core.DataAccess
                                            ,[Distances]
                                            ,[IndemnityWaiverDocumentLink]
                                            ,[CovidDocumentLink]
-                                           ,[IsGuestEvent])
+                                           ,[IsGuestEvent]
+                                           ,[RequiresBTFLicense])
                                         OUTPUT Inserted.Id
                                         VALUES
                                            (@EventTypeId
@@ -97,7 +100,8 @@ namespace Mstc.Core.DataAccess
                                            ,@Distances
                                            ,@IndemnityWaiverDocumentLink
                                            ,@CovidDocumentLink
-                                           ,@IsGuestEvent)";
+                                           ,@IsGuestEvent,
+                                           .@RequiresBTFLicense)";
 
 
             using (IDbConnection connection = _dataConnection.SqlConnection)
@@ -117,6 +121,7 @@ namespace Mstc.Core.DataAccess
                                         ,[IndemnityWaiverDocumentLink] = @IndemnityWaiverDocumentLink
                                         ,[CovidDocumentLink] = @CovidDocumentLink
                                         ,[IsGuestEvent] = @IsGuestEvent
+                                        ,[RequiresBTFLicense] = @RequiresBTFLicense
                                     WHERE Id = @Id";
             using (IDbConnection connection = _dataConnection.SqlConnection)
             {
@@ -128,7 +133,8 @@ namespace Mstc.Core.DataAccess
                     Distances = slot.Distances,
                     IndemnityWaiverDocumentLink = slot.IndemnityWaiverDocumentLink,
                     CovidDocumentLink = slot.CovidDocumentLink,
-                    IsGuestEvent = slot.IsGuestEvent
+                    IsGuestEvent = slot.IsGuestEvent,
+                    RequiresBTFLicense = slot.RequiresBTFLicense
                 });
             }
         }

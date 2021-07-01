@@ -57,7 +57,7 @@ namespace MSTC.Web.EventHandlers
                     }              
 
                     var eventDates = GetEventDates(eventPage, true);                    
-                    List<EventSlot> existingEventSlots = _eventSlotRepository.GetAll(true, eventTypes).ToList();
+                    List<EventSlot> existingEventSlots = _eventSlotRepository.GetAll(true, eventTypes, null).ToList();
                     existingEventSlots = existingEventSlots.Where(es => es.EventTypeId == eventType.Id && es.EventPageId == eventPage.Id).ToList();
                     if (existingEventSlots.Any(es => eventDates.Contains(es.Date) == false && es.EventParticipants.Count > 0))
                     {
@@ -92,7 +92,7 @@ namespace MSTC.Web.EventHandlers
                     }
 
                     var eventDates = GetEventDates(eventPage, true);
-                    List<EventSlot> existingEventSlots = _eventSlotRepository.GetAll(true, eventTypes).ToList();
+                    List<EventSlot> existingEventSlots = _eventSlotRepository.GetAll(true, eventTypes, null).ToList();
                     existingEventSlots = existingEventSlots.Where(es => es.EventTypeId == eventType.Id && es.EventPageId == eventPage.Id).ToList();                
 
                     var response = CreateUpdateEventSlots(existingEventSlots, eventType.Id, eventPage);
@@ -118,7 +118,7 @@ namespace MSTC.Web.EventHandlers
                     IPublishedContent eventPageContent = entity.ToPublishedContent();
                     var eventPage = new Event(eventPageContent);
                     
-                    List<EventSlot> existingEventSlots = _eventSlotRepository.GetAll(true, eventTypes).Where(es => es.EventPageId == eventPage.Id).ToList();
+                    List<EventSlot> existingEventSlots = _eventSlotRepository.GetAll(true, eventTypes, null).Where(es => es.EventPageId == eventPage.Id).ToList();
                     if (existingEventSlots.Any(es => es.EventParticipants.Count > 0))
                     {
                         string message = $"Unable to delete event page - existing bookings for event slots of type {eventPage.EventType}, please cancel the bookings through the Event Booking Admin page first.";
@@ -169,6 +169,7 @@ namespace MSTC.Web.EventHandlers
                 slot.IndemnityWaiverDocumentLink = eventPage.IndemnityWaiver?.Url;
                 slot.CovidDocumentLink = eventPage.CovidHealthDeclaration?.Url;
                 slot.IsGuestEvent = eventPage.IsGuestEvent;
+                slot.RequiresBTFLicense = eventPage.RequiresBtflicense;
                 slot.SetDisances(eventPage.RaceDistances);
                 _eventSlotRepository.Update(slot);
             }   
@@ -211,6 +212,7 @@ namespace MSTC.Web.EventHandlers
                 Date = eventDate,
                 Cost = eventPage.Cost,
                 MaxParticipants = eventPage.MaximumParticipants,
+                RequiresBTFLicense = eventPage.RequiresBtflicense,
                 IndemnityWaiverDocumentLink = eventPage.IndemnityWaiver?.Url,
                 CovidDocumentLink = eventPage.CovidHealthDeclaration?.Url,
                 IsGuestEvent = eventPage.IsGuestEvent

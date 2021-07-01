@@ -19,11 +19,15 @@ namespace Mstc.Core.Domain
         public string EventTypeName { get; set; }
         public DateTime Date { get; set; }
         public int Cost { get; set; }
+        public int BTFCost => Cost - 4;
+        public int MemberCost => RequiresBTFLicense && MemberHasBTFNumber.HasValue && MemberHasBTFNumber.Value ? BTFCost : Cost;
         public int MaxParticipants { get; set; }
         public string Distances { get; set; }
         public string IndemnityWaiverDocumentLink { get; set; }
         public string CovidDocumentLink { get; set; }
         public bool IsGuestEvent { get; set; }
+        public bool RequiresBTFLicense { get; set; }
+        public bool? MemberHasBTFNumber { get; set; }
         public List<string> RaceDistances => Distances?.Split(';').ToList() ?? new List<string>();
 
         public string DateDisplay => Date.ToString("dddd, dd MMMM yyyy hh:mm tt");

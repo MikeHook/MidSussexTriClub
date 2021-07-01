@@ -136,6 +136,15 @@ namespace Mstc.Core.ContentModels
 		}
 
 		///<summary>
+		/// Requires BTF License
+		///</summary>
+		[ImplementPropertyType("requiresBTFLicense")]
+		public bool RequiresBtflicense
+		{
+			get { return this.GetPropertyValue<bool>("requiresBTFLicense"); }
+		}
+
+		///<summary>
 		/// Start Date
 		///</summary>
 		[ImplementPropertyType("startDate")]
