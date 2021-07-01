@@ -35,10 +35,12 @@ namespace MSTC.Web.Controllers
 			{
 				var member = _memberProvider.GetLoggedInMember();
 				var memberType = member.GetValue<MembershipTypeEnum>(MemberProperty.membershipType);
+				var btfNumber = member.GetValue<string>(MemberProperty.BTFNumber);
+				bool hasBTFNumber = !string.IsNullOrEmpty(btfNumber);
 				var isGuest = memberType == MembershipTypeEnum.Guest;
 
 				List<EventType> eventTypes = _dataTypeProvider.GetEventTypes();
-				var eventSlots = _eventSlotRepository.GetAll(futureEventsOnly, eventTypes);
+				var eventSlots = _eventSlotRepository.GetAll(futureEventsOnly, eventTypes, hasBTFNumber);
 				foreach(var eventType in eventTypes)
 				{
 					eventType.EventSlots = eventSlots.Where(es => es.EventTypeId == eventType.Id && es.IsGuestEvent == isGuest).ToList();
@@ -59,7 +61,7 @@ namespace MSTC.Web.Controllers
 			try
 			{
 				List<EventType> eventTypes = _dataTypeProvider.GetEventTypes();
-				var eventSlots = _eventSlotRepository.GetAll(futureEventsOnly, eventTypes).ToList();
+				var eventSlots = _eventSlotRepository.GetAll(futureEventsOnly, eventTypes, null).ToList();
 				if (onlyBookedByCurrentMember)
 				{
 					var member = _memberProvider.GetLoggedInMember();

@@ -6,6 +6,9 @@
 	var eventTypeConfirm$ = $('#eventTypeConfirm');
 	var eventDateConfirm$ = $('#eventDateConfirm');
 	var eventCostConfirm$ = $('#eventCostConfirm');	
+	var btfLicenseSummary$ = $('#btfLicenseSummary');	
+	var btfMemberCost$ = $('#btfMemberCost');	
+	var btfNonMemberCost$ = $('#btfNonMemberCost');	
 
 	var eventTypeCancel$ = $('#eventTypeCancel');
 	var eventDateCancel$ = $('#eventDateCancel');
@@ -33,6 +36,9 @@
 		$("#eventDate").empty();
 		$("#raceDistance").empty();
 		spacesEl.innerText = '';
+		btfLicenseSummary$.addClass('hide');
+		btfMemberCost$.text('');
+		btfNonMemberCost$.text('');
 	};
 
 	var eventTypeChanged = function (field) {
@@ -85,11 +91,11 @@
 			$('#checkboxCovid').prop('checked', false);
 		} else {
 			bookEventButton$.prop('disabled', false);			
-			var buttonText = slot.cost > 0 ? 'Book Event for £' + slot.cost : 'Book Event - No Cost';
+			var buttonText = slot.memberCost > 0 ? 'Book Event for £' + slot.memberCost : 'Book Event - No Cost';
 			bookEventButton$.html(buttonText);
 		
 			eventDateConfirm$.html(slot.dateDisplay);
-			eventCostConfirm$.html(slot.cost);
+			eventCostConfirm$.html(slot.memberCost);
 
 			if (slot.raceDistances.length > 0) {
 				raceDistanceDiv$.removeClass('hide');
@@ -113,6 +119,14 @@
 				$('#covidLink').attr('href', slot.covidDocumentLink);
 			} else {
 				covidDiv$.addClass('hide');
+			}
+
+			if (slot.requiresBTFLicense) {
+				btfLicenseSummary$.removeClass('hide');
+				btfMemberCost$.text(slot.btfCost);
+				btfNonMemberCost$.text(slot.cost);
+			} else {
+				btfLicenseSummary$.addClass('hide');
 			}
 		}
 	};
@@ -213,7 +227,7 @@
 		var bookingModel = {
 			eventTypeName: eventType.name,
 			eventSlotId: eventSlot.id,
-			cost: eventSlot.cost,
+			cost: eventSlot.memberCost,
 			raceDistance: raceDistance
 		};
 
