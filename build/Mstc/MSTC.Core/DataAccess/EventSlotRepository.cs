@@ -100,8 +100,8 @@ namespace Mstc.Core.DataAccess
                                            ,@Distances
                                            ,@IndemnityWaiverDocumentLink
                                            ,@CovidDocumentLink
-                                           ,@IsGuestEvent,
-                                           .@RequiresBTFLicense)";
+                                           ,@IsGuestEvent
+                                           ,@RequiresBTFLicense)";
 
 
             using (IDbConnection connection = _dataConnection.SqlConnection)
