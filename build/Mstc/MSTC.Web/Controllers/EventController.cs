@@ -119,7 +119,9 @@ namespace MSTC.Web.Controllers
 				return response;
 			}
 
-			if (string.Equals(model.EventTypeName,"Open Water Swim",StringComparison.OrdinalIgnoreCase) && !member.GetValue<bool>(MemberProperty.OpenWaterIndemnityAcceptance))
+			var memberType = member.GetValue<MembershipTypeEnum>(MemberProperty.membershipType);
+			var isGuest = memberType == MembershipTypeEnum.Guest;
+			if (string.Equals(model.EventTypeName,"Open Water Swim",StringComparison.OrdinalIgnoreCase) && !isGuest && !member.GetValue<bool>(MemberProperty.OpenWaterIndemnityAcceptance))
 			{
 				response.Error = "You need to signup for open water swimming (on your member details page) before you can book onto open water swim sessions.";
 				return response;
