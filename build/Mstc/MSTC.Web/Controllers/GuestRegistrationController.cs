@@ -121,8 +121,7 @@ namespace MSTC.Web.Controllers
             stringBuilder.AppendFormat("{0}: <strong>{1}</strong><br/>", "Phone number", $"{personalDets.PhoneNumber}");
             stringBuilder.AppendFormat("{0}: <strong>{1}</strong><br/>", "Gender", $"{personalDets.Gender.ToString()}");
             stringBuilder.AppendFormat("{0}: <strong>{1}</strong><br/>", "Date of Birth", $"{personalDets.DateOfBirth.Value.ToString("dd MMM yyyy")}");
-            stringBuilder.AppendFormat("{0}: <strong>{1}</strong><br/>", "Membership Type", $"{MembershipTypeEnum.Guest.ToString()}");           
-            stringBuilder.AppendFormat("{0}: <strong>{1}</strong><br/>", "Open water swimming?", guestOptions.OpenWaterIndemnityAcceptance.Value ? "Yes" : "No");
+            stringBuilder.AppendFormat("{0}: <strong>{1}</strong><br/>", "Membership Type", $"{MembershipTypeEnum.Guest.ToString()}");
 
             return stringBuilder.ToString();
         }
