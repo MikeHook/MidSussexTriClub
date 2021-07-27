@@ -43,7 +43,8 @@
 						return moment(data).format("dddd DD MMM YYYY hh:mm a");
 					}
 				},
-				{ data: 'participants' }
+				{ data: 'participants' },
+				{ data: 'isGuestEvent' }
 			],
 			'order': [[0, 'asc']]
 		});
@@ -133,7 +134,7 @@
 
 	var getEvents = function(callback) {
 		$.ajax({
-			url: '/umbraco/api/event/BookableEvents?futureEventsOnly=false&withSlotsOnly=false',
+			url: '/umbraco/api/event/BookableEvents?futureEventsOnly=false&withSlotsOnly=false&isAdmin=true',
 			method: 'GET',// jQuery > 1.9
 			type: 'GET', //jQuery < 1.9
 			success: function (response) {

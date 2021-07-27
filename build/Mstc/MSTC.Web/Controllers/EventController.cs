@@ -29,7 +29,7 @@ namespace MSTC.Web.Controllers
 		}
 
 		[HttpGet]
-		public IEnumerable<EventType> BookableEvents(bool futureEventsOnly, bool withSlotsOnly)
+		public IEnumerable<EventType> BookableEvents(bool futureEventsOnly, bool withSlotsOnly, bool isAdmin = false)
         {
 			try
 			{
@@ -41,9 +41,14 @@ namespace MSTC.Web.Controllers
 
 				List<EventType> eventTypes = _dataTypeProvider.GetEventTypes();
 				var eventSlots = _eventSlotRepository.GetAll(futureEventsOnly, eventTypes, hasBTFNumber);
-				foreach(var eventType in eventTypes)
+				if (!isAdmin)
 				{
-					eventType.EventSlots = eventSlots.Where(es => es.EventTypeId == eventType.Id && es.IsGuestEvent == isGuest).ToList();
+					eventSlots = eventSlots.Where(es => es.IsGuestEvent == isGuest);
+				}
+
+				foreach(var eventType in eventTypes)
+				{				
+					eventType.EventSlots = eventSlots.Where(es => es.EventTypeId == eventType.Id).ToList();
 				}
 
 				return withSlotsOnly ?  eventTypes.Where(e => e.EventSlots.Any()) : eventTypes;			
