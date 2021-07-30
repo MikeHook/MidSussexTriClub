@@ -14,16 +14,17 @@ namespace Mstc.Core.Providers
 	public class GoCardlessProvider
 	{
 	    private GoCardlessClient _client;
+		public GoCardlessClient.Environment Environment;
 
         public GoCardlessProvider()
 		{
 			System.Net.ServicePointManager.SecurityProtocol |= SecurityProtocolType.Tls12;
-			var environment = ConfigurationManager.AppSettings["gocardlessEnvironment"] == "Production"
+			Environment = ConfigurationManager.AppSettings["gocardlessEnvironment"] == "Production"
 		        ? GoCardlessClient.Environment.LIVE
 		        : GoCardlessClient.Environment.SANDBOX;
 
 		    _client = GoCardlessClient.Create(ConfigurationManager.AppSettings["gocardlessAccessToken"],
-		        environment);
+				Environment);
 		}
 
 	    public RedirectResponseDto CreateRedirectRequest(Umbraco.Core.Logging.ILogger logger, CustomerDto customer, string description, string sessionToken, string successUrl)

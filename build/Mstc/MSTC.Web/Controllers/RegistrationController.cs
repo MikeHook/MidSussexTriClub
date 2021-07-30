@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Web.Mvc;
 using System.Web.Security;
+using GoCardless;
 using Mstc.Core.ContentModels;
 using Mstc.Core.Domain;
 using Mstc.Core.Dto;
@@ -77,8 +78,9 @@ namespace MSTC.Web.Controllers
                 PostalCode = model.PersonalDetails.Postcode,
                 Email = model.PersonalDetails.Email
             };
-            string rootUrl = string.Format("{0}://{1}{2}", Request.Url.Scheme, Request.Url.Host,
-                Request.Url.Port == 80 ? string.Empty : ":" + Request.Url.Port);
+
+            string scheme = _goCardlessProvider.Environment == GoCardlessClient.Environment.LIVE ? "Https" : Request.Url.Scheme;
+            string rootUrl = string.Format("{0}://{1}{2}", scheme, Request.Url.Host, Request.Url.Port == 80 ? string.Empty : ":" + Request.Url.Port);
             string successUrl = string.Format("{0}/the-club/confirm-registration", rootUrl);
 
             var redirectResponse = _goCardlessProvider.CreateRedirectRequest(Logger, customerDto, "MSTC Member Registration", _sessionProvider.SessionId,
