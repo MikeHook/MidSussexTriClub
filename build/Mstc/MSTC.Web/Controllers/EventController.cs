@@ -247,9 +247,9 @@ namespace MSTC.Web.Controllers
 			else
 			{
 				eventMember = loggedInmember;
-				if (eventSlot.Date.Date <= DateTime.Now.Date)
+				if (eventSlot.Date <= DateTime.Now)
 				{
-					response.Error = $"You can not cancel an event on the same day as the event is running.";
+					response.Error = $"You can not cancel an event which is in the past.";
 					return response;
 				}
 			}

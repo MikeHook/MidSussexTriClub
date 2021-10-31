@@ -92,6 +92,7 @@ namespace MSTC.Web.Controllers
 
                 model.ShowIceLink = Roles.IsUserInRole(MSTCRoles.Coach) || Roles.IsUserInRole(MSTCRoles.MemberAdmin);
                 model.ShowMemberAdminLink = Roles.IsUserInRole(MSTCRoles.MemberAdmin);
+                model.ShowEventAdminLink = Roles.IsUserInRole(MSTCRoles.EventAdminViewer);
 
                 model.EnableOpenWater = memberEditPage.OWsenabled && !isGuest && !model.MembershipExpired;
                 model.OWSNumber = member.GetValue<string>(MemberProperty.SwimAuthNumber);
