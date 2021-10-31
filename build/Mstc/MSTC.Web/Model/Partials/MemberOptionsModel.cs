@@ -26,6 +26,8 @@ namespace MSTC.Web.Model.Partials
 
         public bool EnableMemberRenewal { get; set; }
         public bool ShowMemberAdminLink { get; set; }
+
+        public bool ShowEventAdminLink { get; set; }
         public bool ShowIceLink { get; set; }
 
         //OWS Props

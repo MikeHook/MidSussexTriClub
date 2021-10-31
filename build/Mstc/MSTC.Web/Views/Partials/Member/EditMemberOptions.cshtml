@@ -90,11 +90,17 @@
 
         @if (Model.ShowMemberAdminLink)
         {
-        <div class="form-group">
-            <label class="control-label"><b>Super secret admin pages</b></label>
-            <p class="form-control-static"><a href="@Model.MemberAdminPageUrl">Members Admin Details</a></p>
-            <p><a href="@Model.EventAdminPageUrl">Event Admin Page</a></p>
-        </div>
+            <div class="form-group">
+                <label class="control-label"><b>Super secret admin pages</b></label>
+                <p class="form-control-static"><a href="@Model.MemberAdminPageUrl">Members Admin Details</a></p>
+                <p><a href="@Model.EventAdminPageUrl">Event Admin Page</a></p>
+            </div>
+        } else if (Model.ShowEventAdminLink)
+        {
+            <div class="form-group">
+                <label class="control-label"><b>Super secret admin pages</b></label>
+                <p class="form-control-static"><a href="@Model.EventAdminPageUrl">Event Admin Page</a></p>
+            </div>
         }
     </div>
 </div>
