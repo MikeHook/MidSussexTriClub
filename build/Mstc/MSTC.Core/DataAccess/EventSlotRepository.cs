@@ -15,7 +15,7 @@ namespace Mstc.Core.DataAccess
     {
         EventSlot Create(EventSlot eventSlot);
         EventSlot GetById(int id);
-        IEnumerable<EventSlot> GetAll(bool futureEventsOnly, List<EventType> eventTypes, bool? memberHasBTFNumber);
+        IEnumerable<EventSlot> GetAll(bool futureEventsOnly, List<EventType> eventTypes, bool? memberHasBTFNumber, int? limitBooking);
         void Delete(int id);
         void Update(EventSlot slot);
     }
@@ -59,9 +59,11 @@ namespace Mstc.Core.DataAccess
             }
         }
 
-        public IEnumerable<EventSlot> GetAll(bool futureEventsOnly, List<EventType> eventTypes, bool? memberHasBTFNumber)
+        public IEnumerable<EventSlot> GetAll(bool futureEventsOnly, List<EventType> eventTypes, bool? memberHasBTFNumber, int? limitBooking)
         {
-            string query = $"{_baseGet} {(futureEventsOnly ? "Where [Date] > @now" : "")} order By Date";
+            string query = $"{_baseGet} {(futureEventsOnly ? "Where [Date] > @now" : "")}";
+            query = $"{query} {(limitBooking > 0 ? $"and [Date] <= DATEADD(week, {limitBooking}, @now)" : "")}";
+            query = $"{query} order By Date";
 
             using (IDbConnection connection = _dataConnection.SqlConnection)
             {

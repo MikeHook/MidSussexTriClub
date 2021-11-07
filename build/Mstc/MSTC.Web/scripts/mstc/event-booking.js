@@ -24,6 +24,8 @@
 	var bookedEventSlots = [];
 	var cancelSlotId = null;
 
+	var limitBooking = document.currentScript.getAttribute('limitBooking');
+
 	var resetProps = function () {
 		eventTypes = [];
 		eventType = undefined;
@@ -134,7 +136,7 @@
 	var getEvents = function () {
 		resetProps();
 		$.ajax({
-			url: '/umbraco/api/event/BookableEvents?futureEventsOnly=true&withSlotsOnly=true',
+			url: `/umbraco/api/event/BookableEvents?futureEventsOnly=true&withSlotsOnly=true&limitBooking=${limitBooking}`,
 			method: 'GET',// jQuery > 1.9
 			type: 'GET', //jQuery < 1.9
 			success: function (response) {
@@ -305,7 +307,7 @@
 
 
 
-	var init = function() {
+	var init = function () {
 		bindFunctions();
 		getEvents();
 		eventSlotChanged(undefined);
