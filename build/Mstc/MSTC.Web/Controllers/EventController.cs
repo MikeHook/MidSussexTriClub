@@ -29,7 +29,7 @@ namespace MSTC.Web.Controllers
 		}
 
 		[HttpGet]
-		public IEnumerable<EventType> BookableEvents(bool futureEventsOnly, bool withSlotsOnly, bool isAdmin = false, int limitBooking = 2)
+		public IEnumerable<EventType> BookableEvents(bool futureEventsOnly, bool withSlotsOnly, int limitBooking, bool isAdmin = false)
         {
 			try
 			{
