@@ -134,7 +134,7 @@
 
 	var getEvents = function(callback) {
 		$.ajax({
-			url: '/umbraco/api/event/BookableEvents?futureEventsOnly=false&withSlotsOnly=false&isAdmin=true',
+			url: '/umbraco/api/event/BookableEvents?futureEventsOnly=false&withSlotsOnly=false&limitBooking=-1&isAdmin=true',
 			method: 'GET',// jQuery > 1.9
 			type: 'GET', //jQuery < 1.9
 			success: function (response) {

@@ -29,7 +29,7 @@ namespace MSTC.Web.Controllers
 		}
 
 		[HttpGet]
-		public IEnumerable<EventType> BookableEvents(bool futureEventsOnly, bool withSlotsOnly, bool isAdmin = false)
+		public IEnumerable<EventType> BookableEvents(bool futureEventsOnly, bool withSlotsOnly, int limitBooking, bool isAdmin = false)
         {
 			try
 			{
@@ -40,7 +40,7 @@ namespace MSTC.Web.Controllers
 				var isGuest = memberType == MembershipTypeEnum.Guest;
 
 				List<EventType> eventTypes = _dataTypeProvider.GetEventTypes();
-				var eventSlots = _eventSlotRepository.GetAll(futureEventsOnly, eventTypes, hasBTFNumber);
+				var eventSlots = _eventSlotRepository.GetAll(futureEventsOnly, eventTypes, hasBTFNumber, limitBooking);
 				if (!isAdmin)
 				{
 					eventSlots = eventSlots.Where(es => es.IsGuestEvent == isGuest);
@@ -66,7 +66,7 @@ namespace MSTC.Web.Controllers
 			try
 			{
 				List<EventType> eventTypes = _dataTypeProvider.GetEventTypes();
-				var eventSlots = _eventSlotRepository.GetAll(futureEventsOnly, eventTypes, null).ToList();
+				var eventSlots = _eventSlotRepository.GetAll(futureEventsOnly, eventTypes, null, null).ToList();
 				if (onlyBookedByCurrentMember)
 				{
 					var member = _memberProvider.GetLoggedInMember();
