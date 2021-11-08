@@ -46,6 +46,15 @@ namespace Mstc.Core.ContentModels
 		}
 
 		///<summary>
+		/// limitBooking: Limit the number of weeks an event can be booked ahead. Default is 2 weeks.
+		///</summary>
+		[ImplementPropertyType("limitBooking")]
+		public int LimitBooking
+		{
+			get { return this.GetPropertyValue<int>("limitBooking"); }
+		}
+
+		///<summary>
 		/// Hide In Nav
 		///</summary>
 		[ImplementPropertyType("umbracoNaviHide")]
