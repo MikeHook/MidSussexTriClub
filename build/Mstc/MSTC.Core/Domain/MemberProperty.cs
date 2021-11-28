@@ -34,10 +34,7 @@
 		public const string Volunteering = "volunteering";
 		public const string MembershipExpiry = "membershipExpiry";
 		public const string SwimAuthNumber = "swimAuthNumber";        
-
-		public const string CreditsRemainingLastYear = "creditsRemainingLastYear";
-		public const string CreditsBought = "creditsBought";
-		public const string CreditsUsed = "creditsUsed";
+		
 		public const string TrainingCredits = "trainingCredits";		
 
 		public static string GuestCode = "guestCode";

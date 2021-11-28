@@ -72,18 +72,7 @@
 		</table>
 
 
-		@*@using (Html.BeginUmbracoForm("SyncCredits", "MemberEdit", FormMethod.Post, new { id = "sync-credits", @class = "form-horizontal" }))
-		{
-			@Html.AntiForgeryToken()
-
-			<div class="form-group">
-				<div class="col-sm-2"></div>
-				<div class="col-sm-10">
-					<button name="sync" type="submit" class="btn btn-yellow">Sync Training Credits</button>
-				</div>
-			</div>
-		}
-
+		@*
 		@using (Html.BeginUmbracoForm("RepublishBlog", "MemberEdit", FormMethod.Post, new { id = "Republish-Blog", @class = "form-horizontal" }))
 		{
 			@Html.AntiForgeryToken()

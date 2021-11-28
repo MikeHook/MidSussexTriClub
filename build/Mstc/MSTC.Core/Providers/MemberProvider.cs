@@ -173,7 +173,7 @@ namespace Mstc.Core.Providers
 		
 			if (zeroSwimCredits)
 			{
-				member.SetValue(MemberProperty.CreditsBought, 0);
+				member.SetValue(MemberProperty.TrainingCredits, 0);
 		
 			}
 			member.SetValue(MemberProperty.GuestCode, membershipOptions.GuestCode);
@@ -224,10 +224,7 @@ namespace Mstc.Core.Providers
 				Volunteering = member.GetValue<bool>(MemberProperty.Volunteering),
 				MembershipExpiry = member.GetValue<DateTime>(MemberProperty.MembershipExpiry),
 
-				SwimAuthNumber = member.GetValue<int?>(MemberProperty.SwimAuthNumber),
-				SwimBalanceLastYear = member.GetValue<int>(MemberProperty.CreditsRemainingLastYear),
-				SwimCreditsBought = member.GetValue<int>(MemberProperty.CreditsBought),
-				SwimCreditsUsed = member.GetValue<int>(MemberProperty.CreditsUsed),
+				SwimAuthNumber = member.GetValue<int?>(MemberProperty.SwimAuthNumber),			
 				TrainingCredits = member.GetValue<int>(MemberProperty.TrainingCredits),
 
 				BtfNumber = member.GetValue<string>(MemberProperty.BTFNumber),
