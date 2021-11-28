@@ -205,27 +205,7 @@ namespace MSTC.Web.Controllers
             SetMemberDetails(member, model);
 
             return RedirectToCurrentUmbracoUrl(); 
-        }
-
-        [HttpPost]
-        public ActionResult SyncCredits()
-        {
-            var currentMember = _memberProvider.GetLoggedInMember();
-            if (!ModelState.IsValid || currentMember == null)
-            {
-                return CurrentUmbracoPage();
-            }
-
-            var members = _memberProvider.GetAll().ToList();
-            foreach(var member in members)
-            {
-                int trainingCredits = member.GetValue<int>(MemberProperty.CreditsRemainingLastYear) + member.GetValue<int>(MemberProperty.CreditsBought) - member.GetValue<int>(MemberProperty.CreditsUsed);
-                member.SetValue(MemberProperty.TrainingCredits, trainingCredits);
-                Services.MemberService.Save(member);
-            }
-
-            return RedirectToCurrentUmbracoUrl();
-        }
+        }        
 
         [HttpPost]
         public ActionResult RepublishBlog()
@@ -247,8 +227,6 @@ namespace MSTC.Web.Controllers
 
             return RedirectToCurrentUmbracoUrl();
         }
-
-
 
         public MemberDetailsModel MapMemberDetails(IMember member)
         {

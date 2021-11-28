@@ -16,10 +16,7 @@ namespace Mstc.Core.Dto
         public bool OpenWaterIndemnityAcceptance { get; set; } 
 		public bool Volunteering { get; set; }
 		public DateTime? MembershipExpiry { get; set; }
-		public int? SwimAuthNumber { get; set; }
-		public int SwimBalanceLastYear { get; set; }
-		public int SwimCreditsBought { get; set; }
-		public int SwimCreditsUsed { get; set; }
+		public int? SwimAuthNumber { get; set; }	
 		public int TrainingCredits { get; set; }
 
 		public string BtfNumber { get; set; }
