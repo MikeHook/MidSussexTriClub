@@ -196,11 +196,12 @@ namespace MSTC.Web.Controllers
 				return response;
 			}
 		
-			if (eventSlot.Date.Date < DateTime.Now.Date)
+			// Allow for events to be cancelled in the past
+			/*if (eventSlot.Date.Date < DateTime.Now.Date)
 			{
 				response.Error = $"You can not cancel an event which is in the past.";
 				return response;
-			}
+			}*/
 
 			foreach (var eventParticipant in eventSlot.EventParticipants)
 			{
