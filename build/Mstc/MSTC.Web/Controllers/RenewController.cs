@@ -37,7 +37,7 @@ namespace MSTC.Web.Controllers
             model.MemberOptions.IsRenewing = !isGuest;
             model.MemberOptions.IsUpgrading = isGuest;            
 
-            return PartialView("Registration/MemberOptions", model);
+            return PartialView("Registration/MemberOptions", model.MemberOptions);
         }
 
         [HttpPost]
