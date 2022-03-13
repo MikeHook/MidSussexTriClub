@@ -31,7 +31,7 @@ namespace Mstc.Core.Providers
             {
                 year--;
             }
-            return string.Format("Swim subs Apr to Sep {0}", year);
+            return string.Format("Pool Swim subs Apr to Sep {0}", year);
         }
 
         public static string GetSwimSub2Description(DateTime now)
@@ -41,7 +41,7 @@ namespace Mstc.Core.Providers
             {
                 year--;
             }
-            return string.Format("Swim subs Oct {0} to Mar {1}", year, (year + 1));
+            return string.Format("Pool Swim subs Oct {0} to Mar {1}", year, (year + 1));
         }
 
         public static string GetPaymentDescription(MemberOptions membershipOptions)
