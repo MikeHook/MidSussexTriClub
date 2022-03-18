@@ -307,6 +307,15 @@ namespace Mstc.Core.ContentModels
 		}
 
 		///<summary>
+		/// Swim Subs 2 Expiry Date: The expiry date for the swimSubs2 needed for renewals
+		///</summary>
+		[ImplementPropertyType("swimSubs2ExpiryDate")]
+		public DateTime SwimSubs2ExpiryDate
+		{
+			get { return this.GetPropertyValue<DateTime>("swimSubs2ExpiryDate"); }
+		}
+
+		///<summary>
 		/// Training Credits
 		///</summary>
 		[ImplementPropertyType("trainingCredits")]

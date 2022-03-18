@@ -296,6 +296,15 @@ namespace MSTC.Web.Controllers
 			else
 			{
 				bool hasSwimSubs2 = string.IsNullOrEmpty(member.GetValue<string>(MemberProperty.swimSubs2)) == false;
+
+                // Fix for swim subs renewal bug
+                if ( !hasSwimSubs2)
+                {
+					DateTime swimSubs2Expiry = member.GetValue<DateTime>(MemberProperty.swimSubs2ExpiryDate);
+
+					hasSwimSubs2 = swimSubs2Expiry >= eventSlot.Date;
+				}
+				
 				return hasSwimSubs2;
 			}			
 		}
