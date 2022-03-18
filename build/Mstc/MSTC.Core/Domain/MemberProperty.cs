@@ -29,6 +29,7 @@
 		public const string membershipType = "membershipType";
 		public const string swimSubs1 = "swimSubs1";
 		public const string swimSubs2 = "swimSubs2";
+		public const string swimSubs2ExpiryDate = "swimSubs2ExpiryDate";
 		public const string OpenWaterIndemnityAcceptance = "openWaterIndemnityAcceptance";
 		public const string TriathlonIndemnityAcceptance = "triathlonIndemnityAcceptance";
 		public const string Volunteering = "volunteering";

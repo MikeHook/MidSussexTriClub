@@ -42,7 +42,7 @@ namespace MSTC.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Renew(RegistrationDetails model)
+        public ActionResult Renew(MemberOptions model)
         {
             var member = _memberProvider.GetLoggedInMember();
             if (!ModelState.IsValid || member == null)
@@ -50,12 +50,12 @@ namespace MSTC.Web.Controllers
                 return CurrentUmbracoPage();
             }
 
-            _sessionProvider.RenewalOptions = model.MemberOptions;
+            _sessionProvider.RenewalOptions = model;
 
             var membershipType = member.GetValue<MembershipTypeEnum>(MemberProperty.membershipType);
             bool isRenewing = membershipType != MembershipTypeEnum.Guest;
 
-            Logger.Info(typeof(RenewController), $"Member {(isRenewing ? "renewal" : "upgrade")} request: {member.Email}, {JsonConvert.SerializeObject(model.MemberOptions)}");
+            Logger.Info(typeof(RenewController), $"Member {(isRenewing ? "renewal" : "upgrade")} request: {member.Email}, {JsonConvert.SerializeObject(model)}");
 
             PaymentStates state = isRenewing ? PaymentStates.MemberRenewal : PaymentStates.MemberUpgrade;
             _sessionProvider.CanProcessPaymentCompletion = true;
