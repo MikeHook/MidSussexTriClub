@@ -163,7 +163,13 @@ namespace Mstc.Core.Providers
 
 		private void SetMembershipOptions(IMember member, MemberOptions membershipOptions, DateTime membershipExpiry, bool zeroSwimCredits)
 		{
-			member.SetValue(MemberProperty.membershipType, (int)membershipOptions.MembershipType);
+            // Fix for swim subs renewal bug
+            if (member.GetValue<string>(MemberProperty.swimSubs2).Length > 0)
+            {
+				member.SetValue(MemberProperty.swimSubs2ExpiryDate, member.GetValue<DateTime>(MemberProperty.MembershipExpiry));
+			}
+			
+            member.SetValue(MemberProperty.membershipType, (int)membershipOptions.MembershipType);
 			member.SetValue(MemberProperty.OpenWaterIndemnityAcceptance, membershipOptions.OpenWaterIndemnityAcceptance);
 			member.SetValue(MemberProperty.swimSubs1, membershipOptions.SwimSubs1 ? GetSwimSub1Description(DateTime.Now) : string.Empty);				
 			member.SetValue(MemberProperty.swimSubs2, membershipOptions.SwimSubs2 ? GetSwimSub2Description(DateTime.Now) : string.Empty);
