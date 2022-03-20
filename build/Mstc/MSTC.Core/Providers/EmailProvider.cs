@@ -31,7 +31,7 @@ namespace Mstc.Core.Providers
 			{TopicEnum.Coaching, CoachingEmail},
 		};
 
-		public void SendEmail(string toAddress, string fromAddress, string subject, string htmlContent)
+		public void SendEmail(string toAddress, string fromAddress, string subject, string htmlContent, Attachment attachment = null)
 		{
 			string environment = ConfigurationManager.AppSettings["environment"];
 			if (environment != "Production")
@@ -46,6 +46,11 @@ namespace Mstc.Core.Providers
 			objMail.Subject = subject;
 			objMail.IsBodyHtml = true;
 			objMail.Body = htmlContent;
+			if(attachment != null)
+            {
+				objMail.Attachments.Add(attachment);
+			}
+			
 
 		    string gmailUserName = ConfigurationManager.AppSettings["gmailUserName"];
 		    if (string.IsNullOrWhiteSpace(gmailUserName) == false)

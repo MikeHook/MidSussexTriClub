@@ -14,6 +14,7 @@ using Newtonsoft.Json;
 using Umbraco.Web;
 using Umbraco.Web.Mvc;
 using Umbraco.Web.PublishedContentModels;
+using System.Net.Mail;
 
 namespace MSTC.Web.Controllers
 {
@@ -151,6 +152,13 @@ namespace MSTC.Web.Controllers
                 _emailProvider.SendEmail(EmailProvider.MembersEmail, EmailProvider.SupportEmail,
                     "New MSTC member registration", content);
 
+                // NEW - send welcome email automatically
+                string filePath = ConfigurationManager.AppSettings["welcomePack"];
+                Attachment attachment = new Attachment(filePath);
+
+                _emailProvider.SendEmail(registrationDetails.PersonalDetails.Email, EmailProvider.MembersEmail,
+                    "Welcome to MSTC", GetWelcomeEmailContent(registrationDetails), attachment);                
+
                 _sessionProvider.RegistrationDetails = null;
                 _sessionProvider.GoCardlessRedirectFlowId = null;
                 TempData["Model"] = model;
@@ -184,6 +192,38 @@ namespace MSTC.Web.Controllers
             stringBuilder.AppendFormat("{0}: <strong>{1}</strong><br/>", MemberProvider.GetSwimSub1Description(DateTime.Now), memberOptions.SwimSubs1 ? "Yes" : "No");
             stringBuilder.AppendFormat("{0}: <strong>{1}</strong><br/>", MemberProvider.GetSwimSub2Description(DateTime.Now), memberOptions.SwimSubs2 ? "Yes" : "No");
             stringBuilder.AppendFormat("{0}: <strong>{1}</strong><br/>", "Open water swimming?", memberOptions.OpenWaterIndemnityAcceptance.Value ? "Yes" : "No");
+
+            return stringBuilder.ToString();
+        }
+
+
+        private string GetWelcomeEmailContent(RegistrationDetails registrationDetails)
+        {
+            var stringBuilder = new StringBuilder();
+            var personalDets = registrationDetails.PersonalDetails;
+
+            stringBuilder.AppendFormat("Hi {0},<br/><br/>", $"{personalDets.FirstName}");
+            stringBuilder.Append("I enclose our welcome pack, which should tell you everything you need to know about the club.<br/><br/>");
+            stringBuilder.Append("We have a closed Facebook group, which is really a good way of staying in touch with members and hearing what is happening. If you would like to join just send a request via Facebook. The group can be found here: <a href=\"https://www.facebook.com/groups/2363043378/\">Mid Sussex Triathlon Club</a><br/><br/>");
+            stringBuilder.Append("We also have 2 WhatsApp groups set up that you can join this first one is for run specific chat and notices: ");
+            stringBuilder.Append("<a href=\"https://chat.whatsapp.com/FSHGalpygyz8uyFzPFowoF\">MSTC - Run Group</a><br/>");
+            stringBuilder.Append("This other is for all other training chat mainly OW swimming and cycling: ");
+            stringBuilder.Append("<a href=\"https://chat.whatsapp.com/GGL5zIOYMxq8E7LymlwMIk\">MSTC - Training Group</a><br/><br/>");
+            stringBuilder.Append("We are almost back to normal, our training plan below may be still subject to change is currently:<br/>");
+            stringBuilder.Append("Monday – pool swim Cumnor house - uncoached<br/>");
+            stringBuilder.Append("Tuesday - pool swim Ardingly College Winter and Spring, then Summer/Autumn only; Ardingly 18.00 OW swim - uncoached<br/>");
+            stringBuilder.Append("Wednesday - Spin triangle - coached<br/>");
+            stringBuilder.Append("Thursday - 7.30pm run and pool swim 8.30pm Dolphin - coached<br/>");
+            stringBuilder.Append("Friday – off<br/>");
+            stringBuilder.Append("Saturday – Summer/Autumn only; Ardingly 8.15 OW swim. Uncoached but we hope to set up a OW class for every 3rd week for 30 mins. After swim rides and runs may be set up<br/>");
+            stringBuilder.Append("Winter Strength and Conditioning - coached<br/>");
+            stringBuilder.Append("Sunday – Group social road rides<br/><br/>");
+            stringBuilder.Append("We also have a Google Group that is used for club communication. I will add you to the group.<br/><br/>");
+            stringBuilder.Append("If you have any questions just drop me an email.<br/><br/>");
+            stringBuilder.Append("I look forward to meeting you at training sometime soon.<br/><br/>");
+            stringBuilder.Append("Kind Regards,<br/>");
+            stringBuilder.Append("Simon Barton<br/>");
+            stringBuilder.Append("Membership Sec<br/>");
 
             return stringBuilder.ToString();
         }
