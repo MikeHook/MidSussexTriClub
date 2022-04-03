@@ -1,130 +1,132 @@
 ﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage<EventBooking>
 
 @{
-	Layout = "Master.cshtml";
+    Layout = "Master.cshtml";
 }
 @section Header {
-	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-	<link href="~/css/mstc/toastr.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link href="~/css/mstc/toastr.min.css" rel="stylesheet" />
 }
 
 @{ Html.RenderPartial("~/Views/Partials/SectionHeader.cshtml"); }
 
 <section class="section">
-	<div class="container edit-member">
-		@if (Model.Content.BodyText != null)
-		{
+    <div class="container edit-member">
+        @if (Model.Content.BodyText != null)
+        {
 
-			<div class="row">
-				<div class="col-sm-12">
-					@Model.Content.BodyText
-				</div>
-			</div>
+            <div class="row">
+                <div class="col-sm-12">
+                    @Model.Content.BodyText
+                </div>
+            </div>
 
-		}
+        }
 
-		<form role="form" id="eventBookingForm" class="form-horizontal">
-			<div class="row">
-				<div class="col-sm-12">
-					<div class="form-group">
-						<label class="col-sm-2 control-label"><b>Event Type</b></label>
-						<div class="col-sm-7">
-							<select class="form-control" id="eventType" name="eventType">		
-							</select>
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="col-sm-2 control-label"><b>Event Date</b></label>
-						<div class="col-sm-7">
-							<select class="form-control" id="eventDate" name="eventDate">
-							</select>
-						</div>
-					</div>
-					<div id="raceDistanceDiv" class="form-group">
-						<label class="col-sm-2 control-label"><b>Race Distance</b></label>
-						<div class="col-sm-7">
-							<select class="form-control" id="raceDistance" name="raceDistance">
-							</select>
-						</div>
-					</div>
+        <form role="form" id="eventBookingForm" class="form-horizontal">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label"><b>Event Type</b></label>
+                        <div class="col-sm-7">
+                            <select class="form-control" id="eventType" name="eventType">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label"><b>Event Date</b></label>
+                        <div class="col-sm-7">
+                            <select class="form-control" id="eventDate" name="eventDate">
+                            </select>
+                        </div>
+                    </div>
+                    <div id="raceDistanceDiv" class="form-group">
+                        <label class="col-sm-2 control-label"><b>Race Distance</b></label>
+                        <div class="col-sm-7">
+                            <select class="form-control" id="raceDistance" name="raceDistance">
+                            </select>
+                        </div>
+                    </div>
 
-					<div class="form-group">
-						<label class="col-sm-2 control-label"><b>Spaces remaining</b></label>
-						<div class="col-sm-10">
-							<p id="spaces" class="form-control-static"></p>
-						</div>
-					</div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label"><b>Spaces remaining</b></label>
+                        <div class="col-sm-10">
+                            <p id="spaces" class="form-control-static"></p>
+                        </div>
+                    </div>
 
-					<div id="waiverDiv" class="form-group">
-						<label class="col-sm-2 control-label"><b>Waiver*</b></label>
-						<div class="col-sm-10">
-							<p><a id="waiverLink" href="" target="_blank">Click here to view the indemnity waiver document</a></p>
-							<span class="checkbox"><input id="checkboxWaiver" type="checkbox" name="checkboxWaiver"><label for="checkboxWaiver">I have read and understand the indemnity document. I agree to and accept the terms without qualification.</label></span>
-						</div>
-					</div>
-					<div id="covidDiv" class="form-group">
-						<label class="col-sm-2 control-label"><b>Covid Agreement*</b></label>
-						<div class="col-sm-10">
-							<p><a id="covidLink" href="" target="_blank">Click here to view the Covid Health Declaration</a></p>
-							<span class="checkbox"><input id="checkboxCovid" type="checkbox" name="checkboxCovid"><label for="checkboxCovid">I have read and understand the Covid Health Declaration. I agree to and accept the terms without qualification.</label></span>							
-						</div>
-					</div>
+                    <div id="waiverDiv" class="form-group">
+                        <label class="col-sm-2 control-label"><b>Waiver*</b></label>
+                        <div class="col-sm-10">
+                            <p><a id="waiverLink" href="" target="_blank">Click here to view the indemnity waiver document</a></p>
+                            <span class="checkbox"><input id="checkboxWaiver" type="checkbox" name="checkboxWaiver"><label for="checkboxWaiver">I have read and understand the indemnity document. I agree to and accept the terms without qualification.</label></span>
+                        </div>
+                    </div>
+                    <div id="covidDiv" class="form-group">
+                        <label class="col-sm-2 control-label"><b>Covid Agreement*</b></label>
+                        <div class="col-sm-10">
+                            <p><a id="covidLink" href="" target="_blank">Click here to view the Covid Health Declaration</a></p>
+                            <span class="checkbox"><input id="checkboxCovid" type="checkbox" name="checkboxCovid"><label for="checkboxCovid">I have read and understand the Covid Health Declaration. I agree to and accept the terms without qualification.</label></span>
+                        </div>
+                    </div>
 
-					<div class="form-group">
-						<div class="col-sm-2"></div>
-						<div class="col-sm-10">
-							<p id="btfLicenseSummary">If you are a BTF member enter your BTF number on <a href="/members-area/my-details/">your details page</a> to avoid paying the BTF license fee.<br/>
-							Non member cost: £<span id="btfNonMemberCost"></span>, BTF member cost: £<span id="btfMemberCost"></span>
-							</p>
-							<button name="bookEvent" id="bookEventButton" type="submit" class="btn btn-yellow">Book place for £xxx</button>
-						</div>
-					</div>
+                    <div class="form-group">
+                        <div class="col-sm-2"></div>
+                        <div class="col-sm-10">
+                            <p id="btfLicenseSummary">
+                                If you are a BTF member enter your BTF number on <a href="/members-area/my-details/">your details page</a> to avoid paying the BTF license fee.<br />
+                                Non member cost: £<span id="btfNonMemberCost"></span>, BTF member cost: £<span id="btfMemberCost"></span>
+                            </p>
+                            <button name="bookEvent" id="bookEventButton" type="submit" class="btn btn-yellow">Book place for £xxx</button>
+                        </div>
+                    </div>
 
-				</div>
-			</div>
-		</form>
+                </div>
+            </div>
+        </form>
 
-		<hr />
-		<div class="blog-post blog-single-post">
-			<form role="form" id="eventCancelForm" class="form-horizontal">
-				<div class="row">
-					<div class="col-sm-12">
-						<div class="form-group">
-							<h3 class="col-sm-12">Your upcoming events</h3>
-						</div>
+        <hr />
+        <div class="blog-post blog-single-post">
+            <form role="form" id="eventCancelForm" class="form-horizontal">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <h3 class="col-sm-12">Your upcoming events</h3>
+                        </div>
 
-						<table border="0" class="jobs-list">
-							<thead>
-								<tr>
-									<th>Event</th>
-									<th>Date</th>
-									<th></th>
-								</tr>
-							</thead>
-							<tbody id="upcomingEvents">
-								<!-- Rows are rendered in event-booking.js -->
-							</tbody>
-						</table>
+                        <table border="0" class="jobs-list">
+                            <thead>
+                                <tr>
+                                    <th>Event</th>
+                                    <th>Date</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody id="upcomingEvents">
+                                <!-- Rows are rendered in event-booking.js -->
+                            </tbody>
+                        </table>
 
-					</div>
-				</div>
-			</form>
-		</div>
-	</div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 
 </section>
 
 <div id="dialog-confirm" title="Event Booking Confirmation">
-	<p>Do you want to book <span id="eventTypeConfirm"></span> on <span id="eventDateConfirm"></span> for £<span id="eventCostConfirm"></span>?</p>
+    <p>Do you want to book <span id="eventTypeConfirm"></span> on <span id="eventDateConfirm"></span> for £<span id="eventCostConfirm"></span>?</p>
 </div>
 
 <div id="dialog-cancel" title="Cancel Event Booking">
-	<p>Do you want to cancel <span id="eventTypeCancel"></span> on <span id="eventDateCancel"></span>?</p>
+    <p>Do you want to cancel <span id="eventTypeCancel"></span> on <span id="eventDateCancel"></span>?</p>
 </div>
 
 @section FooterScripts {
-	<script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-	<script src="~/scripts/mstc/toastr.min.js"></script>
-	<script type="text/javascript" src="/scripts/jsnlog.min.js"></script>
+    <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="~/scripts/mstc/toastr.min.js"></script>
+    <script type="text/javascript" src="/scripts/jsnlog.min.js"></script>
     <script type="text/javascript" src="~/scripts/mstc/event-booking.js?v=6" limitBooking="@Model.Content.LimitBooking"></script>
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.10.2/main.min.js'></script>
 }
