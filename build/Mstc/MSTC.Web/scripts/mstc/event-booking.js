@@ -141,13 +141,51 @@
 			type: 'GET', //jQuery < 1.9
 			success: function (response) {
 				eventTypes = response;
+				var events = [];
 
 				$("#eventType").empty();
 				var eventTypeDropDown = document.getElementById('eventType');
 				eventTypeDropDown.options[eventTypeDropDown.options.length] = new Option('Select an event', null);
 				eventTypes.forEach(item => {
 					eventTypeDropDown.options[eventTypeDropDown.options.length] = new Option(item.name, item.id);
+
+					item.eventSlots.forEach(slot => {
+						events.push({
+							id: slot.id,
+							title: slot.eventTypeName,
+							start: slot.date,
+							extendedProps: {
+								type: item.id,
+								dateDisplay: slot.dateDisplay,
+							}
+                    })
+                    })
+					
 				});
+
+				var calendarEl = document.getElementById('calendar');
+
+				var calendar = new FullCalendar.Calendar(calendarEl, {
+					eventClick: function (info) {
+						var eventObj = info.event;
+
+						eventTypeDropDown.value = eventObj.extendedProps.type;
+						eventTypeChanged({ value: eventObj.extendedProps.type });
+
+						eventDateDropDown.value = eventObj.id;
+						eventDateChanged({ value: eventObj.id })
+	
+					},
+					initialView: 'listWeek',
+					headerToolbar: {
+						left: 'prev,next today',
+						center: 'title',
+						right: 'listWeek dayGridMonth,timeGridWeek,timeGridDay'
+					},
+					events
+				});
+
+				calendar.render();
 			},
 			error: function (message) {
 				//Log error
