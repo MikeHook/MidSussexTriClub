@@ -178,8 +178,11 @@
 					},
 					initialView: 'listWeek',
 					headerToolbar: {
-						left: 'prev,next today',
-						center: 'title',
+						left: 'prev,today,next',
+						right: 'title'
+						
+					},
+					footerToolbar: {
 						right: 'listWeek dayGridMonth,timeGridWeek,timeGridDay'
 					},
 					events
