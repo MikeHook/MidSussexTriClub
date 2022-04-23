@@ -81,6 +81,15 @@
                         </div>
                     </div>
 
+                    @* New for group cycling  *@
+                    <div id="groupCyclingDiv" class="form-group">
+                        <label class="col-sm-2 control-label"><b>Rules Agreement</b></label>
+                        <div class="col-sm-10">
+                            <span class="checkbox"><input id="checkboxGroupCycling1" type="checkbox" name="checkboxCovid"><label for="checkboxGroupCycling1">I have checked my bike is suitably road worthy to take part in this ride before setting out.</label></span>
+                            <span class="checkbox"><input id="checkboxGroupCycling2" type="checkbox" name="checkboxCovid"><label for="checkboxGroupCycling2">I will wear a helmet and have an operating rear light as a minimum.</label></span>
+                        </div>
+                    </div>
+
                     <div class="form-group">
                         <div class="col-sm-2"></div>
                         <div class="col-sm-10">
@@ -138,6 +147,6 @@
     <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="~/scripts/mstc/toastr.min.js"></script>
     <script type="text/javascript" src="/scripts/jsnlog.min.js"></script>
-    <script type="text/javascript" src="~/scripts/mstc/event-booking.js?v=6" limitBooking="@Model.Content.LimitBooking"></script>
+    <script type="text/javascript" src="~/scripts/mstc/event-booking.js?v=7" limitBooking="@Model.Content.LimitBooking"></script>
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.10.2/main.min.js'></script>
 }

@@ -91,6 +91,11 @@
 			covidDiv$.addClass('hide');
 			$('#checkboxWaiver').prop('checked', false);
 			$('#checkboxCovid').prop('checked', false);
+
+			$('#groupCyclingDiv').addClass('hide');
+			$('#checkboxGroupCycling1').prop('checked', false);
+			$('#checkboxGroupCycling2').prop('checked', false);
+
 		} else {
 			bookEventButton$.prop('disabled', false);			
 			var buttonText = slot.memberCost > 0 ? 'Book Event for £' + slot.memberCost : 'Book Event - No Cost';
@@ -129,6 +134,11 @@
 				btfNonMemberCost$.text(slot.cost);
 			} else {
 				btfLicenseSummary$.addClass('hide');
+			}
+
+			// New for group cycling
+			if (eventSlot.eventTypeName === "Group Cycling" ) {
+				$('#groupCyclingDiv').removeClass('hide');
 			}
 		}
 	};
@@ -312,7 +322,13 @@
 		if (eventSlot.covidDocumentLink && $('#checkboxCovid').is(":checked") === false) {
 			toastr.error('Please acccept the covid health declaration.');
 			return false;
-		} 
+		}
+		console.log(eventSlot.eventTypeName);
+		// New for group cycling
+		if (eventSlot.eventTypeName === "Group Cycling" && ($('#checkboxGroupCycling1').is(":checked") === false || $('#checkboxGroupCycling2').is(":checked") === false )) {
+			toastr.error('Please acccept the Group Cycling rules.');
+			return false;
+		}
 
 		return true;
 	};
