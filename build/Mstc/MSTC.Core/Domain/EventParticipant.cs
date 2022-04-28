@@ -10,5 +10,7 @@
         public string Email { get; set; }
         public string Phone { get; set; }
         public string RaceDistance { get; set; }
+        public string GuestName { get; set; }
+        public string Type { get; set; }
     }
 }

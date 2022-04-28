@@ -11,5 +11,6 @@ namespace MSTC.Web.Model
         public int EventSlotId { get; set; }
         public int Cost { get; set; }
         public string RaceDistance { get; set; }
+        public string OwsGuestName { get; set; }
     }
 }
