@@ -174,6 +174,32 @@ namespace MSTC.Web.Controllers
 			eventParticipant = _eventParticipantRepository.Create(eventParticipant);
 			Logger.Info(typeof(EventController), $"New event slot booking - Member: {member.Name} , Event: {model.EventTypeName} on {eventSlot.Date.ToString("dd/MM/yyyy")} for £{model.Cost}.");
 
+
+			// New for OWS - bring guest
+			if (!string.IsNullOrEmpty(model.OwsGuestName))
+            {
+				var guestParticipant = new EventParticipant()
+				{
+					EventSlotId = model.EventSlotId,
+					AmountPaid = model.Cost,
+					MemberId = member.Id,
+					GuestName = model.OwsGuestName,
+					// TODO - add guest name to the database
+					RaceDistance = string.IsNullOrEmpty(model.RaceDistance) ? null : model.RaceDistance
+				};
+
+				//Debit cost from members credits
+				credits = member.GetValue<int>(MemberProperty.TrainingCredits);
+				credits = credits - model.Cost;
+				member.SetValue(MemberProperty.TrainingCredits, credits);
+				Services.MemberService.Save(member);
+
+				guestParticipant = _eventParticipantRepository.Create(guestParticipant);
+				Logger.Info(typeof(EventController), $"New event slot booking - Guest: {model.OwsGuestName} , Event: {model.EventTypeName} on {eventSlot.Date.ToString("dd/MM/yyyy")} for £{model.Cost}.");
+
+			}
+
+
 			return response;
 		}
 
@@ -281,7 +307,7 @@ namespace MSTC.Web.Controllers
 			Services.MemberService.Save(eventMember);
 
 			//Remove eventParticipant entry
-			_eventParticipantRepository.Delete(eventParticipant.Id);
+			_eventParticipantRepository.Delete(eventParticipant.MemberId);
 		}
 
 		private bool CanBookPoolSwim(IMember member, int eventSlotId)

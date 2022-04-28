@@ -104,7 +104,8 @@
 				{ data: 'name' },
 				{ data: 'raceDistance', visible: false },
 				{ data: 'email' },
-				{ data: 'phone' }
+				{ data: 'phone' },
+				{ data: 'type' }
 			],
 			'order': [[0, 'asc']]
 		});

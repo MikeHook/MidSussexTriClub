@@ -31,9 +31,16 @@ namespace Mstc.Core.DataAccess
                                     ,ep.[MemberId]
                                     ,ep.[AmountPaid]
                                     ,ep.[RaceDistance]
-		                            ,uNode.[text] as [Name]
 		                            ,m.[Email]
 		                            ,cData.dataNvarchar as [Phone]
+                                    ,CASE 
+										WHEN ep.[GuestName] IS NOT NULL THEN ep.[GuestName] 
+										ELSE uNode.[text] 
+									END as [Name]
+                                    ,CASE 
+										WHEN ep.[GuestName] IS NOT NULL THEN 'Guest' 
+										ELSE 'Member' 
+									END as [Type]
                                   FROM [dbo].[EventParticipant] ep
                                   INNER JOIN [dbo].[cmsMember] m on ep.MemberId = m.nodeId
                                   INNER JOIN [dbo].[umbracoNode] uNode on uNode.Id = m.nodeId 
@@ -57,13 +64,15 @@ namespace Mstc.Core.DataAccess
                                            ([EventSlotId]                                       
                                            ,[MemberId]
                                            ,[AmountPaid]
-                                           ,[RaceDistance])
+                                           ,[RaceDistance]
+                                           ,[GuestName])
                                         OUTPUT Inserted.Id
                                         VALUES
                                            (@EventSlotId
                                            ,@MemberId
                                            ,@AmountPaid
-                                           ,@RaceDistance)";
+                                           ,@RaceDistance
+                                           ,@GuestName)";
 
 
             using (IDbConnection connection = _dataConnection.SqlConnection)
@@ -76,7 +85,7 @@ namespace Mstc.Core.DataAccess
 
         public void Delete(int id)
         {
-            string query = @"DELETE FROM [dbo].[EventParticipant] WHERE Id = @Id";
+            string query = @"DELETE FROM [dbo].[EventParticipant] WHERE MemberId = @Id";
             using (IDbConnection connection = _dataConnection.SqlConnection)
             {
                 connection.Execute(query, new { Id = id });
