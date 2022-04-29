@@ -1,0 +1,1 @@
+ALTER TABLE [dbo].[EventParticipant] ADD GuestName NVARCHAR(100) NULL;

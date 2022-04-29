@@ -26,6 +26,10 @@
 
 	var limitBooking = document.currentScript.getAttribute('limitBooking');
 
+	var owsGuestDiv$ = $('#owsGuestDiv');
+	var owsGuestNameDiv$ = $('#owsGuestNameDiv');
+	var owsGuestName = '';
+
 	var resetProps = function () {
 		eventTypes = [];
 		eventType = undefined;
@@ -41,6 +45,9 @@
 		btfLicenseSummary$.addClass('hide');
 		btfMemberCost$.text('');
 		btfNonMemberCost$.text('');
+
+		owsGuestDiv$.addClass('hide');
+		owsGuestNameDiv$.addClass('hide');
 	};
 
 	var eventTypeChanged = function (field) {
@@ -96,6 +103,11 @@
 			$('#checkboxGroupCycling1').prop('checked', false);
 			$('#checkboxGroupCycling2').prop('checked', false);
 
+			owsGuestDiv$.addClass('hide');
+			owsGuestNameDiv$.addClass('hide');
+
+			$('#checkboxOWSAddGuest').prop('checked', false);
+
 		} else {
 			bookEventButton$.prop('disabled', false);			
 			var buttonText = slot.memberCost > 0 ? 'Book Event for £' + slot.memberCost : 'Book Event - No Cost';
@@ -139,6 +151,11 @@
 			// New for group cycling
 			if (eventSlot.eventTypeName === "Group Cycling" ) {
 				$('#groupCyclingDiv').removeClass('hide');
+			}
+
+			// New for OWS
+			if (eventSlot.eventTypeName === "Open Water Swim") {
+				owsGuestDiv$.removeClass('hide');
 			}
 		}
 	};
@@ -280,8 +297,9 @@
 		var bookingModel = {
 			eventTypeName: eventType.name,
 			eventSlotId: eventSlot.id,
-			cost: eventSlot.memberCost,
-			raceDistance: raceDistance
+			cost: owsGuestName.length < 6 ? eventSlot.memberCost : 2 * eventSlot.memberCost,
+			raceDistance: raceDistance,
+			owsGuestName: owsGuestName
 		};
 
 		$.ajax({
@@ -323,14 +341,27 @@
 			toastr.error('Please acccept the covid health declaration.');
 			return false;
 		}
-		console.log(eventSlot.eventTypeName);
+
 		// New for group cycling
 		if (eventSlot.eventTypeName === "Group Cycling" && ($('#checkboxGroupCycling1').is(":checked") === false || $('#checkboxGroupCycling2').is(":checked") === false )) {
 			toastr.error('Please acccept the Group Cycling rules.');
 			return false;
 		}
 
+		// New for OWS
+		if (eventSlot.eventTypeName === "Open Water Swim" && $('#checkboxOWSAddGuest').is(":checked") === true && owsGuestName.length < 6) {
+			toastr.error('Please write the full name of your guest.');
+			return false;
+		}
+
 		return true;
+	};
+
+	var OWSAddGuestChanged = function (field) {
+		if (!field.value || eventType === undefined) {
+			return;
+		}
+		owsGuestName = field.value;
 	};
 
 	var bindFunctions = function() {
@@ -357,6 +388,28 @@
 					$("#dialog-confirm").dialog("open");
 				}
 			}
+		});
+
+		// New for OWS
+		$('#OWSAddGuest').off('change');
+		$('#OWSAddGuest').on('change', function () {
+			OWSAddGuestChanged(this);
+		});
+
+		$('#checkboxOWSAddGuest').off('change');
+		$('#checkboxOWSAddGuest').on('change', function () {
+			if (this.checked) {
+				owsGuestNameDiv$.removeClass('hide');
+				var buttonText = eventSlot.memberCost > 0 ? 'Book Event for £' + (2 * eventSlot.memberCost) : 'Book Event - No Cost';
+				bookEventButton$.html(buttonText);
+				eventCostConfirm$.html(2 * eventSlot.memberCost);
+			} else {
+				owsGuestNameDiv$.addClass('hide');
+				var buttonText = eventSlot.memberCost > 0 ? 'Book Event for £' + eventSlot.memberCost : 'Book Event - No Cost';
+				bookEventButton$.html(buttonText);
+				eventCostConfirm$.html(eventSlot.memberCost);
+			}
+			
 		});
 
 		
