@@ -48,6 +48,9 @@
 
 		owsGuestDiv$.addClass('hide');
 		owsGuestNameDiv$.addClass('hide');
+
+		$('#OWSAddGuest').text = '';
+		owsGuestName = '';
 	};
 
 	var eventTypeChanged = function (field) {

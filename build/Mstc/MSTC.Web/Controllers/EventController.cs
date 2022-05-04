@@ -307,7 +307,7 @@ namespace MSTC.Web.Controllers
 			Services.MemberService.Save(eventMember);
 
 			//Remove eventParticipant entry
-			_eventParticipantRepository.Delete(eventParticipant.MemberId);
+			_eventParticipantRepository.Delete(eventParticipant.EventSlotId, eventParticipant.MemberId);
 		}
 
 		private bool CanBookPoolSwim(IMember member, int eventSlotId)
