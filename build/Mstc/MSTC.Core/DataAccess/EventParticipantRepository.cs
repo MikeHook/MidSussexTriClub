@@ -14,7 +14,7 @@ namespace Mstc.Core.DataAccess
         IEnumerable<EventParticipant> GetByEventSlot(IDbConnection connection, int eventSlotId);
         IEnumerable<EventParticipant> GetAll(IDbConnection connection);
         EventParticipant Create(EventParticipant eventParticipant);    
-        void Delete(int id);
+        void Delete(int eventSlotId, int memberId);
     }
 
     public class EventParticipantRepository : IEventParticipantRepository
@@ -83,13 +83,14 @@ namespace Mstc.Core.DataAccess
             return eventParticipant;
         }
 
-        public void Delete(int id)
+        public void Delete(int eventSlotId, int memberId)
         {
-            string query = @"DELETE FROM [dbo].[EventParticipant] WHERE MemberId = @Id";
+            string query = @"DELETE FROM [dbo].[EventParticipant] WHERE EventSlotId = @EventSlotId And MemberId = @MemberId";
             using (IDbConnection connection = _dataConnection.SqlConnection)
             {
-                connection.Execute(query, new { Id = id });
+                connection.Execute(query, new { EventSlotId = eventSlotId, MemberId = memberId });
             }
-        }        
+        }
+
     }
 }
