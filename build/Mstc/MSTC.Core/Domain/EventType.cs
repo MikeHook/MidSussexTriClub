@@ -16,6 +16,8 @@ namespace Mstc.Core.Domain
         public int Id { get; set; }
         public string Name { get; set; }
 
+        public bool MemberHasSubscription { get; set; }
+
         public bool IsBookable => EventSlots.Any(e => e.IsFutureEvent && e.HasSpace);
 
         public List<EventSlot> EventSlots { get; set; }

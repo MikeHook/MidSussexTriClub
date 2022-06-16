@@ -30,6 +30,9 @@
 	var owsGuestNameDiv$ = $('#owsGuestNameDiv');
 	var owsGuestName = '';
 
+	// PAYG
+	var memberHasSubscription = false;
+
 	var resetProps = function () {
 		eventTypes = [];
 		eventType = undefined;
@@ -112,12 +115,22 @@
 			$('#checkboxOWSAddGuest').prop('checked', false);
 
 		} else {
-			bookEventButton$.prop('disabled', false);			
-			var buttonText = slot.memberCost > 0 ? 'Book Event for £' + slot.memberCost : 'Book Event - No Cost';
+			bookEventButton$.prop('disabled', false);
+			// PAYG
+			var buttonText = ''
+			if (memberHasSubscription) {
+				buttonText = slot.subsCost > 0 ? 'Book Event for £' + slot.subsCost : 'Book Event - No Cost';
+				eventCostConfirm$.html(slot.subsCost);
+			}
+			else {
+				buttonText = slot.memberCost > 0 ? 'Book Event for £' + slot.memberCost : 'Book Event - No Cost';
+				eventCostConfirm$.html(slot.memberCost);
+            }
+
 			bookEventButton$.html(buttonText);
 		
 			eventDateConfirm$.html(slot.dateDisplay);
-			eventCostConfirm$.html(slot.memberCost);
+			
 
 			if (slot.raceDistances.length > 0) {
 				raceDistanceDiv$.removeClass('hide');
@@ -177,6 +190,12 @@
 				var eventTypeDropDown = document.getElementById('eventType');
 				eventTypeDropDown.options[eventTypeDropDown.options.length] = new Option('Select an event', null);
 				eventTypes.forEach(item => {
+
+					// PAYG
+					if (item.memberHasSubscription) {
+						memberHasSubscription = true
+					}
+
 					eventTypeDropDown.options[eventTypeDropDown.options.length] = new Option(item.name, item.id);
 
 					item.eventSlots.forEach(slot => {

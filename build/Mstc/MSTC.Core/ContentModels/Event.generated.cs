@@ -154,6 +154,15 @@ namespace Mstc.Core.ContentModels
 		}
 
 		///<summary>
+		/// Subscription Cost: Cost if the member has a subscription
+		///</summary>
+		[ImplementPropertyType("subsCost")]
+		public int SubsCost
+		{
+			get { return this.GetPropertyValue<int>("subsCost"); }
+		}
+
+		///<summary>
 		/// Hide in Nav
 		///</summary>
 		[ImplementPropertyType("umbracoNavihide")]
