@@ -166,6 +166,7 @@ namespace MSTC.Web.EventHandlers
             {
                 slot.MaxParticipants = eventPage.MaximumParticipants;
                 slot.Cost = eventPage.Cost;
+                slot.SubsCost = eventPage.SubsCost;
                 slot.IndemnityWaiverDocumentLink = eventPage.IndemnityWaiver?.Url;
                 slot.CovidDocumentLink = eventPage.CovidHealthDeclaration?.Url;
                 slot.IsGuestEvent = eventPage.IsGuestEvent;
@@ -211,6 +212,7 @@ namespace MSTC.Web.EventHandlers
                 EventPageId = eventPage.Id,
                 Date = eventDate,
                 Cost = eventPage.Cost,
+                SubsCost = eventPage.SubsCost,
                 MaxParticipants = eventPage.MaximumParticipants,
                 RequiresBTFLicense = eventPage.RequiresBtflicense,
                 IndemnityWaiverDocumentLink = eventPage.IndemnityWaiver?.Url,

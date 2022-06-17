@@ -27,6 +27,7 @@ namespace Mstc.Core.DataAccess
                                       ,[EventTypeId]
                                       ,[Date]
                                       ,[Cost]
+                                      ,[SubsCost]
                                       ,[MaxParticipants]
                                       ,[Distances]
                                       ,[IndemnityWaiverDocumentLink]
@@ -86,6 +87,7 @@ namespace Mstc.Core.DataAccess
                                            ,[EventPageId]
                                            ,[Date]
                                            ,[Cost]
+                                           ,[SubsCost]
                                            ,[MaxParticipants]
                                            ,[Distances]
                                            ,[IndemnityWaiverDocumentLink]
@@ -98,6 +100,7 @@ namespace Mstc.Core.DataAccess
                                            ,@EventPageId
                                            ,@Date
                                            ,@Cost
+                                           ,@SubsCost
                                            ,@MaxParticipants
                                            ,@Distances
                                            ,@IndemnityWaiverDocumentLink
@@ -118,6 +121,7 @@ namespace Mstc.Core.DataAccess
         {
             string query = @"UPDATE [dbo].[EventSlot]
                                     SET  [Cost] = @Cost
+                                        ,[SubsCost] = @SubsCost
                                         ,[MaxParticipants] = @MaxParticipants
                                         ,[Distances] = @Distances
                                         ,[IndemnityWaiverDocumentLink] = @IndemnityWaiverDocumentLink
@@ -131,6 +135,7 @@ namespace Mstc.Core.DataAccess
                 {
                     Id = slot.Id,
                     Cost = slot.Cost,
+                    SubsCost = slot.SubsCost,
                     MaxParticipants = slot.MaxParticipants,
                     Distances = slot.Distances,
                     IndemnityWaiverDocumentLink = slot.IndemnityWaiverDocumentLink,
