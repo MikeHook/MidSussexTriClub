@@ -19,6 +19,8 @@ namespace Mstc.Core.Domain
         public string EventTypeName { get; set; }
         public DateTime Date { get; set; }
         public int Cost { get; set; }
+
+        public int SubsCost { get; set; }
         public int BTFCost => Cost - 4;
         public int MemberCost => RequiresBTFLicense && MemberHasBTFNumber.HasValue && MemberHasBTFNumber.Value ? BTFCost : Cost;
         public int MaxParticipants { get; set; }
