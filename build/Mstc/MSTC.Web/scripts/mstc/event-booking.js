@@ -119,13 +119,11 @@
 			// PAYG
 			var buttonText = ''
 			if (memberHasSubscription) {
-				buttonText = slot.subsCost > 0 ? 'Book Event for £' + slot.subsCost : 'Book Event - No Cost';
-				eventCostConfirm$.html(slot.subsCost);
+				slot.memberCost = slot.subsCost;
+				
 			}
-			else {
-				buttonText = slot.memberCost > 0 ? 'Book Event for £' + slot.memberCost : 'Book Event - No Cost';
-				eventCostConfirm$.html(slot.memberCost);
-            }
+			buttonText = slot.memberCost > 0 ? 'Book Event for £' + slot.memberCost : 'Book Event - No Cost';
+			eventCostConfirm$.html(slot.memberCost);
 
 			bookEventButton$.html(buttonText);
 		
