@@ -159,7 +159,7 @@ namespace Mstc.Core.Providers
 	            var exception = ex.InnerException as ApiException;
 	            if (exception != null)
 	            {
-	                var mandateErrors = new List<string>() {"Mandate is failed, cancelled or expired", "Mandate not found"};
+	                var mandateErrors = new List<string>() { "Mandate is failed, cancelled, expired or blocked", "Mandate is failed, cancelled or expired", "Mandate not found"};
 	                if (mandateErrors.Contains(exception.ApiErrorResponse.Error.Message))
 	                {
 	                    return PaymentResponseDto.MandateError;
