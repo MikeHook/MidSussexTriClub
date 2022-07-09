@@ -198,12 +198,6 @@ namespace MSTC.Web.Controllers
                     RaceDistance = string.IsNullOrEmpty(model.RaceDistance) ? null : model.RaceDistance
                 };
 
-                //Debit cost from members credits
-                credits = member.GetValue<int>(MemberProperty.TrainingCredits);
-                credits = credits - model.Cost;
-                member.SetValue(MemberProperty.TrainingCredits, credits);
-                Services.MemberService.Save(member);
-
                 guestParticipant = _eventParticipantRepository.Create(guestParticipant);
                 Logger.Info(typeof(EventController), $"New event slot booking - Guest: {model.OwsGuestName} , Event: {model.EventTypeName} on {eventSlot.Date.ToString("dd/MM/yyyy")} for £{model.Cost}.");
 
