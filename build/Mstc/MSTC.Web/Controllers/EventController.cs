@@ -141,12 +141,12 @@ namespace MSTC.Web.Controllers
                 response.Error = "You need to signup for open water swimming (on your member details page) before you can book onto open water swim sessions.";
                 return response;
             }
-            // PAYG
-            /*if (string.Equals(model.EventTypeName, "Pool Swim", StringComparison.OrdinalIgnoreCase) && !CanBookPoolSwim(member, model.EventSlotId))
+            
+            if (string.Equals(model.EventTypeName, "Pool Swim", StringComparison.OrdinalIgnoreCase) && !CanBookPoolSwim(member, model.EventSlotId))
             {
                 response.Error = "You need to signup for swim subs (on your member details page) before you can book onto pool swim sessions.";
                 return response;
-            }*/
+            }
 
             if (member.GetValue<int>(MemberProperty.TrainingCredits) < model.Cost)
             {
