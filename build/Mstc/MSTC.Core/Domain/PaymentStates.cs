@@ -28,8 +28,9 @@ namespace Mstc.Core.Domain
 		[Description("Charity Swim - Over 1km")] E00S3KM302C = 302,
         */
 
-        [Description("Swim subs Apr to Sept")] SS05991 = 401,
-		[Description("Swim subs Oct to Mar")] SS05992 = 402,
+        [Description("Swim subs 1")] SS05991 = 401,
+		[Description("Swim subs 2")] SS05992 = 402,
+        [Description("Swim subs 3")] SS05993 = 403,
 
         [Description("MSTC Membership Renewal")]
         MemberRenewal = 501,

@@ -109,12 +109,48 @@ namespace Mstc.Core.ContentModels
 		}
 
 		///<summary>
+		/// Swim Subs 1 Cost
+		///</summary>
+		[ImplementPropertyType("swimSubs1Cost")]
+		public int SwimSubs1Cost
+		{
+			get { return this.GetPropertyValue<int>("swimSubs1Cost"); }
+		}
+
+		///<summary>
 		/// Swim Subs 1 Enabled
 		///</summary>
 		[ImplementPropertyType("swimSubs1Enabled")]
 		public bool SwimSubs1Enabled
 		{
 			get { return this.GetPropertyValue<bool>("swimSubs1Enabled"); }
+		}
+
+		///<summary>
+		/// Swim Subs 1 Month End: This is the end month (number from 1 -12)
+		///</summary>
+		[ImplementPropertyType("swimSubs1MonthEnd")]
+		public int SwimSubs1MonthEnd
+		{
+			get { return this.GetPropertyValue<int>("swimSubs1MonthEnd"); }
+		}
+
+		///<summary>
+		/// Swim Subs 1 Month Start: This is the starting month (number from 1 -12)
+		///</summary>
+		[ImplementPropertyType("swimSubs1MonthStart")]
+		public int SwimSubs1MonthStart
+		{
+			get { return this.GetPropertyValue<int>("swimSubs1MonthStart"); }
+		}
+
+		///<summary>
+		/// Swim Subs 2 Cost
+		///</summary>
+		[ImplementPropertyType("swimSubs2Cost")]
+		public int SwimSubs2Cost
+		{
+			get { return this.GetPropertyValue<int>("swimSubs2Cost"); }
 		}
 
 		///<summary>
@@ -127,12 +163,57 @@ namespace Mstc.Core.ContentModels
 		}
 
 		///<summary>
-		/// Swim Subs Cost
+		/// Swim Subs 2 Month End: This is the end month (number from 1 -12)
 		///</summary>
-		[ImplementPropertyType("swimSubsCost")]
-		public decimal SwimSubsCost
+		[ImplementPropertyType("swimSubs2MonthEnd")]
+		public int SwimSubs2MonthEnd
 		{
-			get { return this.GetPropertyValue<decimal>("swimSubsCost"); }
+			get { return this.GetPropertyValue<int>("swimSubs2MonthEnd"); }
+		}
+
+		///<summary>
+		/// Swim Subs 2 Month Start: This is the starting month (number from 1 -12)
+		///</summary>
+		[ImplementPropertyType("swimSubs2MonthStart")]
+		public int SwimSubs2MonthStart
+		{
+			get { return this.GetPropertyValue<int>("swimSubs2MonthStart"); }
+		}
+
+		///<summary>
+		/// Swim Subs 3 Cost
+		///</summary>
+		[ImplementPropertyType("swimSubs3Cost")]
+		public int SwimSubs3Cost
+		{
+			get { return this.GetPropertyValue<int>("swimSubs3Cost"); }
+		}
+
+		///<summary>
+		/// Swim Subs 3 Enabled
+		///</summary>
+		[ImplementPropertyType("swimSubs3Enabled")]
+		public bool SwimSubs3Enabled
+		{
+			get { return this.GetPropertyValue<bool>("swimSubs3Enabled"); }
+		}
+
+		///<summary>
+		/// Swim Subs 3 Month End: This is the end month (number from 1 -12)
+		///</summary>
+		[ImplementPropertyType("swimSubs3MonthEnd")]
+		public int SwimSubs3MonthEnd
+		{
+			get { return this.GetPropertyValue<int>("swimSubs3MonthEnd"); }
+		}
+
+		///<summary>
+		/// Swim Subs 3 Month Start: This is the starting month (number from 1 -12)
+		///</summary>
+		[ImplementPropertyType("swimSubs3MonthStart")]
+		public int SwimSubs3MonthStart
+		{
+			get { return this.GetPropertyValue<int>("swimSubs3MonthStart"); }
 		}
 
 		///<summary>

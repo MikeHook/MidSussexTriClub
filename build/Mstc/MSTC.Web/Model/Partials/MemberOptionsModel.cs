@@ -23,6 +23,8 @@ namespace MSTC.Web.Model.Partials
         public string BuySwimSubs1Text { get; set; }
         public bool ShowBuySwimSubs2 { get; set; }
         public string BuySwimSubs2Text { get; set; }
+        public bool ShowBuySwimSubs3 { get; set; }
+        public string BuySwimSubs3Text { get; set; }
 
         public bool EnableMemberRenewal { get; set; }
         public bool ShowMemberAdminLink { get; set; }

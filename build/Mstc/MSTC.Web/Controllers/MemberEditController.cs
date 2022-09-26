@@ -28,7 +28,7 @@ namespace MSTC.Web.Controllers
         MemberProvider _memberProvider;
         MembershipCostCalculator _membershipCostCalculator;
 
-        public MemberEditController( )
+        public MemberEditController()
         {
             //TODO - Use IoC?
             _sessionProvider = new SessionProvider();
@@ -46,7 +46,7 @@ namespace MSTC.Web.Controllers
             if (member != null)
             {
                 model.ProfileImageId = member.GetValue<string>(MemberProperty.ProfileImage);
-            }                
+            }
 
             return PartialView("Member/EditMemberImage", model);
         }
@@ -63,7 +63,7 @@ namespace MSTC.Web.Controllers
         [AcceptVerbs(HttpVerbs.Post | HttpVerbs.Get)]
         public ActionResult MemberOptions()
         {
-            var memberEditPage = CurrentPage as MemberEdit;            
+            var memberEditPage = CurrentPage as MemberEdit;
 
             IMember member = _memberProvider.GetLoggedInMember();
             var model = new MemberOptionsModel();
@@ -80,13 +80,20 @@ namespace MSTC.Web.Controllers
 
                 string swimSubs1 = member.GetValue<string>(MemberProperty.swimSubs1);
                 model.ShowBuySwimSubs1 = !model.EnableMemberRenewal && !isGuest && _membershipCostCalculator.SwimSubs1Enabled
-                    && string.IsNullOrEmpty(swimSubs1) && DateTime.Now.Month < 10 && DateTime.Now.Month > 2;
+                    && string.IsNullOrEmpty(swimSubs1);
+
                 string swimSubs2 = member.GetValue<string>(MemberProperty.swimSubs2);
                 model.ShowBuySwimSubs2 = !model.EnableMemberRenewal && !isGuest && _membershipCostCalculator.SwimSubs2Enabled && string.IsNullOrEmpty(swimSubs2);
+
+                string swimSubs3 = member.GetValue<string>(MemberProperty.swimSubs3);
+                model.ShowBuySwimSubs3 = !model.EnableMemberRenewal && !isGuest && _membershipCostCalculator.SwimSubs3Enabled && string.IsNullOrEmpty(swimSubs3);
+
+
                 model.OptionalExtras = GetOptionalExtras(member);
-                decimal swimSubsCost = _membershipCostCalculator.SwimsSubsCostInPence(memberType) / 100;
-                model.BuySwimSubs1Text = string.Format("Buy {0} @ £{1:N2}", MemberProvider.GetSwimSub1Description(DateTime.Now), swimSubsCost);
-                model.BuySwimSubs2Text = string.Format("Buy {0} @ £{1:N2}", MemberProvider.GetSwimSub2Description(DateTime.Now), swimSubsCost);
+
+                model.BuySwimSubs1Text = string.Format("Buy {0} @ £{1:N2}", MemberProvider.GetSwimSub1Description(DateTime.Now), _membershipCostCalculator.SwimsSubsCostInPence(memberType, _membershipCostCalculator.SwimSubs1CostPence) / 100);
+                model.BuySwimSubs2Text = string.Format("Buy {0} @ £{1:N2}", MemberProvider.GetSwimSub2Description(DateTime.Now), _membershipCostCalculator.SwimsSubsCostInPence(memberType, _membershipCostCalculator.SwimSubs2CostPence) / 100);
+                model.BuySwimSubs3Text = string.Format("Buy {0} @ £{1:N2}", MemberProvider.GetSwimSub3Description(DateTime.Now), _membershipCostCalculator.SwimsSubsCostInPence(memberType, _membershipCostCalculator.SwimSubs3CostPence) / 100);
 
                 model.EnableMemberRenewal = memberEditPage.RenewalsEnabled && DateTime.Now.Month > 2 && !isGuest && membershipExpiry.Year <= DateTime.Now.Year;
 
@@ -98,15 +105,15 @@ namespace MSTC.Web.Controllers
                 model.OWSNumber = member.GetValue<string>(MemberProperty.SwimAuthNumber);
                 model.OwsIndemnityAccepted = member.GetValue<bool>(MemberProperty.OpenWaterIndemnityAcceptance);
                 model.OwsIndemnityDocLink = memberEditPage.IndemnityWaiverDoc?.Url;
-                model.OwsSignupFee = (decimal) _membershipCostCalculator.OwsSignupCostPence / 100;
+                model.OwsSignupFee = (decimal)_membershipCostCalculator.OwsSignupCostPence / 100;
 
                 model.RenewalPageUrl = memberEditPage.RenewalPage?.Url;
                 model.MemberAdminPageUrl = memberEditPage.MemberAdminPage?.Url;
                 model.EventBookingPageUrl = memberEditPage.EventBookingPage?.Url;
                 model.EventAdminPageUrl = memberEditPage.EventAdminPage?.Url;
                 model.UnlinkBankPageUrl = memberEditPage.UnlinkBankPage?.Url;
-                
-            }         
+
+            }
 
             return PartialView("Member/EditMemberOptions", model);
         }
@@ -118,7 +125,7 @@ namespace MSTC.Web.Controllers
 
             var member = _memberProvider.GetLoggedInMember();
             var model = new TrainingCreditsModel();
-            if (member!= null)
+            if (member != null)
             {
                 model.EventBookingPageUrl = memberEditPage.EventBookingPage?.Url;
                 model.CurrentTrainingCredits = member.GetValue<int>(MemberProperty.TrainingCredits);
@@ -151,7 +158,7 @@ namespace MSTC.Web.Controllers
             if (!ModelState.IsValid || member == null)
             {
                 return CurrentUmbracoPage();
-            }        
+            }
 
             _sessionProvider.TrainingCreditsInPence = (model.TrainingCreditsToBuy * 100);
             _sessionProvider.CanProcessPaymentCompletion = true;
@@ -172,7 +179,8 @@ namespace MSTC.Web.Controllers
             {
                 var imageUdi = SaveImage(model.ProfileImageFile, _profileImageFolderId);
                 member.SetValue(MemberProperty.ProfileImage, imageUdi);
-            } else if (model.RemoveImage)
+            }
+            else if (model.RemoveImage)
             {
                 member.SetValue(MemberProperty.ProfileImage, "");
             }
@@ -180,7 +188,7 @@ namespace MSTC.Web.Controllers
             Services.MemberService.Save(member);
 
             return RedirectToCurrentUmbracoUrl();
-        }        
+        }
 
         [HttpPost]
         public ActionResult UpdateMemberDetails(MemberDetailsModel model)
@@ -196,7 +204,7 @@ namespace MSTC.Web.Controllers
                 FormsAuthentication.SignOut();
                 FormsAuthentication.SetAuthCookie(model.Email, true);
 
-                string emailContent = GetEmailChangeContent(model, member.Email);                
+                string emailContent = GetEmailChangeContent(model, member.Email);
 
                 _emailProvider.SendEmail(EmailProvider.MembersEmail, EmailProvider.SupportEmail,
                     "MSTC member email updated", emailContent);
@@ -204,8 +212,8 @@ namespace MSTC.Web.Controllers
 
             SetMemberDetails(member, model);
 
-            return RedirectToCurrentUmbracoUrl(); 
-        }        
+            return RedirectToCurrentUmbracoUrl();
+        }
 
         [HttpPost]
         public ActionResult RepublishBlog()
@@ -276,11 +284,11 @@ namespace MSTC.Web.Controllers
 
             if (model.ServiceImageFile != null)
             {
-                var imageUdi = SaveImage(model.ServiceImageFile, _serviceImageFolderId);               
+                var imageUdi = SaveImage(model.ServiceImageFile, _serviceImageFolderId);
                 member.SetValue(MemberProperty.ServiceImage, imageUdi);
             }
             Services.MemberService.Save(member);
-        }       
+        }
 
         private string SaveImage(HttpPostedFileBase postedFile, int parentFolderId)
         {
@@ -298,7 +306,7 @@ namespace MSTC.Web.Controllers
 
             stringBuilder.AppendFormat("{0}: <strong>{1}</strong><br/>", "Name", memberDetails.Name);
             stringBuilder.AppendFormat("{0}: <strong>{1}</strong><br/>", "Old Email", oldEmail);
-            stringBuilder.AppendFormat("{0}: <strong>{1}</strong><br/>", "New Email", memberDetails.Email);           
+            stringBuilder.AppendFormat("{0}: <strong>{1}</strong><br/>", "New Email", memberDetails.Email);
 
             return stringBuilder.ToString();
         }
@@ -307,15 +315,20 @@ namespace MSTC.Web.Controllers
         {
             var options = new List<string>();
 
-            string swimSubs1 = member.GetValue<string>(MemberProperty.swimSubs1);         
+            string swimSubs1 = member.GetValue<string>(MemberProperty.swimSubs1);
             if (!string.IsNullOrEmpty(swimSubs1))
             {
                 options.Add(swimSubs1);
             }
-            string swimSubs2 = member.GetValue<string>(MemberProperty.swimSubs2);   
+            string swimSubs2 = member.GetValue<string>(MemberProperty.swimSubs2);
             if (!string.IsNullOrEmpty(swimSubs2))
             {
                 options.Add(swimSubs2);
+            }
+            string swimSubs3 = member.GetValue<string>(MemberProperty.swimSubs3);
+            if (!string.IsNullOrEmpty(swimSubs3))
+            {
+                options.Add(swimSubs3);
             }
             if (member.GetValue<bool>(MemberProperty.EnglandAthleticsMembership))
             {
