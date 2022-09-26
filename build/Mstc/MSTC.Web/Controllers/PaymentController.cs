@@ -167,15 +167,19 @@ namespace MSTC.Web.Controllers
             {
                 case PaymentStates.SS05991:
                     {
-                        member.SetValue(MemberProperty.swimSubs1, string.Format("Swim Subs Apr - Sept {0}", DateTime.Now.Year));
+                        member.SetValue(MemberProperty.swimSubs1, MemberProvider.GetSwimSub1Description(DateTime.Now));
                         model.ShowSwimSubsConfirmation = true;
                         break;
                     }
                 case PaymentStates.SS05992:
                     {
-                        var janToMarch = new List<int>() { 1, 2, 3 };
-                        int year1 = janToMarch.Any(m => m == DateTime.Now.Month) ? DateTime.Now.Year - 1 : DateTime.Now.Year;
-                        member.SetValue(MemberProperty.swimSubs2, string.Format("Swim Subs Oct {0} - Mar {1}", year1, year1 + 1));
+                        member.SetValue(MemberProperty.swimSubs2, MemberProvider.GetSwimSub2Description(DateTime.Now));
+                        model.ShowSwimSubsConfirmation = true;
+                        break;
+                    }
+                case PaymentStates.SS05993:
+                    {
+                        member.SetValue(MemberProperty.swimSubs3, MemberProvider.GetSwimSub3Description(DateTime.Now));
                         model.ShowSwimSubsConfirmation = true;
                         break;
                     }
