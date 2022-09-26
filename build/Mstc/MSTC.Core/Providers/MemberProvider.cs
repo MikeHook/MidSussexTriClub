@@ -7,41 +7,77 @@ using Mstc.Core.Dto;
 using System.Web.Security;
 using Umbraco.Core.Services;
 using Umbraco.Core.Models;
+using Mstc.Core.ContentModels;
+using Umbraco.Web;
+using System.Globalization;
+using System.Drawing;
 
 namespace Mstc.Core.Providers
 {
 	public class MemberProvider
 	{
 		private readonly IMemberService _memberService;
+        private static MemberRegistration _memberRegistration;
 
-		public MemberProvider(ServiceContext serviceContext)
+        public MemberProvider(ServiceContext serviceContext)
 		{
 			_memberService = serviceContext.MemberService;
-		}
+			init();
+        }
 
 		public MemberProvider(IMemberService memberService)
 		{
 			_memberService = memberService;
+			init();
+        }
+
+		public void init()
+		{
+            UmbracoHelper umbracoHelper = new UmbracoHelper(UmbracoContext.Current);
+            var memberRegistrationContent = umbracoHelper?.TypedContentAtRoot().DescendantsOrSelf(MemberRegistration.ModelTypeAlias).FirstOrDefault();
+            if (memberRegistrationContent != null)
+            {
+                _memberRegistration = new MemberRegistration(memberRegistrationContent);
+			}
 		}
 
-		public static string GetSwimSub1Description(DateTime now)
+        public static string SwimSubs1MonthStart => _memberRegistration != null ? new DateTime(2000, _memberRegistration.SwimSubs1MonthStart, 1).ToString("MMM", CultureInfo.InvariantCulture)  : null;
+        public static string SwimSubs1MonthEnd => _memberRegistration != null ? new DateTime(2000, _memberRegistration.SwimSubs1MonthEnd, 1).ToString("MMM", CultureInfo.InvariantCulture) : null;
+        public static string SwimSubs2MonthStart => _memberRegistration != null ? new DateTime(2000, _memberRegistration.SwimSubs2MonthStart, 1).ToString("MMM", CultureInfo.InvariantCulture) : null;
+        public static string SwimSubs2MonthEnd => _memberRegistration != null ? new DateTime(2000, _memberRegistration.SwimSubs2MonthEnd, 1).ToString("MMM", CultureInfo.InvariantCulture) : null;
+        public static string SwimSubs3MonthStart => _memberRegistration != null ? new DateTime(2000, _memberRegistration.SwimSubs3MonthStart, 1).ToString("MMM", CultureInfo.InvariantCulture) : null;
+        public static string SwimSubs3MonthEnd => _memberRegistration != null ? new DateTime(2000, _memberRegistration.SwimSubs3MonthEnd, 1).ToString("MMM", CultureInfo.InvariantCulture) : null;
+
+        public static string GetSwimSub1Description(DateTime now)
         {
+			
+
             int year = now.Year;
-            if (now.Month == 1 || now.Month == 2)
+            if (now.Month > _memberRegistration.SwimSubs1MonthEnd)
             {
-                year--;
+                year++;
             }
-            return string.Format("Pool Swim subs Apr to Sep {0}", year);
+            return string.Format("Pool Swim subs {0} to {1} {2}", SwimSubs1MonthStart, SwimSubs1MonthEnd, year);
         }
 
         public static string GetSwimSub2Description(DateTime now)
         {
             int year = now.Year;
-            if (now.Month == 1 || now.Month == 2)
+            if (now.Month > _memberRegistration.SwimSubs2MonthEnd)
             {
-                year--;
+                year++;
             }
-            return string.Format("Pool Swim subs Oct {0} to Mar {1}", year, (year + 1));
+            return string.Format("Pool Swim subs {0} to {1} {2}", SwimSubs2MonthStart, SwimSubs2MonthEnd, year);
+        }
+
+        public static string GetSwimSub3Description(DateTime now)
+        {
+            int year = now.Year;
+            if (now.Month > _memberRegistration.SwimSubs3MonthEnd)
+            {
+                year++;
+            }
+            return string.Format("Pool Swim subs {0} to {1} {2}", SwimSubs3MonthStart, SwimSubs3MonthEnd, year);
         }
 
         public static string GetPaymentDescription(MemberOptions membershipOptions)
@@ -54,8 +90,12 @@ namespace Mstc.Core.Providers
             if (membershipOptions.SwimSubs2)
             {
 				descriptionList.Add(GetSwimSub2Description(DateTime.Now));
-			}
-		    if (membershipOptions.EnglandAthleticsMembership)
+            }
+            if (membershipOptions.SwimSubs3)
+            {
+                descriptionList.Add(GetSwimSub3Description(DateTime.Now));
+            }
+            if (membershipOptions.EnglandAthleticsMembership)
 		    {
 				descriptionList.Add("England Athletics Membership");
             }
@@ -173,7 +213,8 @@ namespace Mstc.Core.Providers
 			member.SetValue(MemberProperty.OpenWaterIndemnityAcceptance, membershipOptions.OpenWaterIndemnityAcceptance);
 			member.SetValue(MemberProperty.swimSubs1, membershipOptions.SwimSubs1 ? GetSwimSub1Description(DateTime.Now) : string.Empty);				
 			member.SetValue(MemberProperty.swimSubs2, membershipOptions.SwimSubs2 ? GetSwimSub2Description(DateTime.Now) : string.Empty);
-			member.SetValue(MemberProperty.EnglandAthleticsMembership, membershipOptions.EnglandAthleticsMembership);
+            member.SetValue(MemberProperty.swimSubs3, membershipOptions.SwimSubs3 ? GetSwimSub3Description(DateTime.Now) : string.Empty);
+            member.SetValue(MemberProperty.EnglandAthleticsMembership, membershipOptions.EnglandAthleticsMembership);
 			member.SetValue(MemberProperty.Volunteering, membershipOptions.Volunteering);
 			member.SetValue(MemberProperty.MembershipExpiry, membershipExpiry);
 		

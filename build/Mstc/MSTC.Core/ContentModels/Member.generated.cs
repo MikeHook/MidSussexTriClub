@@ -298,6 +298,15 @@ namespace Mstc.Core.ContentModels
 		}
 
 		///<summary>
+		/// Swim Subs 1 Expiry Date
+		///</summary>
+		[ImplementPropertyType("swimSubs1ExpiryDate")]
+		public DateTime SwimSubs1ExpiryDate
+		{
+			get { return this.GetPropertyValue<DateTime>("swimSubs1ExpiryDate"); }
+		}
+
+		///<summary>
 		/// Swim Subs 2
 		///</summary>
 		[ImplementPropertyType("swimSubs2")]
@@ -313,6 +322,24 @@ namespace Mstc.Core.ContentModels
 		public DateTime SwimSubs2ExpiryDate
 		{
 			get { return this.GetPropertyValue<DateTime>("swimSubs2ExpiryDate"); }
+		}
+
+		///<summary>
+		/// Swim Subs 3
+		///</summary>
+		[ImplementPropertyType("swimSubs3")]
+		public string SwimSubs3
+		{
+			get { return this.GetPropertyValue<string>("swimSubs3"); }
+		}
+
+		///<summary>
+		/// Swim Subs 3 Expiry Date
+		///</summary>
+		[ImplementPropertyType("swimSubs3ExpiryDate")]
+		public DateTime SwimSubs3ExpiryDate
+		{
+			get { return this.GetPropertyValue<DateTime>("swimSubs3ExpiryDate"); }
 		}
 
 		///<summary>

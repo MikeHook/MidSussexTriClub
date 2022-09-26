@@ -28,7 +28,7 @@
                 }
             </p>
         </div>
-        @if (Model.ShowBuySwimSubs1 || Model.ShowBuySwimSubs2)
+        @if (Model.ShowBuySwimSubs1 || Model.ShowBuySwimSubs2 || Model.ShowBuySwimSubs3)
         {
             <div class="form-group">
                 <label class="control-label"><b>Pool Swim Subs</b></label>
@@ -54,6 +54,18 @@
                     <div>
                         @Html.Hidden("state", Mstc.Core.Domain.PaymentStates.SS05992)
                         <button name="btnSwimSubs2" type="submit" class="btn btn-yellow pull-left swim-subs-btn">@Model.BuySwimSubs2Text</button>
+                    </div>
+                </div>
+            }
+        }
+        @if (Model.ShowBuySwimSubs3)
+        {
+            using (Html.BeginUmbracoForm("PaymentRedirect", "MemberEdit", FormMethod.Post))
+            {
+                <div class="form-group">
+                    <div>
+                        @Html.Hidden("state", Mstc.Core.Domain.PaymentStates.SS05993)
+                        <button name="btnSwimSubs3" type="submit" class="btn btn-yellow pull-left swim-subs-btn">@Model.BuySwimSubs3Text</button>
                     </div>
                 </div>
             }
@@ -95,7 +107,8 @@
                 <p class="form-control-static"><a href="@Model.MemberAdminPageUrl">Members Admin Details</a></p>
                 <p><a href="@Model.EventAdminPageUrl">Event Admin Page</a></p>
             </div>
-        } else if (Model.ShowEventAdminLink)
+        }
+        else if (Model.ShowEventAdminLink)
         {
             <div class="form-group">
                 <label class="control-label"><b>Super secret admin pages</b></label>
