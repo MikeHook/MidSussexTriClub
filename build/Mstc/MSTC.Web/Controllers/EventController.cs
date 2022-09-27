@@ -51,12 +51,12 @@ namespace MSTC.Web.Controllers
                     eventType.EventSlots = eventSlots.Where(es => es.EventTypeId == eventType.Id).ToList();
 
                     // Swimsubs1
-                    if ( 9 <= DateTime.Now.Month && DateTime.Now.Month <= 12)
+                    if (9 <= DateTime.Now.Month && DateTime.Now.Month <= 12)
                     {
                         eventType.MemberHasSubscription = !string.IsNullOrEmpty(member.GetValue<string>(MemberProperty.swimSubs1));
                     }
                     // Swimsubs2
-                    else if ( 1 <= DateTime.Now.Month && DateTime.Now.Month <= 4)  
+                    else if (1 <= DateTime.Now.Month && DateTime.Now.Month <= 4)
                     {
                         eventType.MemberHasSubscription = !string.IsNullOrEmpty(member.GetValue<string>(MemberProperty.swimSubs2));
                     }
@@ -147,7 +147,7 @@ namespace MSTC.Web.Controllers
                 response.Error = "You need to signup for open water swimming (on your member details page) before you can book onto open water swim sessions.";
                 return response;
             }
-            
+
             if (string.Equals(model.EventTypeName, "Pool Swim", StringComparison.OrdinalIgnoreCase) && !CanBookPoolSwim(member, model.EventSlotId))
             {
                 response.Error = "You need to signup for swim subs (on your member details page) before you can book onto pool swim sessions.";
@@ -327,13 +327,20 @@ namespace MSTC.Web.Controllers
             if (eventSlot.Date.Month >= 9 && eventSlot.Date.Month <= 12)
             {
                 bool hasSwimSubs1 = string.IsNullOrEmpty(member.GetValue<string>(MemberProperty.swimSubs1)) == false;
+
+                if (!hasSwimSubs1)
+                {
+                    DateTime swimSubs1Expiry = member.GetValue<DateTime>(MemberProperty.swimSubs1ExpiryDate);
+
+                    hasSwimSubs1 = swimSubs1Expiry >= eventSlot.Date;
+                }
+
                 return hasSwimSubs1;
             }
             else if (eventSlot.Date.Month >= 1 && eventSlot.Date.Month <= 4)
             {
                 bool hasSwimSubs2 = string.IsNullOrEmpty(member.GetValue<string>(MemberProperty.swimSubs2)) == false;
 
-                // Fix for swim subs renewal bug
                 if (!hasSwimSubs2)
                 {
                     DateTime swimSubs2Expiry = member.GetValue<DateTime>(MemberProperty.swimSubs2ExpiryDate);
@@ -347,7 +354,6 @@ namespace MSTC.Web.Controllers
             {
                 bool hasSwimSubs3 = string.IsNullOrEmpty(member.GetValue<string>(MemberProperty.swimSubs3)) == false;
 
-                // Fix for swim subs renewal bug
                 if (!hasSwimSubs3)
                 {
                     DateTime swimSubs3Expiry = member.GetValue<DateTime>(MemberProperty.swimSubs3ExpiryDate);
