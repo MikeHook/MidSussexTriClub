@@ -217,9 +217,9 @@ namespace Mstc.Core.Providers
                     new DateTime(DateTime.Now.Year, _memberRegistration.SwimSubs2MonthEnd,
                     DateTime.DaysInMonth(DateTime.Now.Year, _memberRegistration.SwimSubs2MonthEnd)));
             }
-            if (member.GetValue<string>(MemberProperty.swimSubs2)?.Length > 0)
+            if (member.GetValue<string>(MemberProperty.swimSubs3)?.Length > 0)
             {
-                member.SetValue(MemberProperty.swimSubs2ExpiryDate,
+                member.SetValue(MemberProperty.swimSubs3ExpiryDate,
                     new DateTime(DateTime.Now.Year, _memberRegistration.SwimSubs3MonthEnd,
                     DateTime.DaysInMonth(DateTime.Now.Year, _memberRegistration.SwimSubs3MonthEnd)));
             }
