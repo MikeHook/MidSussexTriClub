@@ -51,13 +51,19 @@ namespace MSTC.Web.Controllers
                     eventType.EventSlots = eventSlots.Where(es => es.EventTypeId == eventType.Id).ToList();
 
                     // Swimsubs1
-                    if (2 < DateTime.Now.Month && DateTime.Now.Month < 10)
+                    if ( 9 <= DateTime.Now.Month && DateTime.Now.Month <= 12)
                     {
                         eventType.MemberHasSubscription = !string.IsNullOrEmpty(member.GetValue<string>(MemberProperty.swimSubs1));
                     }
-                    else // Swimsubs2
+                    // Swimsubs2
+                    else if ( 1 <= DateTime.Now.Month && DateTime.Now.Month <= 4)  
                     {
                         eventType.MemberHasSubscription = !string.IsNullOrEmpty(member.GetValue<string>(MemberProperty.swimSubs2));
+                    }
+                    // Swimsubs3
+                    else
+                    {
+                        eventType.MemberHasSubscription = !string.IsNullOrEmpty(member.GetValue<string>(MemberProperty.swimSubs3));
                     }
                 }
 
@@ -318,12 +324,12 @@ namespace MSTC.Web.Controllers
         {
             var eventSlot = _eventSlotRepository.GetById(eventSlotId);
 
-            if (eventSlot.Date.Month > 3 && eventSlot.Date.Month < 10)
+            if (eventSlot.Date.Month >= 9 && eventSlot.Date.Month <= 12)
             {
                 bool hasSwimSubs1 = string.IsNullOrEmpty(member.GetValue<string>(MemberProperty.swimSubs1)) == false;
                 return hasSwimSubs1;
             }
-            else
+            else if (eventSlot.Date.Month >= 1 && eventSlot.Date.Month <= 4)
             {
                 bool hasSwimSubs2 = string.IsNullOrEmpty(member.GetValue<string>(MemberProperty.swimSubs2)) == false;
 
@@ -336,6 +342,20 @@ namespace MSTC.Web.Controllers
                 }
 
                 return hasSwimSubs2;
+            }
+            else
+            {
+                bool hasSwimSubs3 = string.IsNullOrEmpty(member.GetValue<string>(MemberProperty.swimSubs3)) == false;
+
+                // Fix for swim subs renewal bug
+                if (!hasSwimSubs3)
+                {
+                    DateTime swimSubs3Expiry = member.GetValue<DateTime>(MemberProperty.swimSubs3ExpiryDate);
+
+                    hasSwimSubs3 = swimSubs3Expiry >= eventSlot.Date;
+                }
+
+                return hasSwimSubs3;
             }
         }
     }

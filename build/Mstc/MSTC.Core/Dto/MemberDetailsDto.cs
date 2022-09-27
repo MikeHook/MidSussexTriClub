@@ -12,6 +12,7 @@ namespace Mstc.Core.Dto
 		public string MembershipTypeString => MembershipType?.ToString();
 		public string SwimSubs1 { get; set; }
 		public string SwimSubs2 { get; set; }
+        public string SwimSubs3 { get; set; }
         public bool EnglandAthleticsMembership { get; set; }
         public bool OpenWaterIndemnityAcceptance { get; set; } 
 		public bool Volunteering { get; set; }
