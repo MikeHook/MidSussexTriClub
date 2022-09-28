@@ -28,13 +28,17 @@ namespace Mstc.Core.Domain
 				new Tuple<bool, string>(false, "I do not wish to take part in open water swimming this season."),
 			};
 
-			ShowSwimSubs1 = 2 < DateTime.Now.Month && DateTime.Now.Month < 10 && membershipCostCalculator.SwimSubs1Enabled;
+			ShowSwimSubs1 = membershipCostCalculator.SwimSubs1Enabled;
 			ShowSwimSubs2 = membershipCostCalculator.SwimSubs2Enabled;
+			ShowSwimSubs3 = membershipCostCalculator.SwimSubs3Enabled;
 			ShowEnglandAthletics = membershipCostCalculator.EnglandAthleticsEnabled;
 			ShowOwsSignup = membershipCostCalculator.OwsSignupEnabled;
 		
-			SwimSubsCost = membershipCostCalculator.SwimsSubsCostInPence(MembershipTypeEnum.Individual) / 100;
-			EnglandAthleticsCost = membershipCostCalculator.EnglandAthleticsCostInPence / 100;
+			SwimSubs1Cost = membershipCostCalculator.SwimsSubsCostInPence(MembershipTypeEnum.Individual, membershipCostCalculator.SwimSubs1CostPence) / 100;
+            SwimSubs2Cost = membershipCostCalculator.SwimsSubsCostInPence(MembershipTypeEnum.Individual, membershipCostCalculator.SwimSubs2CostPence) / 100;
+            SwimSubs3Cost = membershipCostCalculator.SwimsSubsCostInPence(MembershipTypeEnum.Individual, membershipCostCalculator.SwimSubs3CostPence) / 100;
+
+            EnglandAthleticsCost = membershipCostCalculator.EnglandAthleticsCostInPence / 100;
 			OwsSignupCost = membershipCostCalculator.OwsSignupCostPence / 100;
 
 			IsDiscounted = membershipCostCalculator.DiscountedMonths.Contains(DateTime.Now.Month);
@@ -54,14 +58,18 @@ namespace Mstc.Core.Domain
 
 		public bool ShowSwimSubs1 { get; set; }
 		public bool ShowSwimSubs2 { get; set; }
-		public bool ShowEnglandAthletics { get; set; }
+
+        public bool ShowSwimSubs3 { get; set; }
+        public bool ShowEnglandAthletics { get; set; }
 		public bool ShowOwsSignup { get; set; }
 
 		public bool SwimSubs1 { get; set; }
 
 		public bool SwimSubs2 { get; set; }
 
-		public bool EnglandAthleticsMembership { get; set; }
+        public bool SwimSubs3 { get; set; }
+
+        public bool EnglandAthleticsMembership { get; set; }
 
 		[Required, Display(Name = "Open water swimming indemnity waiver*")]
 		public bool? OpenWaterIndemnityAcceptance { get; set; }
@@ -73,8 +81,10 @@ namespace Mstc.Core.Domain
 
 		public string ReferredByMember { get; set; }
 
-		public decimal SwimSubsCost { get; set; }
-		public decimal EnglandAthleticsCost { get; set; }
+		public decimal SwimSubs1Cost { get; set; }
+        public decimal SwimSubs2Cost { get; set; }
+        public decimal SwimSubs3Cost { get; set; }
+        public decimal EnglandAthleticsCost { get; set; }
 		public decimal OwsSignupCost { get; set; }
 	}
 }

@@ -31,7 +31,8 @@ namespace Mstc.Core.Providers
 
 		public bool SwimSubs1Enabled => _memberRegistration != null ? _memberRegistration.SwimSubs1Enabled : true;
 		public bool SwimSubs2Enabled => _memberRegistration != null ? _memberRegistration.SwimSubs2Enabled : true;
-		public bool EnglandAthleticsEnabled => _memberRegistration != null ? _memberRegistration.EnglandAthleticsEnabled : true;
+        public bool SwimSubs3Enabled => _memberRegistration != null ? _memberRegistration.SwimSubs3Enabled : true;
+        public bool EnglandAthleticsEnabled => _memberRegistration != null ? _memberRegistration.EnglandAthleticsEnabled : true;
 		public bool OwsSignupEnabled => _memberRegistration != null ? _memberRegistration.OWssignupEnabled : true;
 
 		public List<Tuple<MembershipTypeEnum, string>> MembershipTypes => new List<Tuple<MembershipTypeEnum, string>>()
@@ -47,16 +48,19 @@ namespace Mstc.Core.Providers
 					$"Concession: Youth (16-17) / Student / Unemployed - &pound;{(decimal)GetTypeCostPence(MembershipTypeEnum.Concession, DateTime.Now)/100}"),
 			};
 
-		public int SwimsSubsCostInPence(MembershipTypeEnum type)
+		public int SwimsSubsCostInPence(MembershipTypeEnum type, int swimSubsCost)
 		{
-			int swimSubsCost = (int) (_memberRegistration.SwimSubsCost * 100);
 			return type == MembershipTypeEnum.Concession ? swimSubsCost / 2 : swimSubsCost;
 		}
 
 		public int EnglandAthleticsCostInPence => (int)(_memberRegistration.EnglandAthleticsCost * 100);
 		public int OwsSignupCostPence => (int)(_memberRegistration.OWssignupCost * 100);
 
-		public int GetTypeCostPence(MembershipTypeEnum type, DateTime currentDate)
+        public int SwimSubs1CostPence => (int)(_memberRegistration.SwimSubs1Cost * 100);
+        public int SwimSubs2CostPence => (int)(_memberRegistration.SwimSubs2Cost * 100);
+        public int SwimSubs3CostPence => (int)(_memberRegistration.SwimSubs3Cost * 100);
+
+        public int GetTypeCostPence(MembershipTypeEnum type, DateTime currentDate)
 		{
 			decimal cost = 50;
 			if (_memberRegistration == null)
@@ -89,13 +93,18 @@ namespace Mstc.Core.Providers
 			var cost = GetTypeCostPence(membershipOptions.MembershipType.Value, currentDate);
 			if (membershipOptions.SwimSubs1)
 			{
-				cost += SwimsSubsCostInPence(membershipOptions.MembershipType.Value);
+				cost += SwimsSubsCostInPence(membershipOptions.MembershipType.Value, SwimSubs1CostPence);
 			}
 			if (membershipOptions.SwimSubs2)
 			{
-				cost += SwimsSubsCostInPence(membershipOptions.MembershipType.Value);
+				cost += SwimsSubsCostInPence(membershipOptions.MembershipType.Value, SwimSubs2CostPence);
 			}
-			if (membershipOptions.EnglandAthleticsMembership)
+            if (membershipOptions.SwimSubs3)
+            {
+                cost += SwimsSubsCostInPence(membershipOptions.MembershipType.Value, SwimSubs3CostPence);
+            }
+
+            if (membershipOptions.EnglandAthleticsMembership)
 			{
 				cost += EnglandAthleticsCostInPence;
 			}
@@ -116,11 +125,18 @@ namespace Mstc.Core.Providers
 			switch (state)
 			{
 				case PaymentStates.SS05991:
-				case PaymentStates.SS05992:
+                    {
+                        return SwimsSubsCostInPence(type, SwimSubs1CostPence);
+                    }
+                case PaymentStates.SS05992:
 					{
-						return SwimsSubsCostInPence(type);
+						return SwimsSubsCostInPence(type, SwimSubs2CostPence);
 					}
-			}
+                case PaymentStates.SS05993:
+                    {
+                        return SwimsSubsCostInPence(type, SwimSubs3CostPence);
+                    }
+            }
 
 			throw new Exception("Unknown cost");
 		}
