@@ -80,13 +80,15 @@ namespace MSTC.Web.Controllers
 
                 string swimSubs1 = member.GetValue<string>(MemberProperty.swimSubs1);
                 model.ShowBuySwimSubs1 = !model.EnableMemberRenewal && !isGuest && _membershipCostCalculator.SwimSubs1Enabled
-                    && string.IsNullOrEmpty(swimSubs1);
+                    && !string.Equals(swimSubs1, MemberProvider.GetSwimSub1Description(DateTime.Now), StringComparison.OrdinalIgnoreCase);
 
                 string swimSubs2 = member.GetValue<string>(MemberProperty.swimSubs2);
-                model.ShowBuySwimSubs2 = !model.EnableMemberRenewal && !isGuest && _membershipCostCalculator.SwimSubs2Enabled && string.IsNullOrEmpty(swimSubs2);
+                model.ShowBuySwimSubs2 = !model.EnableMemberRenewal && !isGuest && _membershipCostCalculator.SwimSubs2Enabled
+                    && !string.Equals(swimSubs2, MemberProvider.GetSwimSub2Description(DateTime.Now), StringComparison.OrdinalIgnoreCase);
 
                 string swimSubs3 = member.GetValue<string>(MemberProperty.swimSubs3);
-                model.ShowBuySwimSubs3 = !model.EnableMemberRenewal && !isGuest && _membershipCostCalculator.SwimSubs3Enabled && string.IsNullOrEmpty(swimSubs3);
+                model.ShowBuySwimSubs3 = !model.EnableMemberRenewal && !isGuest && _membershipCostCalculator.SwimSubs3Enabled
+                    && !string.Equals(swimSubs3, MemberProvider.GetSwimSub3Description(DateTime.Now), StringComparison.OrdinalIgnoreCase);
 
 
                 model.OptionalExtras = GetOptionalExtras(member);
