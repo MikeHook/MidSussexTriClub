@@ -326,7 +326,8 @@ namespace MSTC.Web.Controllers
 
             if (eventSlot.Date.Month >= 9 && eventSlot.Date.Month <= 12)
             {
-                bool hasSwimSubs1 = string.IsNullOrEmpty(member.GetValue<string>(MemberProperty.swimSubs1)) == false;
+                //bool hasSwimSubs1 = string.IsNullOrEmpty(member.GetValue<string>(MemberProperty.swimSubs1)) == false;
+                bool hasSwimSubs1 = string.Equals(member.GetValue<string>(MemberProperty.swimSubs1), MemberProvider.GetSwimSub1Description(DateTime.Now), StringComparison.OrdinalIgnoreCase);
 
                 if (!hasSwimSubs1)
                 {
@@ -339,7 +340,9 @@ namespace MSTC.Web.Controllers
             }
             else if (eventSlot.Date.Month >= 1 && eventSlot.Date.Month <= 4)
             {
-                bool hasSwimSubs2 = string.IsNullOrEmpty(member.GetValue<string>(MemberProperty.swimSubs2)) == false;
+                //bool hasSwimSubs2 = string.IsNullOrEmpty(member.GetValue<string>(MemberProperty.swimSubs2)) == false;
+                bool hasSwimSubs2 = string.Equals(member.GetValue<string>(MemberProperty.swimSubs2), MemberProvider.GetSwimSub2Description(DateTime.Now), StringComparison.OrdinalIgnoreCase);
+
 
                 if (!hasSwimSubs2)
                 {
@@ -352,7 +355,8 @@ namespace MSTC.Web.Controllers
             }
             else
             {
-                bool hasSwimSubs3 = string.IsNullOrEmpty(member.GetValue<string>(MemberProperty.swimSubs3)) == false;
+                //bool hasSwimSubs3 = string.IsNullOrEmpty(member.GetValue<string>(MemberProperty.swimSubs3)) == false;
+                bool hasSwimSubs3 = string.Equals(member.GetValue<string>(MemberProperty.swimSubs3), MemberProvider.GetSwimSub3Description(DateTime.Now), StringComparison.OrdinalIgnoreCase);
 
                 if (!hasSwimSubs3)
                 {
