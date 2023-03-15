@@ -39,34 +39,34 @@
         <label class="col-sm-2 control-label"><b>Optional extras</b></label>
         <div class="col-sm-10">
             <span class="checkbox">
-                @if (Model.ShowSwimSubs1)
-                {
-                    @Html.CheckBoxFor(m => m.SwimSubs1, new { id = "cb-swimsubs1" });
-                    <label for="cb-swimsubs1">
-                        @Html.Raw(Mstc.Core.Providers.MemberProvider.GetSwimSub1Description(DateTime.Now))
-                    @($" - Standard £{Model.SwimSubs1Cost} / Concessions £{Model.SwimSubs1Cost/2}")
-                </label><br />
-            }
                 @if (Model.ShowSwimSubs2)
                 {
-                    @Html.CheckBoxFor(m => m.SwimSubs2, new { id = "cb-swimsubs2" })
-                    <label for="cb-swimsubs2">
-                        @Html.Raw(Mstc.Core.Providers.MemberProvider.GetSwimSub2Description(DateTime.Now))
+                @Html.CheckBoxFor(m => m.SwimSubs2, new { id = "cb-swimsubs2" })
+                <label for="cb-swimsubs2">
+                    @Html.Raw(Mstc.Core.Providers.MemberProvider.GetSwimSub2Description(DateTime.Now))
                     @($" - Standard £{Model.SwimSubs2Cost} / Concessions £{Model.SwimSubs2Cost / 2}")
                 </label><br />
             }
                 @if (Model.ShowSwimSubs3)
                 {
-                    @Html.CheckBoxFor(m => m.SwimSubs3, new { id = "cb-swimsubs3" })
-                    <label for="cb-swimsubs3">
-                        @Html.Raw(Mstc.Core.Providers.MemberProvider.GetSwimSub3Description(DateTime.Now))
+                @Html.CheckBoxFor(m => m.SwimSubs3, new { id = "cb-swimsubs3" })
+                <label for="cb-swimsubs3">
+                    @Html.Raw(Mstc.Core.Providers.MemberProvider.GetSwimSub3Description(DateTime.Now))
                     @($" - Standard £{Model.SwimSubs3Cost} / Concessions £{Model.SwimSubs3Cost / 2}")
+                </label><br />
+            }
+                @if (Model.ShowSwimSubs1)
+                {
+                @Html.CheckBoxFor(m => m.SwimSubs1, new { id = "cb-swimsubs1" });
+                <label for="cb-swimsubs1">
+                    @Html.Raw(Mstc.Core.Providers.MemberProvider.GetSwimSub1Description(DateTime.Now))
+                    @($" - Standard £{Model.SwimSubs1Cost} / Concessions £{Model.SwimSubs1Cost/2}")
                 </label><br />
             }
                 @if (Model.ShowEnglandAthletics)
                 {
-                    @Html.CheckBoxFor(m => m.EnglandAthleticsMembership, new { id = "cb-athletics" })
-                    <label for="cb-athletics">England Athletics Membership* - &pound;@Model.EnglandAthleticsCost</label><br />
+                @Html.CheckBoxFor(m => m.EnglandAthleticsMembership, new { id = "cb-athletics" })
+                <label for="cb-athletics">England Athletics Membership* - &pound;@Model.EnglandAthleticsCost</label><br />
                 }
             </span>
              @if (Model.ShowEnglandAthletics)
