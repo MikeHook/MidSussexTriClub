@@ -97,8 +97,7 @@ namespace MSTC.Web.Controllers
                 ProcessPaymentState(model, member, paymentState);
                 model.PaymentConfirmed = true;
             }
-
-            if (paymentResponse == PaymentResponseDto.Success)
+            else if (paymentResponse == PaymentResponseDto.Success)
             {
                 ProcessPaymentState(model, member, paymentState);
                 model.PaymentConfirmed = true;
