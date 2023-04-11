@@ -92,7 +92,12 @@ namespace MSTC.Web.Controllers
             
             var paymentResponse = CreatePayment(member, paymentState);
 
-            if (paymentResponse == PaymentResponseDto.Success)
+            if (state == "OwsSignup")
+            {
+                ProcessPaymentState(model, member, paymentState);
+                model.PaymentConfirmed = true;
+            }
+            else if (paymentResponse == PaymentResponseDto.Success)
             {
                 ProcessPaymentState(model, member, paymentState);
                 model.PaymentConfirmed = true;
