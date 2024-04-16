@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Mstc.Core.Providers;
@@ -351,7 +351,7 @@ namespace MSTC.Web.Controllers
                     hasSwimSubs2 = swimSubs2Expiry >= eventSlot.Date;
                 }
 
-                return hasSwimSubs2;
+                return true;
             }
             else
             {
