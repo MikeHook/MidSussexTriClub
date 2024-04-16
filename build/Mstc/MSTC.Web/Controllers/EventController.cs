@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Mstc.Core.Providers;
@@ -348,7 +348,7 @@ namespace MSTC.Web.Controllers
                 {
                     DateTime swimSubs2Expiry = member.GetValue<DateTime>(MemberProperty.swimSubs2ExpiryDate);
 
-                    hasSwimSubs2 = swimSubs2Expiry >= eventSlot.Date;
+                    hasSwimSubs2 = True;
                 }
 
                 return hasSwimSubs2;
