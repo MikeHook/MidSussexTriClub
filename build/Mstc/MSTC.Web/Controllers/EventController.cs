@@ -348,7 +348,7 @@ namespace MSTC.Web.Controllers
                 {
                     DateTime swimSubs2Expiry = member.GetValue<DateTime>(MemberProperty.swimSubs2ExpiryDate);
 
-                    hasSwimSubs2 = True;
+                    hasSwimSubs2 = true;
                 }
 
                 return true;
