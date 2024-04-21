@@ -16,9 +16,8 @@ namespace Mstc.Core.Providers
 		public const string MembersEmail = "members@midsussextriclub.com";
 		public const string OwsEmail = "openwaterswim@midsussextriclub.com";
         public const string SponsorsEmail = "sponsorship@midsussextriclub.com";
-		public const string JuniorsEmail = "juniors@midsussextriclub.com";
 		public const string SupportEmail = "support@midsussextriclub.com";
-		public const string CoachingEmail = "coaching@midsussextriclub.com";
+		public const string CoachingEmail = "info@midsussextriclub.com";
 
 
 		public Dictionary<TopicEnum, string> EmailLookup = new Dictionary<TopicEnum, string>()
@@ -26,7 +25,6 @@ namespace Mstc.Core.Providers
 			{TopicEnum.Membership, MembersEmail},
 			{TopicEnum.OWS, OwsEmail},
             {TopicEnum.Sponsorship, SponsorsEmail},
-			{TopicEnum.Juniors, JuniorsEmail},
 			{TopicEnum.Website, SupportEmail},
 			{TopicEnum.Coaching, CoachingEmail},
 		};
