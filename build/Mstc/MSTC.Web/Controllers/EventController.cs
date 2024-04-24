@@ -351,7 +351,7 @@ namespace MSTC.Web.Controllers
                     hasSwimSubs2 = true;
                 }
 
-                return true;
+                return hasSwimSubs2;
             }
             else
             {
