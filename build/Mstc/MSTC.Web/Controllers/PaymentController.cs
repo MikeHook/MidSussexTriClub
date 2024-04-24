@@ -173,7 +173,7 @@ namespace MSTC.Web.Controllers
                 case PaymentStates.SS05991:
                     {
                         var swimSubDesc = MemberProvider.GetSwimSub1Description(DateTime.Now);
-                        var monthEnd = DateTime.ParseExact(swimSubDesc.Substring(22,3), "MMM", CultureInfo.CurrentCulture).Month;
+                        var monthEnd = Convert.ToDateTime(swimSubDesc.Substring(22,3) + " 01, 1900").Month;
                         member.SetValue(MemberProperty.swimSubs1, swimSubDesc);
                         member.SetValue(MemberProperty.swimSubs1ExpiryDate, new DateTime(DateTime.Now.Year, monthEnd, DateTime.DaysInMonth(DateTime.Now.Year, monthEnd)));
                         model.ShowSwimSubsConfirmation = true;
@@ -182,7 +182,7 @@ namespace MSTC.Web.Controllers
                 case PaymentStates.SS05992:
                     {
                         var swimSubDesc = MemberProvider.GetSwimSub2Description(DateTime.Now);
-                        var monthEnd = DateTime.ParseExact(swimSubDesc.Substring(22,3), "MMM", CultureInfo.CurrentCulture).Month;
+                        var monthEnd = Convert.ToDateTime(swimSubDesc.Substring(22,3) + " 01, 1900").Month;
                         member.SetValue(MemberProperty.swimSubs2, swimSubDesc);
                         member.SetValue(MemberProperty.swimSubs2ExpiryDate, new DateTime(DateTime.Now.Year, monthEnd, DateTime.DaysInMonth(DateTime.Now.Year, monthEnd)));
                         model.ShowSwimSubsConfirmation = true;
@@ -191,7 +191,7 @@ namespace MSTC.Web.Controllers
                 case PaymentStates.SS05993:
                     {
                         var swimSubDesc = MemberProvider.GetSwimSub3Description(DateTime.Now);
-                        var monthEnd = DateTime.ParseExact(swimSubDesc.Substring(22,3), "MMM", CultureInfo.CurrentCulture).Month;
+                        var monthEnd = Convert.ToDateTime(swimSubDesc.Substring(22,3) + " 01, 1900").Month;
                         member.SetValue(MemberProperty.swimSubs3, swimSubDesc);
                         member.SetValue(MemberProperty.swimSubs3ExpiryDate, new DateTime(DateTime.Now.Year, monthEnd, DateTime.DaysInMonth(DateTime.Now.Year, monthEnd)));
                         model.ShowSwimSubsConfirmation = true;
