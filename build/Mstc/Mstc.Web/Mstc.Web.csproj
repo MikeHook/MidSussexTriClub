@@ -783,6 +783,7 @@
     <Content Include="Images\mstc\sponsors\The-Tri-Store-Yellow-Logo.png" />
     <Content Include="Images\mstc\sponsors\thetristore.jpg" />
     <Content Include="Images\mstc\trimark\te-affliated-club.jpg" />
+    <Content Include="Images\mstc\trimark\te-affliated-club-white-2.jpg" />
     <Content Include="Images\mstc\trimark\trimark_club_bronze.png" />
     <Content Include="scripts\jsnlog.js" />
     <Content Include="scripts\jsnlog.min.js" />
