@@ -110,8 +110,8 @@ namespace Mstc.Core.Providers
         public DateTime GetNewMemberExpiry(DateTime currentDate)
         {
             return currentDate.Month == 1 || currentDate.Month == 2
-                ? new DateTime(DateTime.Now.Year, 4, 1)
-                : new DateTime(DateTime.Now.Year + 1, 4, 1);
+                ? new DateTime(DateTime.Now.Year, 4, 30)
+                : new DateTime(DateTime.Now.Year + 1, 4, 30);
         }
 
         public IMember CreateMember(PersonalDetails regDetails, string[] roles)
