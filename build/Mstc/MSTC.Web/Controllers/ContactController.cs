@@ -25,7 +25,7 @@ namespace MSTC.Web.Controllers
             {
                 string toAddress;
                 if (_emailProvider.EmailLookup.TryGetValue(model.Topic, out toAddress) == false)
-                    toAddress = "info@midsussextriclub.com";
+                    toAddress = "support@midsussextriclub.com";
 
                 string content = $"<p>{model.Message}</p><p>Message from: {model.Name}</p><p>Email: {model.Email}</p>";
 
