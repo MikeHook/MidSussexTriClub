@@ -171,6 +171,11 @@
 			if (eventSlot.eventTypeName === "Open Water Swim") {
 				owsGuestDiv$.removeClass('hide');
 			}
+
+			// New for Social Event
+			if (eventSlot.eventTypeName === "Social Event") {
+				owsGuestDiv$.removeClass('hide');
+			}
 		}
 	};
 
@@ -374,6 +379,12 @@
 			return false;
 		}
 
+		// New for Social event
+		if (eventSlot.eventTypeName === "Social Event" && $('#checkboxOWSAddGuest').is(":checked") === true && owsGuestName.length < 6) {
+			toastr.error('Please write the full name of your guest.');
+			return false;
+		}
+
 		return true;
 	};
 
@@ -492,4 +503,5 @@
 
 $(document).ready(function() {
 	eventBooking.init();
+
 });
