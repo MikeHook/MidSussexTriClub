@@ -303,8 +303,11 @@ namespace Mstc.Core.Providers
                 MedicalConditions = member.GetValue<string>(MemberProperty.MedicalConditions),
                 EmergencyContactName = member.GetValue<string>(MemberProperty.EmergencyContactName),
                 EmergencyContactNumber = member.GetValue<string>(MemberProperty.EmergencyContactNumber),
+
+                createDate = member.createDate,
             };
             return memberDetails;
         }
     }
 }
+
