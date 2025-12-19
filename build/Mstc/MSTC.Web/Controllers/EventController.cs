@@ -324,49 +324,53 @@ namespace MSTC.Web.Controllers
         {
             var eventSlot = _eventSlotRepository.GetById(eventSlotId);
 
-            if (eventSlot.Date.Month >= 9 && eventSlot.Date.Month <= 12)
-            {
-                bool hasSwimSubs1 = string.IsNullOrEmpty(member.GetValue<string>(MemberProperty.swimSubs1)) == false;
-                //bool hasSwimSubs1 = string.Equals(member.GetValue<string>(MemberProperty.swimSubs1), MemberProvider.GetSwimSub1Description(DateTime.Now), StringComparison.OrdinalIgnoreCase);
-
-                if (hasSwimSubs1)
-                {
-                    DateTime swimSubs1Expiry = member.GetValue<DateTime>(MemberProperty.swimSubs1ExpiryDate);
-
-                    hasSwimSubs1 = swimSubs1Expiry >= eventSlot.Date;
-                }
-
-                return hasSwimSubs1;
-            }
-            else if (eventSlot.Date.Month >= 1 && eventSlot.Date.Month <= 4)
-            {
-                bool hasSwimSubs2 = string.IsNullOrEmpty(member.GetValue<string>(MemberProperty.swimSubs2)) == false;
+			//change to PAYG
+			return true;
+			
+//            if (eventSlot.Date.Month >= 9 && eventSlot.Date.Month <= 12)
+//            {
+//               bool hasSwimSubs1 = string.IsNullOrEmpty(member.GetValue<string>(MemberProperty.swimSubs1)) == false;
+//                //bool hasSwimSubs1 = string.Equals(member.GetValue<string>(MemberProperty.swimSubs1), MemberProvider.GetSwimSub1Description(DateTime.Now), StringComparison.OrdinalIgnoreCase);
+//
+//                if (hasSwimSubs1)
+//                {
+//                    DateTime swimSubs1Expiry = member.GetValue<DateTime>(MemberProperty.swimSubs1ExpiryDate);
+//
+//                    hasSwimSubs1 = swimSubs1Expiry >= eventSlot.Date;
+//                }
+//
+//                return hasSwimSubs1;
+//            }
+//            else if (eventSlot.Date.Month >= 1 && eventSlot.Date.Month <= 4)
+//            {
+//                bool hasSwimSubs2 = string.IsNullOrEmpty(member.GetValue<string>(MemberProperty.swimSubs2)) == false;
                 //bool hasSwimSubs2 = string.Equals(member.GetValue<string>(MemberProperty.swimSubs2), MemberProvider.GetSwimSub2Description(DateTime.Now), StringComparison.OrdinalIgnoreCase);
-
-
-                if (hasSwimSubs2)
-                {
-                    DateTime swimSubs2Expiry = member.GetValue<DateTime>(MemberProperty.swimSubs2ExpiryDate);
-
-                    hasSwimSubs2 = true;
-                }
-
-                return hasSwimSubs2;
-            }
-            else
-            {
-                bool hasSwimSubs3 = string.IsNullOrEmpty(member.GetValue<string>(MemberProperty.swimSubs3)) == false;
+//
+//
+//                if (hasSwimSubs2)
+//                {
+//                    DateTime swimSubs2Expiry = member.GetValue<DateTime>(MemberProperty.swimSubs2ExpiryDate);
+//
+//                    hasSwimSubs2 = true;
+//                }
+//
+//                return hasSwimSubs2;
+//            }
+//            else
+//            {
+//                bool hasSwimSubs3 = string.IsNullOrEmpty(member.GetValue<string>(MemberProperty.swimSubs3)) == false;
                 //bool hasSwimSubs3 = string.Equals(member.GetValue<string>(MemberProperty.swimSubs3), MemberProvider.GetSwimSub3Description(DateTime.Now), StringComparison.OrdinalIgnoreCase);
-
-                if (hasSwimSubs3)
-                {
-                    DateTime swimSubs3Expiry = member.GetValue<DateTime>(MemberProperty.swimSubs3ExpiryDate);
-
-                    hasSwimSubs3 = swimSubs3Expiry >= eventSlot.Date;
-                }
-
-                return hasSwimSubs3;
-            }
+//
+//                if (hasSwimSubs3)
+//                {
+//                    DateTime swimSubs3Expiry = member.GetValue<DateTime>(MemberProperty.swimSubs3ExpiryDate);
+//
+//                    hasSwimSubs3 = swimSubs3Expiry >= eventSlot.Date;
+//                }
+//
+//                return hasSwimSubs3;
+//            }
         }
     }
 }
+
