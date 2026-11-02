@@ -998,6 +998,7 @@
     <Content Include="Views\MemberServices.cshtml" />
     <Content Include="Views\Event.cshtml" />
     <Content Include="Views\EventBooking.cshtml" />
+    <Content Include="Views\EventBookingSocials.cshtml" />
     <Content Include="Views\EventsAdmin.cshtml" />
     <Content Include="Views\Partials\Member\TrainingCredits.cshtml" />
     <Content Include="scripts\jsnlog.js.map" />
