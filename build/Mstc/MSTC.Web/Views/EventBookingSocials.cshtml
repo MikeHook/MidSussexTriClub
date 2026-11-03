@@ -40,6 +40,14 @@
                             </select>
                         </div>
                     </div>
+                    <!-- 🌟 NEW: THE DYNAMIC EVENT ITEM SELECTION ROW -->
+                    <div id="eventItemDiv" class="form-group hide">
+                        <label class="col-sm-2 control-label"><b>Select Item</b></label>
+                        <div class="col-sm-7">
+                            <select class="form-control" id="eventItem" name="eventItem">
+                            </select>
+                        </div>
+                    </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label"><b>Event Date</b></label>
                         <div class="col-sm-7">
@@ -157,6 +165,6 @@
     <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="~/scripts/mstc/toastr.min.js"></script>
     <script type="text/javascript" src="/scripts/jsnlog.min.js"></script>
-    <script type="text/javascript" src="~/scripts/mstc/event-booking-socials.js?v=3" limitBooking="@Model.Content.LimitBooking"></script>
+    <script type="text/javascript" src="~/scripts/mstc/event-booking-socials.js?v=4" limitBooking="@Model.Content.LimitBooking"></script>
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.10.2/main.min.js'></script>
 }

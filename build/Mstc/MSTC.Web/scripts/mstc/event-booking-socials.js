@@ -10,6 +10,11 @@
 	var btfMemberCost$ = $('#btfMemberCost');	
 	var btfNonMemberCost$ = $('#btfNonMemberCost');	
 
+	var eventItemDropDown = document.getElementById('eventItem');
+	var eventItemDiv$ = $('#eventItemDiv');
+	var selectedEventPageId = null; // To keep track of the selected sub-item node
+	 
+	 
 	var eventTypeCancel$ = $('#eventTypeCancel');
 	var eventDateCancel$ = $('#eventDateCancel');
 
@@ -54,28 +59,70 @@
 
 		$('#OWSAddGuest').text = '';
 		owsGuestName = '';
+		$("#eventItem").empty();
+    	eventItemDiv$.addClass('hide');
+    	selectedEventPageId = null;
 	};
 
 	var eventTypeChanged = function (field) {
-		$("#eventDate").empty();
-		eventSlotChanged(undefined);
+    	$("#eventItem").empty();
+    	$("#eventDate").empty();
+    	eventItemDiv$.addClass('hide');
+    	eventSlotChanged(undefined);
 
-		if (!field.value) {
-			return;
-		}
-		
-		var eventTypeId = parseInt(field.value, 10);
-		eventType = eventTypes.find(b => b.id === eventTypeId);
-		if (eventType === undefined) {
-			return;
-		}
+    	if (!field.value) { return; }
+    
+    	var eventTypeId = parseInt(field.value, 10);
+    	eventType = eventTypes.find(b => b.id === eventTypeId);
+    	if (eventType === undefined) { return; }
 
-		eventTypeConfirm$.html(eventType.name);
-		
-		eventDateDropDown.options[eventDateDropDown.options.length] = new Option('Select a date', '-1');
-		eventType.eventSlots.forEach(eventSlot => {
-			eventDateDropDown.options[eventDateDropDown.options.length] = new Option(eventSlot.dateDisplay, eventSlot.id);			
-		});		
+    	eventTypeConfirm$.html(eventType.name);
+    
+    	// Group slots by their unique EventPageId to extract distinct item instances
+    	// (This automatically isolates things like "Hats" vs "Jerseys" or different parties)
+    	var distinctItems = [];
+    	var distinctMap = new Map();
+
+    	eventType.eventSlots.forEach(slot => {
+        	var pageId = slot.eventPageId;
+        	var pageName = slot.eventName || 'Standard Option';
+        	if (!distinctMap.has(pageId)) {
+            	distinctMap.set(pageId, true);
+            	distinctItems.push({ id: pageId, name: pageName, slots: [] });
+        	}
+        	var itemMatch = distinctItems.find(i => i.id === pageId);
+       		if (itemMatch) { itemMatch.slots.push(slot); }
+    	});
+
+    	// Populate our new Event Item Selector Dropdown
+    	if (distinctItems.length > 0) {
+        	eventItemDiv$.removeClass('hide');
+        	eventItemDropDown.options[eventItemDropDown.options.length] = new Option('Select an item...', '-1');
+        
+        	distinctItems.forEach(item => {
+            	eventItemDropDown.options[eventItemDropDown.options.length] = new Option(item.name, item.id);
+        	});
+
+        	// Store our item definitions globally so the Date dropdown can read them when changed
+        	window.currentEventItems = distinctItems;
+    	}
+	};
+
+	 var eventItemChanged = function (field) {
+    	$("#eventDate").empty();
+    	eventSlotChanged(undefined);
+
+    	if (!field.value || field.value === '-1') { return; }
+    	selectedEventPageId = parseInt(field.value, 10);
+
+    	var matchingItem = window.currentEventItems.find(i => i.id === selectedEventPageId);
+    	if (!matchingItem) { return; }
+
+    	// Rebuild the Date picker dropdown options using ONLY slots for this specific item instance
+    	eventDateDropDown.options[eventDateDropDown.options.length] = new Option('Select a date', '-1');
+    	matchingItem.slots.forEach(eventSlot => {
+        	eventDateDropDown.options[eventDateDropDown.options.length] = new Option(eventSlot.dateDisplay, eventSlot.id);            
+    	});	
 	};
 
 	var eventDateChanged = function (field) {
@@ -427,6 +474,11 @@
 		$('#eventType').off('change');
 		$('#eventType').on('change', function() {
 			eventTypeChanged(this);
+		});
+
+		$('#eventItem').off('change');
+		$('#eventItem').on('change', function () {
+			eventItemChanged(this);
 		});
 
 		$('#eventDate').off('change');
