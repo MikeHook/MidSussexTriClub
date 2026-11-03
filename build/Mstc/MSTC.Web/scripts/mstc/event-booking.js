@@ -295,6 +295,10 @@
 				$("#upcomingEvents").empty();
 				if (bookedEventSlots.length > 0) {
 					for (i = 0; i < bookedEventSlots.length; i++) {
+						if (bookedEventSlots[i].eventTypeName === "Social Event" || bookedEventSlots[i].eventTypeName === "Kit") {
+                        	continue; // Hide social/kit from training table
+                    	}
+						
 						var html = `<tr data-id="${bookedEventSlots[i].id}"><td>${bookedEventSlots[i].eventTypeName}</td><td>${bookedEventSlots[i].dateDisplay}</td>` +							
 							'<td><button name="cancelEvent" class="cancel-button" type="button" class="btn btn-grey">Cancel event</button></td></tr>';
 
