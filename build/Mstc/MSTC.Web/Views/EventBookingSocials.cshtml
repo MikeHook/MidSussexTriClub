@@ -1,4 +1,4 @@
-@inherits Umbraco.Web.Mvc.UmbracoTemplatePage<EventBooking1>
+@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
 
 @{
     Layout = "Master.cshtml";
@@ -20,20 +20,16 @@
 
 <section class="section">
 
-    <div class="container edit-member">
-        @if (Model.Content.BodyText != null)
-        {
+    @if (Model.Content.GetPropertyValue("bodyText") != null)
+{
+    <div class="row">
+        <div class="col-sm-12">
+            @Model.Content.GetPropertyValue("bodyText")
+        </div>
+    </div>
+}
 
-            <div class="row">
-                <div class="col-sm-12">
-                    @Model.Content.BodyText
-                </div>
-            </div>
-
-        }
-
-        <div id='calendar'></div>
-
+        
         <form role="form" id="eventBookingForm" class="form-horizontal">
             <div class="row">
                 <div class="col-sm-12">
@@ -144,13 +140,6 @@
                     </div>
                 </div>
             </form>
-        </div>
-        <h1>DutyMan Calendar</h1>
-        <div class="row">
-            <div class="col-sm-12">
-                <iframe src="https://www.dutyman.biz/dmembed.aspx?id=M0002203&mode=2&gridlines=Both&maxrows=nolimit&d1=TODAY&d2=14&css=https://www.midsussextriclub.com/media/81809/dmembed.css" style="border:2px solid black;" height="170px" width="1100px"></iframe>
-            </div>
-        </div>
     </div>
 
 </section>
