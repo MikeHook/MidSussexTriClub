@@ -295,8 +295,17 @@
 				$("#upcomingEvents").empty();
 				if (bookedEventSlots.length > 0) {
 					for (i = 0; i < bookedEventSlots.length; i++) {
-						var html = `<tr data-id="${bookedEventSlots[i].id}"><td>${bookedEventSlots[i].eventTypeName}</td><td>${bookedEventSlots[i].dateDisplay}</td>` +							
-							'<td><button name="cancelEvent" class="cancel-button" type="button" class="btn btn-grey">Cancel event</button></td></tr>';
+						var actionCellHtml = '';
+
+                    // 1. CHECKS IF THE ITEM IS KIT TO HIDE THE CANCEL BUTTON
+                    if (bookedEventSlots[i].eventTypeName === "Kit") {
+                        actionCellHtml = '<td><span class="text-muted" style="font-style: italic; font-size: 0.9em;">Contact club for refund</span></td>';
+                    } else {
+                        // Display the standard cancel button for normal social events
+                        actionCellHtml = '<td><button name="cancelEvent" class="cancel-button" type="button" class="btn btn-grey">Cancel event</button></td>';
+                    }
+
+                    var html = `<tr data-id="${bookedEventSlots[i].id}"><td>${bookedEventSlots[i].eventTypeName}</td><td>${bookedEventSlots[i].dateDisplay}</td>` + actionCellHtml + '</tr>'
 
 						$("#upcomingEvents").append(html);
 						$(".cancel-button").off('click');
