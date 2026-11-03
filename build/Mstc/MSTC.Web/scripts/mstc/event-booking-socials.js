@@ -304,6 +304,10 @@
 				$("#upcomingEvents").empty();
 				if (bookedEventSlots.length > 0) {
 					for (i = 0; i < bookedEventSlots.length; i++) {
+						if (bookedEventSlots[i].eventTypeName !== "Social Event" && bookedEventSlots[i].eventTypeName !== "Kit") {
+                        	continue; // Skip standard training sessions
+                    	}
+						
 						var actionCellHtml = '';
 
                     // 1. CHECKS IF THE ITEM IS KIT TO HIDE THE CANCEL BUTTON
