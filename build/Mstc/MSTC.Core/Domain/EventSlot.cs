@@ -17,6 +17,7 @@ namespace Mstc.Core.Domain
         public int EventPageId { get; set; }
         public int EventTypeId { get; set; }
         public string EventTypeName { get; set; }
+        public string EventName { get; set; }
         public DateTime Date { get; set; }
         public int Cost { get; set; }
 
