@@ -66,6 +66,9 @@ namespace Mstc.Core.DataAccess
             query = $"{query} {(limitBooking > 0 ? $"and [Date] <= DATEADD(week, {limitBooking}, @now)" : "")}";
             query = $"{query} order By Date";
 
+            // 1. GET ACCESSIBLE UMBRACO CONTEXT HELPERS
+            var umbracoHelper = new UmbracoHelper(UmbracoContext.Current);
+
             using (IDbConnection connection = _dataConnection.SqlConnection)
             {
                 var eventSlots = connection.Query<EventSlot>(query, new { now = DateTime.Now }).ToList();
@@ -75,6 +78,15 @@ namespace Mstc.Core.DataAccess
                     eventSlot.EventParticipants = eventParticipants.Where(ep => ep.EventSlotId == eventSlot.Id).ToList();
                     eventSlot.EventTypeName = eventTypes.SingleOrDefault(et => et.Id == eventSlot.EventTypeId)?.Name;
                     eventSlot.MemberHasBTFNumber = memberHasBTFNumber;
+                    
+                    // 2. NEW: FETCH THE ACTUAL NAME OF THE CONTENT NODE DYNAMICALLY
+                    if (eventSlot.EventPageId > 0){
+                        var contentNode = umbracoHelper.TypedContent(eventSlot.EventPageId);
+                        // Assigns the sidebar name (e.g. "25th party" or "pol swim test") to your model object
+                        eventSlot.EventName = contentNode != null ? contentNode.Name : "N/A";
+                    }else{
+                        eventSlot.EventName = "N/A";
+                    }
                 }
                 return eventSlots;
             }
