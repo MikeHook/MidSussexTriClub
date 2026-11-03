@@ -793,6 +793,7 @@
     <Content Include="scripts\mstc\datatables.min.js" />
     <Content Include="scripts\mstc\event-admin.js" />
     <Content Include="scripts\mstc\event-booking.js" />
+    <Content Include="scripts\mstc\event-booking-socials.js" />
     <Content Include="scripts\mstc\home-slider.js" />
     <Content Include="scripts\mstc\jquery-1.9.1.min.js" />
     <Content Include="scripts\mstc\jquery.bxslider.js" />
@@ -998,6 +999,7 @@
     <Content Include="Views\MemberServices.cshtml" />
     <Content Include="Views\Event.cshtml" />
     <Content Include="Views\EventBooking.cshtml" />
+    <Content Include="Views\EventBookingSocials.cshtml" />
     <Content Include="Views\EventsAdmin.cshtml" />
     <Content Include="Views\Partials\Member\TrainingCredits.cshtml" />
     <Content Include="scripts\jsnlog.js.map" />
