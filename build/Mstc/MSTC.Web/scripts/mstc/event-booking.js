@@ -194,6 +194,11 @@
 				eventTypeDropDown.options[eventTypeDropDown.options.length] = new Option('Select an event', null);
 				eventTypes.forEach(item => {
 
+					// Skip social and kit events on the main sports booking page
+					if (item.name === "Social Event" || item.name === "Kit") { 
+        				return; 
+    				} 
+					
 					// PAYG
 					if (item.memberHasSubscription) {
 						memberHasSubscription = true
