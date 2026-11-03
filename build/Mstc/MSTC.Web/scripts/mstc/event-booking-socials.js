@@ -308,6 +308,7 @@
                     var html = `<tr data-id="${bookedEventSlots[i].id}"><td>${bookedEventSlots[i].eventTypeName}</td><td>${bookedEventSlots[i].dateDisplay}</td>` + actionCellHtml + '</tr>'
 
 						$("#upcomingEvents").append(html);
+					}
 						$(".cancel-button").off('click');
 						$(".cancel-button").on('click', function () {
 
@@ -319,7 +320,7 @@
 							eventDateCancel$.html(eventSlot.dateDisplay);
 							$("#dialog-cancel").dialog("open");
 						});								
-					}
+					
 				}  
 
 			},
