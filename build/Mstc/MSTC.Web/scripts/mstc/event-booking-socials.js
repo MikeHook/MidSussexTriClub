@@ -256,6 +256,15 @@
 	};
 
 	var cancelEvent = function () {
+		if (cancelSlotId !== null && bookedEventSlots.length > 0) {
+        	var checkingSlot = bookedEventSlots.find(es => es.id === cancelSlotId);
+        	if (checkingSlot && checkingSlot.eventTypeName === "Kit") {
+            	toastr.warning('Kit orders cannot be cancelled online. Please contact a club official for a refund.');
+            	cancelSlotId = null;
+            	return; // Hard stop! The POST request below will never be fired.
+        	}
+    	}
+		
 		var cancelModel = {			
 			eventSlotId: cancelSlotId		
 		};
@@ -305,7 +314,7 @@
                         actionCellHtml = '<td><button name="cancelEvent" class="cancel-button" type="button" class="btn btn-grey">Cancel event</button></td>';
                     }
 
-                    var html = `<tr data-id="${bookedEventSlots[i].id}"><td>${bookedEventSlots[i].eventTypeName}</td><td>${bookedEventSlots[i].dateDisplay}</td>` + actionCellHtml + '</tr>'
+                    var html = `<tr data-id="${bookedEventSlots[i].id}"><td>${bookedEventSlots[i].eventTypeName}</td><td>${bookedEventSlots[i].eventName || 'N/A'}</td><td>${bookedEventSlots[i].dateDisplay}</td>` + actionCellHtml + '</tr>'
 
 						$("#upcomingEvents").append(html);
 					}
